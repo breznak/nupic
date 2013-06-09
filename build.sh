@@ -63,7 +63,7 @@ function prepDirectories {
 }
 
 function pythonSetup {
-  python "$NUPIC/build_system/setup.py" --autogen
+  python2 "$NUPIC/build_system/setup.py" --autogen
 
   # Workaround for matplotlib install bug: numpy must already be installed
   # see http://stackoverflow.com/questions/11797688/matplotlib-requirements-with-pip-install-in-virtualenv
