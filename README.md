@@ -71,9 +71,9 @@ Run the Python unit tests:
 
 You can run the examples using the OpfRunExperiment OPF client:
 
-    python $NUPIC/examples/opf/bin/OpfRunExperiment.py $NUPIC/examples/opf/experiments/multistep/hotgym/
+    python2 $NUPIC/examples/opf/bin/OpfRunExperiment.py $NUPIC/examples/opf/experiments/multistep/hotgym/
 
 There are also some sample OPF clients. You can modify these to run your own
 data sets. One example is the hotgym prediction client:
 
-    python $NUPIC/examples/opf/clients/hotgym/hotgym.py
+    python2 $NUPIC/examples/opf/clients/hotgym/hotgym.py
