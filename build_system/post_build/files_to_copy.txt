@@ -2,7 +2,6 @@
 # after the build is done
 
 # Python modules
-external/${arch}/lib/python${PythonVersion}/site-packages/pytz       lib/python${PythonVersion}/site-packages/pytz
 external/${arch}/lib/python${PythonVersion}/site-packages/pylab.py   lib/python${PythonVersion}/site-packages/pylab.py
 @linux64 external/${arch}/lib/python${PythonVersion}/site-packages/Crypto   lib/python${PythonVersion}/site-packages/Crypto
 @darwin external/${arch}/lib/python${PythonVersion}/site-packages/Crypto   lib/python${PythonVersion}/site-packages/Crypto
