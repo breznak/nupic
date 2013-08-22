@@ -3,6 +3,7 @@
 
 # Python modules
 external/${arch}/lib/python${PythonVersion}/site-packages/pylab.py   lib/python${PythonVersion}/site-packages/pylab.py
+external/${arch}/lib/python${PythonVersion}/site-packages/simplejson   lib/python${PythonVersion}/site-packages/simplejson
 
 # Platform independent python libraries
 
