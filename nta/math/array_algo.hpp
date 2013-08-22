@@ -43,15 +43,13 @@
 #undef max
 #endif
 
-// This include because on darwin86, vDSP provides high quality optimized
-// code that exploits SSE. 
-#ifdef NTA_PLATFORM_darwin86
+// This include because on darwin86 darwin64, vDSP provides high quality optimized code that exploits SSE. 
+#if defined(NTA_PLATFORM_darwin86) || defined(NTA_PLATFORM_darwin64)
 #include <vecLib/vDSP.h>
 #endif
 
 namespace nta {
 
-#ifdef NTA_PLATFORM_darwin86
   //--------------------------------------------------------------------------------
   // Checks whether the SSE supports the operations we need, i.e. SSE3 and SSE4. 
   // Returns highest SSE level supported by the CPU: 1, 2, 3 or 41 or 42. It also
@@ -68,7 +66,7 @@ namespace nta {
   static int checkSSE()
   {
     unsigned int f = 1, c,d;
-
+#ifdef NTA_ASM
 #ifdef NTA_PLATFORM_win32
 
     __asm {
@@ -77,7 +75,7 @@ namespace nta {
         mov c, ecx
         mov d, edx
         }
-            
+# TODO: enable ASM SSE check for 64bit and linux too           
 #elif defined(NTA_PLATFORM_darwin86)
 
     unsigned int a,b;
@@ -93,7 +91,7 @@ namespace nta {
                          : "cc"
                          );
 #endif
-
+#endif //NTA_ASM
     int ret = -1;
     if (d & 33554432) ret = 1;
     if (d & 67108864) ret = 2;
@@ -103,7 +101,6 @@ namespace nta {
 
     return ret;
   } 
-#endif
 
   //--------------------------------------------------------------------------------
   // Highest SSE level supported by the CPU: 1, 2, 3 or 41 or 42.
@@ -111,11 +108,7 @@ namespace nta {
   // off for all platforms except darwin86. Also, they won't work properly on 64 bits
   // platforms for now. 
   //--------------------------------------------------------------------------------
-#ifdef NTA_PLATFORM_darwin86
   static const int SSE_LEVEL = checkSSE();
-#else
-  static const int SSE_LEVEL = -1;
-#endif
 
   //--------------------------------------------------------------------------------
   // TESTS
@@ -224,7 +217,7 @@ namespace nta {
     }
 
     // On win32, the asm syntax is not correct.
-#ifdef NTA_PLATFORM_darwin86
+#if defined(NTA_PLATFORM_darwin86) && defined(NTA_ASM)
 
     // This test can be moved to compile time using a template with an int
     // parameter, and partial specializations that will match the static
@@ -321,7 +314,7 @@ namespace nta {
     const Byte* x_end = &x[end];
 
     // On win32, the asm syntax is not correct.
-#ifdef NTA_PLATFORM_darwin86
+#if defined(NTA_ASM) && defined(NTA_PLATFORM_darwin86)
 
     // This test can be moved to compile time using a template with an int
     // parameter, and partial specializations that will match the static
@@ -897,7 +890,7 @@ namespace nta {
   inline float dot(const float* x, const float* x_end, const float* y)
   {
     float result = 0;
-#ifdef NTA_PLATFORM_darwin86
+#if defined(NTA_PLATFORM_darwin86) || defined(NTA_PLATFORM_darwin64)
     vDSP_dotpr(x, 1, y, 1, &result, (x_end - x));
 #else
     for (; x != x_end; ++x, ++y)
@@ -2834,7 +2827,7 @@ namespace nta {
    */
   
   //--------------------------------------------------------------------------------
-#ifdef NTA_PLATFORM_darwin86
+#if defined(NTA_PLATFORM_darwin86) || defined(NTA_PLATFORM_darwin64)  
   inline void sum_of_squares(float* begin, int n, float* s)
   {
     vDSP_svesq(begin, 1, s, n);
@@ -2862,10 +2855,10 @@ namespace nta {
 
     Lp2<value_type> lp2;
 
-#ifdef NTA_PLATFORM_darwin86 // 10X faster
+#if defined(NTA_PLATFORM_darwin86) || defined(NTA_PLATFORM_darwin64) // 10X faster
 
-    // &*begin won't work on platforms where the iterators are not pointers
-    // (win32)
+    // &*begin won't work on platforms where the iterators are not pointers (win32)
+    // also, sum_of_squares uses vDSP.h -> Mac only
     sum_of_squares(&*begin, (end - begin), &n);
 
 #else
@@ -3906,7 +3899,7 @@ namespace nta {
         << "sum: Invalid range";
     }
 
-#ifdef NTA_PLATFORM_darwin86
+#if defined(NTA_PLATFORM_darwin86) || defined(NTA_PLATFORM_darwin64)
 
     nta::Real32 result = 0;
     vDSP_sve(begin, 1, &result, (end - begin));
