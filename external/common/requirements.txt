@@ -14,3 +14,6 @@ validictory==0.9.1
 # for vision problems, obsolete now:
 #PIL==1.1.7 
 matplotlib==1.1.1
+tweepy==2.1
+psutil==1.0.1
+PyYAML==3.10
