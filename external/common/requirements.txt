@@ -13,3 +13,4 @@ validictory==0.9.1
 #numpy==1.7.1 #hack - see build.sh
 # for vision problems, obsolete now:
 #PIL==1.1.7 
+matplotlib==1.1.1
