@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#!/usr/bin/env python2
 # ----------------------------------------------------------------------
 # Numenta Platform for Intelligent Computing (NuPIC)
 # Copyright (C) 2013, Numenta, Inc.  Unless you have purchased from
@@ -458,7 +458,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
     else:
       envStr = ''
 
-    cmdLine = '%s python -m nupic.swarming.HypersearchWorker ' \
+    cmdLine = '%s python2 -m nupic.swarming.HypersearchWorker ' \
                           '--jobID={JOBID} --logLevel=%d' \
                           % (envStr, loggingLevel)
 
@@ -469,7 +469,7 @@ class ExperimentTestBaseClass(HelperTestCaseBase):
             jobType = cjDAO.JOB_TYPE_HS)
 
     # Launch the workers ourself if necessary (no grok engine running). 
-    workerCmdLine = '%s python -m nupic.swarming.HypersearchWorker ' \
+    workerCmdLine = '%s python2 -m nupic.swarming.HypersearchWorker ' \
                           '--jobID=%d --logLevel=%d' \
                           % (envStr, jobID, loggingLevel)
     workers = self._launchWorkers(cmdLine=workerCmdLine, numWorkers=maxNumWorkers)
@@ -2630,14 +2630,14 @@ class _ArgParser(object):
     helpString = \
     """%prog [options...] [-- unittestoptions...] [suitename.testname | suitename]
     Run the Hypersearch unit tests. To see unit test framework options, enter:
-    python %prog -- --help
+    python2 %prog -- --help
 
     Example usages:
-      python %prog MultiNodeTests
-      python %prog MultiNodeTests.testOrphanedModel
-      python %prog -- MultiNodeTests.testOrphanedModel
-      python %prog -- --failfast
-      python %prog -- --failfast OneNodeTests.testOrphanedModel
+      python2 %prog MultiNodeTests
+      python2 %prog MultiNodeTests.testOrphanedModel
+      python2 %prog -- MultiNodeTests.testOrphanedModel
+      python2 %prog -- --failfast
+      python2 %prog -- --failfast OneNodeTests.testOrphanedModel
 
     Available suitename.testnames: """
 
@@ -2704,5 +2704,5 @@ if __name__ == '__main__':
   _ArgParser.args = sys.argv[1:] 
   args = [sys.argv[0]] + _ArgParser.consumeArgs()
 
-  # Run the tests if called using python
+  # Run the tests if called using Python
   unittest.main(argv=args)

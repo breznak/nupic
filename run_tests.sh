@@ -1,2 +1,2 @@
 #!/bin/sh
-python bin/run_tests.py $@ || exit
+python2 bin/run_tests.py $@ || exit
