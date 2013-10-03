@@ -24,7 +24,6 @@ defaultDtype = numpy.uint8
 from utils import bitsToString
 from collections import namedtuple
 
-import os
 
 """Classes for encoding different types of values into bitstrings for HTM input"""
 
@@ -112,14 +111,6 @@ class Encoder(object):
   def encode(self, input):
     output = numpy.zeros((self.getWidth(),), dtype=defaultDtype)
     self.encodeIntoArray(input, output)
-
-    """ROS part"""
-    try:
-      if os.environ["NTA_ROS"]:
-        raise
-    except KeyError:
-      pass
-    
     return output
 
   ############################################################################
