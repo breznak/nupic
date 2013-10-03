@@ -24,6 +24,9 @@ defaultDtype = numpy.uint8
 from utils import bitsToString
 from collections import namedtuple
 
+#TODO: fix import
+from ros.ros import ros_init
+
 
 """Classes for encoding different types of values into bitstrings for HTM input"""
 
@@ -70,7 +73,7 @@ class Encoder(object):
 
   ############################################################################
   def __init__(self):
-    pass
+    ros_init()
 
 
   ############################################################################
