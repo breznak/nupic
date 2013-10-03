@@ -1,13 +1,31 @@
 
 import os
 
+#####################################
 def ros_init():
-  """check for ROS"""
+  """check for ROS and start it"""
   try:
     if os.environ["NTA_ROS"]:
       _init()
   except KeyError:
     pass
 
+#####################################
 def _init():
-  pass
+  import rospy                        # ros python support
+  from std_msgs.msg import String     # import from the ROS standard msg set (*.msg) a msg of type String
+  try:
+    if os.environ["NTA_ROS_PUB"]:     # Publisher functionality
+      # TODO: set specific name and topic!
+      pub = rospy.Publisher('chatter', String)    # create new publisher which will publish to the topic 'chatter'
+      rospy.init_node('talker', anonymous=True)   # init new ROS node called 'talker'
+  
+  except KeyError:
+    pass
+
+
+#####################################
+def publish(str):
+  if not rospy.is_shutdown():               # check for ROS node to be killed
+    rospy.loginfo(str)                      # print to ROS console
+    pub.publish(str)                        # publish the message
