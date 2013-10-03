@@ -2,22 +2,21 @@
 import os
 
 #####################################
-def ros_init():
+def ros_init(pub_topic):
   """check for ROS and start it"""
   try:
     if os.environ["NTA_ROS"]:
-      _init()
+      _init(pub_topic)
   except KeyError:
     pass
 
 #####################################
-def _init():
+def _init(topic):
   import rospy                        # ros python support
   from std_msgs.msg import String     # import from the ROS standard msg set (*.msg) a msg of type String
   try:
     if os.environ["NTA_ROS_PUB"]:     # Publisher functionality
-      # TODO: set specific name and topic!
-      pub = rospy.Publisher('chatter', String)    # create new publisher which will publish to the topic 'chatter'
+      pub = rospy.Publisher(topic, String)    # create new publisher which will publish to the topic
       rospy.init_node('talker', anonymous=True)   # init new ROS node called 'talker'
   
   except KeyError:

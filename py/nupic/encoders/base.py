@@ -73,7 +73,7 @@ class Encoder(object):
 
   ############################################################################
   def __init__(self):
-    ros_init()
+    ros_init("EncoderTopic") #TODO: define class-specific topic string
 
 
   ############################################################################
