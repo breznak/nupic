@@ -35,3 +35,25 @@ def _publish(str):
 def publish(str):
   """a dummy fn that just skips"""
   pass
+
+
+#####################################
+#def callback(data):                         # callback funciton - workload for listener()
+#  rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data) # write to ROS console
+    
+
+#####################################
+def listener(topic,callbackFn):
+  """a counter-part to publisher, runs in loop!, you need to define callbackFn"""
+  # in ROS, nodes are unique named. If two nodes with the same
+  # node are launched, the previous one is kicked off. The 
+  # anonymous=True flag means that rospy will choose a unique
+  # name for our 'talker' node so that multiple talkers can
+  # run simultaenously.
+  rospy.init_node('listener', anonymous=True)     # create new ROS node
+  # create subscriber for messages of type String on the topic & assign callback fcn
+  rospy.Subscriber(topic, String, callbackFn)   
+  # spin() simply keeps python from exiting until this node is stopped
+  rospy.spin()
+
+
