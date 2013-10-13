@@ -2,7 +2,7 @@
 import os
 
 #####################################
-def ros_init(pub_topic):
+def ros_init(pub_topic = type(self).__name__):
   """check for ROS and start it"""
   try:
     if os.environ["NTA_ROS"]:
