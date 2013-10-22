@@ -89,12 +89,12 @@ function pythonSetup {
 }
 
 function doConfigure {
-  scan-build -analyze-headers -enable-checker alpha "$NUPIC/configure" --enable-optimization --enable-assertions=yes --prefix="$NUPIC_INSTALL"
+  scan-build -k -analyze-headers -enable-checker alpha "$NUPIC/configure" --enable-optimization --enable-assertions=yes --prefix="$NUPIC_INSTALL"
   exitOnError $?
 }
 
 function doMake {
-  scan-build -analyze-headers -enable-checker alpha make -j $MK_JOBS -o $BUILDDIR
+  scan-build -k -analyze-headers -enable-checker alpha make -j $MK_JOBS -o $BUILDDIR
   make install
   exitOnError $?
 }
