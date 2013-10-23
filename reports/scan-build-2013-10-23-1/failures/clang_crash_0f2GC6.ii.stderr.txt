@@ -1,0 +1,21 @@
+0  libLLVM-3.3.so  0x00007f1f21f0c112 llvm::sys::PrintStackTrace(_IO_FILE*) + 34
+1  libLLVM-3.3.so  0x00007f1f21f0bf79
+2  libpthread.so.0 0x00007f1f21011870
+3  clang++         0x0000000000efa60a clang::CFGReverseBlockReachabilityAnalysis::isReachable(clang::CFGBlock const*, clang::CFGBlock const*) + 26
+4  clang++         0x0000000000c7401c
+5  clang++         0x0000000000d81dc4 clang::ento::CheckerManager::runCheckersForEndAnalysis(clang::ento::ExplodedGraph&, clang::ento::BugReporter&, clang::ento::ExprEngine&) + 100
+6  clang++         0x0000000000d8c8c5 clang::ento::CoreEngine::ExecuteWorkList(clang::LocationContext const*, unsigned int, llvm::IntrusiveRefCntPtr<clang::ento::ProgramState const>) + 213
+7  clang++         0x0000000000c3f549
+8  clang++         0x0000000000c3ff3d
+9  clang++         0x0000000000c4603b
+10 clang++         0x00000000008d024b clang::ParseAST(clang::Sema&, bool, bool) + 507
+11 clang++         0x0000000000639339 clang::FrontendAction::Execute() + 169
+12 clang++         0x000000000061a522 clang::CompilerInstance::ExecuteAction(clang::FrontendAction&) + 290
+13 clang++         0x0000000000605bc7 clang::ExecuteCompilerInvocation(clang::CompilerInstance*) + 1591
+14 clang++         0x00000000006010c8 cc1_main(char const**, char const**, char const*, void*) + 1208
+15 clang++         0x00000000005ffa6b main + 7899
+16 libc.so.6       0x00007f1f2075ebc5 __libc_start_main + 245
+17 clang++         0x00000000006000d1
+Stack dump:
+0.	Program arguments: /usr/bin/clang++ -cc1 -triple x86_64-unknown-linux-gnu -analyze -disable-free -disable-llvm-verifier -main-file-name iorange_py.cpp -analyzer-store=region -analyzer-opt-analyze-nested-blocks -analyzer-eagerly-assume -analyzer-checker=core -analyzer-checker=unix -analyzer-checker=deadcode -analyzer-checker=cplusplus -analyzer-checker=security.insecureAPI.UncheckedReturn -analyzer-checker=security.insecureAPI.getpw -analyzer-checker=security.insecureAPI.gets -analyzer-checker=security.insecureAPI.mktemp -analyzer-checker=security.insecureAPI.mkstemp -analyzer-checker=security.insecureAPI.vfork -analyzer-output plist -w -mrelocation-model static -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -target-linker-version 2.23.2 -resource-dir /usr/bin/../lib/clang/3.3 -D HAVE_CONFIG_H -D NUPIC2 -D NTA_INTERNAL -D NTA_ASSERTIONS_ON -D PIC -D NTA_PLATFORM_linux64 -D BOOST_NO_WREGEX -D NTA_PYTHON_SUPPORT=2.7 -D SWIG_TYPE_TABLE=_nupic_iorange -D NUPIC2 -D PIC -I . -I /home/marek/devel/nupic/py/bindings/iorange -I ../../../build_system/unix -I /usr/include/python2.7 -I /home/marek/devel/nupic -I /home/marek/devel/nupic/external/linux64/include -I /home/marek/devel/nupic -I /home/marek/devel/nupic/external/common/include -I /home/marek/devel/nupic/external/linux64/include -I /home/marek/nta/eng/lib/python2.7/site-packages/numpy/core/include -I /home/marek/devel/nupic/py27/include/python2.7 -internal-isystem /usr/lib64/gcc/x86_64-unknown-linux-gnu/4.8.2/../../../../include/c++/4.8.2 -internal-isystem /usr/lib64/gcc/x86_64-unknown-linux-gnu/4.8.2/../../../../include/c++/4.8.2/x86_64-unknown-linux-gnu -internal-isystem /usr/lib64/gcc/x86_64-unknown-linux-gnu/4.8.2/../../../../include/c++/4.8.2/backward -internal-isystem /usr/lib64/gcc/x86_64-unknown-linux-gnu/4.8.2/../../../../include/x86_64-unknown-linux-gnu/c++/4.8.2 -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/clang/3.3/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -Wno-deprecated -fdebug-compilation-dir /tmp/ntabuild/py/bindings/iorange -ferror-limit 19 -fmessage-length 0 -mstackrealign -fobjc-runtime=gcc -fobjc-default-synthesize-properties -fcxx-exceptions -fexceptions -fdiagnostics-show-option -backend-option -vectorize-loops -analyzer-checker alpha -analyzer-opt-analyze-headers -analyzer-output=html -o /tmp/scan-build-2013-10-23-1 -x c++ iorange_py.cpp 
+1.	<eof> parser at end of file

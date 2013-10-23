@@ -1,0 +1,943 @@
+<!doctype html>
+<html>
+<head>
+<title>/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp</title>
+<style type="text/css">
+ body { color:#000000; background-color:#ffffff }
+ body { font-family:Helvetica, sans-serif; font-size:10pt }
+ h1 { font-size:14pt }
+ .code { border-collapse:collapse; width:100%; }
+ .code { font-family: "Monospace", monospace; font-size:10pt }
+ .code { line-height: 1.2em }
+ .comment { color: green; font-style: oblique }
+ .keyword { color: blue }
+ .string_literal { color: red }
+ .directive { color: darkmagenta }
+ .expansion { display: none; }
+ .macro:hover .expansion { display: block; border: 2px solid #FF0000; padding: 2px; background-color:#FFF0F0; font-weight: normal;   -webkit-border-radius:5px;  -webkit-box-shadow:1px 1px 7px #000; position: absolute; top: -1em; left:10em; z-index: 1 } 
+ .macro { color: darkmagenta; background-color:LemonChiffon; position: relative }
+ .num { width:2.5em; padding-right:2ex; background-color:#eeeeee }
+ .num { text-align:right; font-size:8pt }
+ .num { color:#444444 }
+ .line { padding-left: 1ex; border-left: 3px solid #ccc }
+ .line { white-space: pre }
+ .msg { -webkit-box-shadow:1px 1px 7px #000 }
+ .msg { -webkit-border-radius:5px }
+ .msg { font-family:Helvetica, sans-serif; font-size:8pt }
+ .msg { float:left }
+ .msg { padding:0.25em 1ex 0.25em 1ex }
+ .msg { margin-top:10px; margin-bottom:10px }
+ .msg { font-weight:bold }
+ .msg { max-width:60em; word-wrap: break-word; white-space: pre-wrap }
+ .msgT { padding:0x; spacing:0x }
+ .msgEvent { background-color:#fff8b4; color:#000000 }
+ .msgControl { background-color:#bbbbbb; color:#000000 }
+ .mrange { background-color:#dfddf3 }
+ .mrange { border-bottom:1px solid #6F9DBE }
+ .PathIndex { font-weight: bold; padding:0px 5px; margin-right:5px; }
+ .PathIndex { -webkit-border-radius:8px }
+ .PathIndexEvent { background-color:#bfba87 }
+ .PathIndexControl { background-color:#8c8c8c }
+ .PathNav a { text-decoration:none; font-size: larger }
+ .CodeInsertionHint { font-weight: bold; background-color: #10dd10 }
+ .CodeRemovalHint { background-color:#de1010 }
+ .CodeRemovalHint { border-bottom:1px solid #6F9DBE }
+ table.simpletable {
+   padding: 5px;
+   font-size:12pt;
+   margin:20px;
+   border-collapse: collapse; border-spacing: 0px;
+ }
+ td.rowname {
+   text-align:right; font-weight:bold; color:#444444;
+   padding-right:2ex; }
+</style>
+</head>
+<body>
+<!-- BUGDESC Value stored to 'val' is never read -->
+
+<!-- BUGTYPE Dead assignment -->
+
+<!-- BUGCATEGORY Dead store -->
+
+<!-- BUGFILE /home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp -->
+
+<!-- BUGLINE 664 -->
+
+<!-- BUGPATHLENGTH 1 -->
+
+<!-- BUGMETAEND -->
+<!-- REPORTHEADER -->
+<h3>Bug Summary</h3>
+<table class="simpletable">
+<tr><td class="rowname">File:</td><td>home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp</td></tr>
+<tr><td class="rowname">Location:</td><td><a href="#EndPath">line 664, column 3</a></td></tr>
+<tr><td class="rowname">Description:</td><td>Value stored to 'val' is never read</td></tr>
+</table>
+<!-- REPORTSUMMARYEXTRA -->
+<h3>Annotated Source Code</h3>
+<table class="code">
+<tr><td class="num" id="LN1">1</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr><td class="num" id="LN2">2</td><td class="line"> <span class='comment'>* ---------------------------------------------------------------------</span></td></tr>
+<tr><td class="num" id="LN3">3</td><td class="line"> <span class='comment'>* Numenta Platform for Intelligent Computing (NuPIC)</span></td></tr>
+<tr><td class="num" id="LN4">4</td><td class="line"> <span class='comment'>* Copyright (C) 2013, Numenta, Inc.  Unless you have purchased from</span></td></tr>
+<tr><td class="num" id="LN5">5</td><td class="line"> <span class='comment'>* Numenta, Inc. a separate commercial license for this software code, the</span></td></tr>
+<tr><td class="num" id="LN6">6</td><td class="line"> <span class='comment'>* following terms and conditions apply:</span></td></tr>
+<tr><td class="num" id="LN7">7</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN8">8</td><td class="line"> <span class='comment'>* This program is free software: you can redistribute it and/or modify</span></td></tr>
+<tr><td class="num" id="LN9">9</td><td class="line"> <span class='comment'>* it under the terms of the GNU General Public License version 3 as</span></td></tr>
+<tr><td class="num" id="LN10">10</td><td class="line"> <span class='comment'>* published by the Free Software Foundation.</span></td></tr>
+<tr><td class="num" id="LN11">11</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN12">12</td><td class="line"> <span class='comment'>* This program is distributed in the hope that it will be useful,</span></td></tr>
+<tr><td class="num" id="LN13">13</td><td class="line"> <span class='comment'>* but WITHOUT ANY WARRANTY; without even the implied warranty of</span></td></tr>
+<tr><td class="num" id="LN14">14</td><td class="line"> <span class='comment'>* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span></td></tr>
+<tr><td class="num" id="LN15">15</td><td class="line"> <span class='comment'>* See the GNU General Public License for more details.</span></td></tr>
+<tr><td class="num" id="LN16">16</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN17">17</td><td class="line"> <span class='comment'>* You should have received a copy of the GNU General Public License</span></td></tr>
+<tr><td class="num" id="LN18">18</td><td class="line"> <span class='comment'>* along with this program.  If not, see http://www.gnu.org/licenses.</span></td></tr>
+<tr><td class="num" id="LN19">19</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN20">20</td><td class="line"> <span class='comment'>* http://numenta.org/licenses/</span></td></tr>
+<tr><td class="num" id="LN21">21</td><td class="line"> <span class='comment'>* ---------------------------------------------------------------------</span></td></tr>
+<tr><td class="num" id="LN22">22</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr><td class="num" id="LN23">23</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN24">24</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN25">25</td><td class="line"><span class='directive'>#include &lt;nta/engine/NuPIC.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN26">26</td><td class="line"><span class='directive'>#include &lt;nta/engine/Network.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN27">27</td><td class="line"><span class='directive'>#include &lt;nta/engine/Region.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN28">28</td><td class="line"><span class='directive'>#include &lt;nta/engine/Spec.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN29">29</td><td class="line"><span class='directive'>#include &lt;nta/engine/Input.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN30">30</td><td class="line"><span class='directive'>#include &lt;nta/engine/Output.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN31">31</td><td class="line"><span class='directive'>#include &lt;nta/engine/Link.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN32">32</td><td class="line"><span class='directive'>#include &lt;nta/ntypes/Dimensions.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN33">33</td><td class="line"><span class='directive'>#include &lt;nta/ntypes/Array.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN34">34</td><td class="line"><span class='directive'>#include &lt;nta/ntypes/ArrayRef.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN35">35</td><td class="line"><span class='directive'>#include &lt;nta/types/Exception.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN36">36</td><td class="line"><span class='directive'>#include &lt;nta/os/OS.hpp&gt; // memory leak detection</span></td></tr>
+<tr><td class="num" id="LN37">37</td><td class="line"><span class='directive'>#include &lt;nta/os/Env.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN38">38</td><td class="line"><span class='directive'>#include &lt;nta/os/Path.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN39">39</td><td class="line"><span class='directive'>#include &lt;nta/os/Timer.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN40">40</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN41">41</td><td class="line"><span class='directive'>#include &lt;string&gt;</span></td></tr>
+<tr><td class="num" id="LN42">42</td><td class="line"><span class='directive'>#include &lt;vector&gt;</span></td></tr>
+<tr><td class="num" id="LN43">43</td><td class="line"><span class='directive'>#include &lt;cmath&gt; // fabs/abs</span></td></tr>
+<tr><td class="num" id="LN44">44</td><td class="line"><span class='directive'>#include &lt;cstdlib&gt; // exit</span></td></tr>
+<tr><td class="num" id="LN45">45</td><td class="line"><span class='directive'>#include &lt;iostream&gt;</span></td></tr>
+<tr><td class="num" id="LN46">46</td><td class="line"><span class='directive'>#include &lt;stdexcept&gt;</span></td></tr>
+<tr><td class="num" id="LN47">47</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN48">48</td><td class="line"><span class='keyword'>bool</span> ignore_negative_tests = <span class='keyword'>false</span>;</td></tr>
+<tr><td class="num" id="LN49">49</td><td class="line"><span class='directive'>#define <span class='macro'>SHOULDFAIL(statement)<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { statement; } catch(std::exception&amp; ) { caughtException<br> = true; std::cout &lt;&lt; "Caught exception as expected: " "statement"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 49) &lt;&lt; "Operation '" "statement" "' did not fail as expected"<br>; } } }</span></span> \</span></td></tr>
+<tr><td class="num" id="LN50">50</td><td class="line">  <span class='directive'>{ \</span></td></tr>
+<tr><td class="num" id="LN51">51</td><td class="line">    <span class='directive'>if (!ignore_negative_tests) \</span></td></tr>
+<tr><td class="num" id="LN52">52</td><td class="line">    <span class='directive'>{ \</span></td></tr>
+<tr><td class="num" id="LN53">53</td><td class="line">      <span class='directive'>bool caughtException = false; \</span></td></tr>
+<tr><td class="num" id="LN54">54</td><td class="line">      <span class='directive'>try { \</span></td></tr>
+<tr><td class="num" id="LN55">55</td><td class="line">        <span class='directive'>statement; \</span></td></tr>
+<tr><td class="num" id="LN56">56</td><td class="line">      <span class='directive'>} catch(std::exception&amp; ) { \</span></td></tr>
+<tr><td class="num" id="LN57">57</td><td class="line">        <span class='directive'>caughtException = true; \</span></td></tr>
+<tr><td class="num" id="LN58">58</td><td class="line">        <span class='directive'>std::cout &lt;&lt; "Caught exception as expected: " # statement "" &lt;&lt; std::endl;  \</span></td></tr>
+<tr><td class="num" id="LN59">59</td><td class="line">      <span class='directive'>} \</span></td></tr>
+<tr><td class="num" id="LN60">60</td><td class="line">      <span class='directive'>if (!caughtException) { \</span></td></tr>
+<tr><td class="num" id="LN61">61</td><td class="line">        <span class='directive'><span class='macro'>NTA_THROW<span class='expansion'>throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 61)</span></span> &lt;&lt; "Operation '" #statement "' did not fail as expected"; \</span></td></tr>
+<tr><td class="num" id="LN62">62</td><td class="line">      <span class='directive'>} \</span></td></tr>
+<tr><td class="num" id="LN63">63</td><td class="line">    <span class='directive'>} \</span></td></tr>
+<tr><td class="num" id="LN64">64</td><td class="line">  <span class='directive'>}</span></td></tr>
+<tr><td class="num" id="LN65">65</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN66">66</td><td class="line"><span class='keyword'>using</span> <span class='keyword'>namespace</span> nta;</td></tr>
+<tr><td class="num" id="LN67">67</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN68">68</td><td class="line"><span class='keyword'>bool</span> verbose = <span class='keyword'>false</span>;</td></tr>
+<tr><td class="num" id="LN69">69</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN70">70</td><td class="line"><span class='keyword'>struct</span> MemoryMonitor</td></tr>
+<tr><td class="num" id="LN71">71</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN72">72</td><td class="line">  MemoryMonitor()</td></tr>
+<tr><td class="num" id="LN73">73</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN74">74</td><td class="line">    OS::getProcessMemoryUsage(initial_vmem, initial_rmem);</td></tr>
+<tr><td class="num" id="LN75">75</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN76">76</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN77">77</td><td class="line">  ~MemoryMonitor()</td></tr>
+<tr><td class="num" id="LN78">78</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN79">79</td><td class="line">    <span class='keyword'>if</span> (hasMemoryLeaks())</td></tr>
+<tr><td class="num" id="LN80">80</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN81">81</td><td class="line">      <span class='macro'>NTA_DEBUG<span class='expansion'>nta::LogItem("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 81, nta::LogItem::debug).stream()</span></span> </td></tr>
+<tr><td class="num" id="LN82">82</td><td class="line">        &lt;&lt; <span class='string_literal'>"Memory leaks detected. "</span> </td></tr>
+<tr><td class="num" id="LN83">83</td><td class="line">        &lt;&lt; <span class='string_literal'>"Real Memory: "</span> &lt;&lt; diff_rmem</td></tr>
+<tr><td class="num" id="LN84">84</td><td class="line">        &lt;&lt; <span class='string_literal'>", Virtual Memory: "</span> &lt;&lt; diff_vmem;</td></tr>
+<tr><td class="num" id="LN85">85</td><td class="line">    }</td></tr>
+<tr><td class="num" id="LN86">86</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN87">87</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN88">88</td><td class="line">  <span class='keyword'>void</span> update()</td></tr>
+<tr><td class="num" id="LN89">89</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN90">90</td><td class="line">    OS::getProcessMemoryUsage(current_vmem, current_rmem);</td></tr>
+<tr><td class="num" id="LN91">91</td><td class="line">    diff_vmem = current_vmem - initial_vmem;</td></tr>
+<tr><td class="num" id="LN92">92</td><td class="line">    diff_rmem = current_rmem - initial_rmem;</td></tr>
+<tr><td class="num" id="LN93">93</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN94">94</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN95">95</td><td class="line">  <span class='keyword'>bool</span> hasMemoryLeaks()</td></tr>
+<tr><td class="num" id="LN96">96</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN97">97</td><td class="line">    update();</td></tr>
+<tr><td class="num" id="LN98">98</td><td class="line">    <span class='keyword'>return</span> diff_vmem &gt; 0 || diff_rmem &gt; 0;</td></tr>
+<tr><td class="num" id="LN99">99</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN100">100</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN101">101</td><td class="line">  size_t initial_vmem;</td></tr>
+<tr><td class="num" id="LN102">102</td><td class="line">  size_t initial_rmem;</td></tr>
+<tr><td class="num" id="LN103">103</td><td class="line">  size_t current_vmem;</td></tr>
+<tr><td class="num" id="LN104">104</td><td class="line">  size_t current_rmem;</td></tr>
+<tr><td class="num" id="LN105">105</td><td class="line">  size_t diff_rmem;</td></tr>
+<tr><td class="num" id="LN106">106</td><td class="line">  size_t diff_vmem;</td></tr>
+<tr><td class="num" id="LN107">107</td><td class="line">};</td></tr>
+<tr><td class="num" id="LN108">108</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN109">109</td><td class="line"><span class='keyword'>void</span> testExceptionBug()</td></tr>
+<tr><td class="num" id="LN110">110</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN111">111</td><td class="line">  Network n;</td></tr>
+<tr><td class="num" id="LN112">112</td><td class="line">  Region *l1 = n.addRegion(<span class='string_literal'>"l1"</span>, <span class='string_literal'>"py.TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN113">113</td><td class="line">  <span class='comment'>//Dimensions d(1);</span></td></tr>
+<tr><td class="num" id="LN114">114</td><td class="line">  Dimensions d(1);</td></tr>
+<tr><td class="num" id="LN115">115</td><td class="line">  l1-&gt;setDimensions(d);</td></tr>
+<tr><td class="num" id="LN116">116</td><td class="line">  <span class='keyword'>bool</span> caughtException = <span class='keyword'>false</span>;</td></tr>
+<tr><td class="num" id="LN117">117</td><td class="line">  <span class='keyword'>try</span></td></tr>
+<tr><td class="num" id="LN118">118</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN119">119</td><td class="line">    n.run(1);</td></tr>
+<tr><td class="num" id="LN120">120</td><td class="line">  } <span class='keyword'>catch</span> (std::exception&amp; e) {</td></tr>
+<tr><td class="num" id="LN121">121</td><td class="line">    <span class='macro'>NTA_DEBUG<span class='expansion'>nta::LogItem("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 121, nta::LogItem::debug).stream()</span></span> &lt;&lt; <span class='string_literal'>"Caught exception as expected: '"</span> &lt;&lt; e.what() &lt;&lt; <span class='string_literal'>"'"</span>;</td></tr>
+<tr><td class="num" id="LN122">122</td><td class="line">    caughtException = <span class='keyword'>true</span>;</td></tr>
+<tr><td class="num" id="LN123">123</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN124">124</td><td class="line">  <span class='keyword'>if</span> (caughtException)</td></tr>
+<tr><td class="num" id="LN125">125</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN126">126</td><td class="line">    <span class='macro'>NTA_DEBUG<span class='expansion'>nta::LogItem("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 126, nta::LogItem::debug).stream()</span></span> &lt;&lt; <span class='string_literal'>"testExceptionBug passed"</span>;</td></tr>
+<tr><td class="num" id="LN127">127</td><td class="line">  } <span class='keyword'>else</span> {</td></tr>
+<tr><td class="num" id="LN128">128</td><td class="line">    <span class='macro'>NTA_THROW<span class='expansion'>throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 128)</span></span> &lt;&lt; <span class='string_literal'>"testExceptionBug did not throw an exception as expected"</span>;</td></tr>
+<tr><td class="num" id="LN129">129</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN130">130</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN131">131</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN132">132</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN133">133</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN134">134</td><td class="line"><span class='keyword'>void</span> testCppInputOutputAccess(Region * level1)</td></tr>
+<tr><td class="num" id="LN135">135</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN136">136</td><td class="line">  <span class='comment'>// --- input/output access for level 1 (C++ TestNode) ---</span></td></tr>
+<tr><td class="num" id="LN137">137</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN138">138</td><td class="line">  <span class='macro'>SHOULDFAIL( level1-&gt;getOutputData(<span class='string_literal'>"doesnotexist"</span>) )<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { level1-&gt;getOutputData("doesnotexist"); } catch(std::<br>exception&amp; ) { caughtException = true; std::cout &lt;&lt;<br> "Caught exception as expected: " "level1-&gt;getOutputData(\"doesnotexist\")"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 138) &lt;&lt; "Operation '" "level1-&gt;getOutputData(\"doesnotexist\")"<br> "' did not fail as expected"; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN139">139</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN140">140</td><td class="line">  <span class='comment'>// getting access via zero-copy</span></td></tr>
+<tr><td class="num" id="LN141">141</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Getting output for zero-copy access"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN142">142</td><td class="line">  ArrayRef output = level1-&gt;getOutputData(<span class='string_literal'>"bottomUpOut"</span>);</td></tr>
+<tr><td class="num" id="LN143">143</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Element count in bottomUpOut is "</span> &lt;&lt; output.getCount() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN144">144</td><td class="line">  Real64 *data_actual = (Real64*)output.getBuffer();</td></tr>
+<tr><td class="num" id="LN145">145</td><td class="line">  <span class='comment'>// set the actual output</span></td></tr>
+<tr><td class="num" id="LN146">146</td><td class="line">  data_actual[12] = 54321;  </td></tr>
+<tr><td class="num" id="LN147">147</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN148">148</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN149">149</td><td class="line"><span class='keyword'>void</span> testPynodeInputOutputAccess(Region * level2)</td></tr>
+<tr><td class="num" id="LN150">150</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN151">151</td><td class="line">  <span class='comment'>// --- input/output access for level 2 (Python py.TestNode) ---</span></td></tr>
+<tr><td class="num" id="LN152">152</td><td class="line">  <span class='macro'>SHOULDFAIL(level2-&gt;getOutputData(<span class='string_literal'>"doesnotexist"</span>) )<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { level2-&gt;getOutputData("doesnotexist"); } catch(std::<br>exception&amp; ) { caughtException = true; std::cout &lt;&lt;<br> "Caught exception as expected: " "level2-&gt;getOutputData(\"doesnotexist\")"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 152) &lt;&lt; "Operation '" "level2-&gt;getOutputData(\"doesnotexist\")"<br> "' did not fail as expected"; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN153">153</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN154">154</td><td class="line">  <span class='comment'>// getting access via zero-copy</span></td></tr>
+<tr><td class="num" id="LN155">155</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Getting output for zero-copy access"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN156">156</td><td class="line">  ArrayRef output = level2-&gt;getOutputData(<span class='string_literal'>"bottomUpOut"</span>);</td></tr>
+<tr><td class="num" id="LN157">157</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Element count in bottomUpOut is "</span> &lt;&lt; output.getCount() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN158">158</td><td class="line">  Real64 *data_actual = (Real64*)output.getBuffer();</td></tr>
+<tr><td class="num" id="LN159">159</td><td class="line">  <span class='comment'>// set the actual output</span></td></tr>
+<tr><td class="num" id="LN160">160</td><td class="line">  data_actual[12] = 54321;  </td></tr>
+<tr><td class="num" id="LN161">161</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN162">162</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN163">163</td><td class="line"><span class='keyword'>void</span> testPynodeArrayParameters(Region * level2)</td></tr>
+<tr><td class="num" id="LN164">164</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN165">165</td><td class="line">  <span class='comment'>// Array a is not allocated by us. Will be allocated inside getParameter</span></td></tr>
+<tr><td class="num" id="LN166">166</td><td class="line">  Array a(NTA_BasicType_Int64);</td></tr>
+<tr><td class="num" id="LN167">167</td><td class="line">  level2-&gt;getParameterArray(<span class='string_literal'>"int64ArrayParam"</span>, a);</td></tr>
+<tr><td class="num" id="LN168">168</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level2.int64ArrayParam size = "</span> &lt;&lt; a.getCount() &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN169">169</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level2.int64ArrayParam = [ "</span>;</td></tr>
+<tr><td class="num" id="LN170">170</td><td class="line">  Int64 * buff = (Int64 *)a.getBuffer();</td></tr>
+<tr><td class="num" id="LN171">171</td><td class="line">  <span class='keyword'>for</span> (<span class='keyword'>int</span> i = 0; i &lt; <span class='keyword'>int</span>(a.getCount()); ++i)</td></tr>
+<tr><td class="num" id="LN172">172</td><td class="line">    std::cout &lt;&lt; buff[i] &lt;&lt; <span class='string_literal'>" "</span>;</td></tr>
+<tr><td class="num" id="LN173">173</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"]"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN174">174</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN175">175</td><td class="line">  <span class='comment'>// --- test setParameterInt64Array ---</span></td></tr>
+<tr><td class="num" id="LN176">176</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Setting level2.int64ArrayParam to [ 1 2 3 4 ]"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN177">177</td><td class="line">  std::vector&lt;Int64&gt; v(4);</td></tr>
+<tr><td class="num" id="LN178">178</td><td class="line">  <span class='keyword'>for</span> (<span class='keyword'>int</span> i = 0; i &lt; 4; ++i)</td></tr>
+<tr><td class="num" id="LN179">179</td><td class="line">    v[i] = i+1  ;</td></tr>
+<tr><td class="num" id="LN180">180</td><td class="line">  Array newa(NTA_BasicType_Int64, &amp;v[0], v.size());</td></tr>
+<tr><td class="num" id="LN181">181</td><td class="line">  level2-&gt;setParameterArray(<span class='string_literal'>"int64ArrayParam"</span>, newa);</td></tr>
+<tr><td class="num" id="LN182">182</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN183">183</td><td class="line">  <span class='comment'>// get the value of intArrayParam after the setParameter call.</span></td></tr>
+<tr><td class="num" id="LN184">184</td><td class="line">  a.releaseBuffer();</td></tr>
+<tr><td class="num" id="LN185">185</td><td class="line">  a.allocateBuffer(4);</td></tr>
+<tr><td class="num" id="LN186">186</td><td class="line">  level2-&gt;getParameterArray(<span class='string_literal'>"int64ArrayParam"</span>, a);</td></tr>
+<tr><td class="num" id="LN187">187</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level2.int64ArrayParam size = "</span> &lt;&lt; a.getCount() &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN188">188</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level2.int64ArrayParam = [ "</span>;</td></tr>
+<tr><td class="num" id="LN189">189</td><td class="line">  buff = (Int64 *)a.getBuffer();</td></tr>
+<tr><td class="num" id="LN190">190</td><td class="line">  <span class='keyword'>for</span> (<span class='keyword'>int</span> i = 0; i &lt; <span class='keyword'>int</span>(a.getCount()); ++i)</td></tr>
+<tr><td class="num" id="LN191">191</td><td class="line">    std::cout &lt;&lt; buff[i] &lt;&lt; <span class='string_literal'>" "</span>;</td></tr>
+<tr><td class="num" id="LN192">192</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"]"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN193">193</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN194">194</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN195">195</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN196">196</td><td class="line"><span class='keyword'>void</span> testCppLinking(std::string linkPolicy, std::string linkParams)</td></tr>
+<tr><td class="num" id="LN197">197</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN198">198</td><td class="line">  Network net = Network();</td></tr>
+<tr><td class="num" id="LN199">199</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN200">200</td><td class="line">  Region* region1 = net.addRegion(<span class='string_literal'>"region1"</span>, <span class='string_literal'>"TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN201">201</td><td class="line">  Region* region2 = net.addRegion(<span class='string_literal'>"region2"</span>, <span class='string_literal'>"TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN202">202</td><td class="line">  net.link(<span class='string_literal'>"region1"</span>, <span class='string_literal'>"region2"</span>, linkPolicy, linkParams);</td></tr>
+<tr><td class="num" id="LN203">203</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN204">204</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Initialize should fail..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN205">205</td><td class="line">  <span class='macro'>SHOULDFAIL(net.initialize())<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { net.initialize(); } catch(std::exception&amp; ) { caughtException<br> = true; std::cout &lt;&lt; "Caught exception as expected: " "net.initialize()"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 205) &lt;&lt; "Operation '" "net.initialize()" "' did not fail as expected"<br>; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN206">206</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN207">207</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Setting region1 dims"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN208">208</td><td class="line">  Dimensions r1dims;</td></tr>
+<tr><td class="num" id="LN209">209</td><td class="line">  r1dims.push_back(6);</td></tr>
+<tr><td class="num" id="LN210">210</td><td class="line">  r1dims.push_back(4);</td></tr>
+<tr><td class="num" id="LN211">211</td><td class="line">  region1-&gt;setDimensions(r1dims);</td></tr>
+<tr><td class="num" id="LN212">212</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN213">213</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Initialize should now succeed"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN214">214</td><td class="line">  net.initialize();</td></tr>
+<tr><td class="num" id="LN215">215</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN216">216</td><td class="line">  <span class='keyword'>const</span> Dimensions&amp; r2dims = region2-&gt;getDimensions();</td></tr>
+<tr><td class="num" id="LN217">217</td><td class="line">  <span class='macro'>NTA_CHECK(r2dims.size() == 2)<span class='expansion'>if (r2dims.size() == 2) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 217) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2dims.size() == 2"<br> &lt;&lt; "\" "</span></span> &lt;&lt; <span class='string_literal'>" actual dims: "</span> &lt;&lt; r2dims.toString();</td></tr>
+<tr><td class="num" id="LN218">218</td><td class="line">  <span class='macro'>NTA_CHECK(r2dims[0] == 3)<span class='expansion'>if (r2dims[0] == 3) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 218) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2dims[0] == 3" &lt;&lt;<br> "\" "</span></span> &lt;&lt; <span class='string_literal'>" actual dims: "</span> &lt;&lt; r2dims.toString();</td></tr>
+<tr><td class="num" id="LN219">219</td><td class="line">  <span class='macro'>NTA_CHECK(r2dims[1] == 2)<span class='expansion'>if (r2dims[1] == 2) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 219) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2dims[1] == 2" &lt;&lt;<br> "\" "</span></span> &lt;&lt; <span class='string_literal'>" actual dims: "</span> &lt;&lt; r2dims.toString();</td></tr>
+<tr><td class="num" id="LN220">220</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN221">221</td><td class="line">  <span class='macro'>SHOULDFAIL(region2-&gt;setDimensions(r1dims))<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { region2-&gt;setDimensions(r1dims); } catch(std::exception<br>&amp; ) { caughtException = true; std::cout &lt;&lt; "Caught exception as expected: "<br> "region2-&gt;setDimensions(r1dims)" "" &lt;&lt; std::endl; }<br> if (!caughtException) { throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 221) &lt;&lt; "Operation '" "region2-&gt;setDimensions(r1dims)"<br> "' did not fail as expected"; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN222">222</td><td class="line">          </td></tr>
+<tr><td class="num" id="LN223">223</td><td class="line">  ArrayRef r1OutputArray = region1-&gt;getOutputData(<span class='string_literal'>"bottomUpOut"</span>);</td></tr>
+<tr><td class="num" id="LN224">224</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN225">225</td><td class="line">  region1-&gt;compute();</td></tr>
+<tr><td class="num" id="LN226">226</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Checking region1 output after first iteration..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN227">227</td><td class="line">  Real64 *buffer = (Real64*) r1OutputArray.getBuffer();</td></tr>
+<tr><td class="num" id="LN228">228</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN229">229</td><td class="line">  <span class='keyword'>for</span> (size_t i = 0; i &lt; r1OutputArray.getCount(); i++)</td></tr>
+<tr><td class="num" id="LN230">230</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN231">231</td><td class="line">    <span class='keyword'>if</span> (verbose)</td></tr>
+<tr><td class="num" id="LN232">232</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>"  "</span> &lt;&lt; i &lt;&lt; <span class='string_literal'>"    "</span> &lt;&lt; buffer[i] &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN233">233</td><td class="line">    <span class='keyword'>if</span> (i%2 == 0)</td></tr>
+<tr><td class="num" id="LN234">234</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == 0)<span class='expansion'>if (buffer[i] == 0) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 234) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == 0" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN235">235</td><td class="line">    <span class='keyword'>else</span></td></tr>
+<tr><td class="num" id="LN236">236</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == (i-1)/2)<span class='expansion'>if (buffer[i] == (i-1)/2) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 236)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == (i-1)/2" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN237">237</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN238">238</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN239">239</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN240">240</td><td class="line">  region2-&gt;prepareInputs();</td></tr>
+<tr><td class="num" id="LN241">241</td><td class="line">  ArrayRef r2InputArray = region2-&gt;getInputData(<span class='string_literal'>"bottomUpIn"</span>);</td></tr>
+<tr><td class="num" id="LN242">242</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region 2 input after first iteration:"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN243">243</td><td class="line">  Real64 *buffer2 = (Real64*) r2InputArray.getBuffer();</td></tr>
+<tr><td class="num" id="LN244">244</td><td class="line">  <span class='macro'>NTA_CHECK(buffer != buffer2)<span class='expansion'>if (buffer != buffer2) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 244) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer != buffer2"<br> &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN245">245</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN246">246</td><td class="line">  <span class='keyword'>for</span> (size_t i = 0; i &lt; r2InputArray.getCount(); i++)</td></tr>
+<tr><td class="num" id="LN247">247</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN248">248</td><td class="line">    <span class='keyword'>if</span> (verbose)</td></tr>
+<tr><td class="num" id="LN249">249</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>"  "</span> &lt;&lt; i &lt;&lt; <span class='string_literal'>"    "</span> &lt;&lt; buffer2[i] &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN250">250</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN251">251</td><td class="line">    <span class='keyword'>if</span> (i%2 == 0)</td></tr>
+<tr><td class="num" id="LN252">252</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == 0)<span class='expansion'>if (buffer[i] == 0) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 252) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == 0" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN253">253</td><td class="line">    <span class='keyword'>else</span></td></tr>
+<tr><td class="num" id="LN254">254</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == (i-1)/2)<span class='expansion'>if (buffer[i] == (i-1)/2) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 254)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == (i-1)/2" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN255">255</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN256">256</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN257">257</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region 2 input by node"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN258">258</td><td class="line">  std::vector&lt;Real64&gt; r2NodeInput;</td></tr>
+<tr><td class="num" id="LN259">259</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN260">260</td><td class="line">  <span class='keyword'>for</span> (size_t node = 0; node &lt; 6; node++)</td></tr>
+<tr><td class="num" id="LN261">261</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN262">262</td><td class="line">    region2-&gt;getInput(<span class='string_literal'>"bottomUpIn"</span>)-&gt;getInputForNode(node, r2NodeInput);</td></tr>
+<tr><td class="num" id="LN263">263</td><td class="line">    <span class='keyword'>if</span> (verbose)</td></tr>
+<tr><td class="num" id="LN264">264</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN265">265</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>"Node "</span> &lt;&lt; node &lt;&lt; <span class='string_literal'>": "</span>;</td></tr>
+<tr><td class="num" id="LN266">266</td><td class="line">      <span class='keyword'>for</span> (size_t i = 0; i &lt; r2NodeInput.size(); i++)</td></tr>
+<tr><td class="num" id="LN267">267</td><td class="line">      {</td></tr>
+<tr><td class="num" id="LN268">268</td><td class="line">        std::cout &lt;&lt; r2NodeInput[i] &lt;&lt; <span class='string_literal'>" "</span>;</td></tr>
+<tr><td class="num" id="LN269">269</td><td class="line">      }</td></tr>
+<tr><td class="num" id="LN270">270</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN271">271</td><td class="line">    }</td></tr>
+<tr><td class="num" id="LN272">272</td><td class="line">    <span class='comment'>// 4 nodes in r1 fan in to 1 node in r2</span></td></tr>
+<tr><td class="num" id="LN273">273</td><td class="line">    <span class='keyword'>int</span> row = node/3;</td></tr>
+<tr><td class="num" id="LN274">274</td><td class="line">    <span class='keyword'>int</span> col = node - (row * 3);</td></tr>
+<tr><td class="num" id="LN275">275</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput.size() == 8)<span class='expansion'>if (r2NodeInput.size() == 8) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 275)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput.size() == 8"<br> &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN276">276</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[0] == 0)<span class='expansion'>if (r2NodeInput[0] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 276) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[0] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN277">277</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[2] == 0)<span class='expansion'>if (r2NodeInput[2] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 277) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[2] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN278">278</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[4] == 0)<span class='expansion'>if (r2NodeInput[4] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 278) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[4] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN279">279</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[6] == 0)<span class='expansion'>if (r2NodeInput[6] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 279) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[6] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN280">280</td><td class="line">    <span class='comment'>// these values are specific to the fanin2 link policy</span></td></tr>
+<tr><td class="num" id="LN281">281</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[1] == row * 12    + col * 2)<span class='expansion'>if (r2NodeInput[1] == row * 12 + col * 2) {} else throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 281) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[1] == row * 12 + col * 2"<br> &lt;&lt; "\" "</span></span> </td></tr>
+<tr><td class="num" id="LN282">282</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[1];</td></tr>
+<tr><td class="num" id="LN283">283</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[3] == row * 12    + col * 2 + 1)<span class='expansion'>if (r2NodeInput[3] == row * 12 + col * 2 + 1) {} else throw nta<br>::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 283) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[3] == row * 12 + col * 2 + 1"<br> &lt;&lt; "\" "</span></span></td></tr>
+<tr><td class="num" id="LN284">284</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[3];</td></tr>
+<tr><td class="num" id="LN285">285</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[5] == row * 12 + 6 + col * 2)<span class='expansion'>if (r2NodeInput[5] == row * 12 + 6 + col * 2) {} else throw nta<br>::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 285) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[5] == row * 12 + 6 + col * 2"<br> &lt;&lt; "\" "</span></span></td></tr>
+<tr><td class="num" id="LN286">286</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[5];</td></tr>
+<tr><td class="num" id="LN287">287</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[7] == row * 12 + 6 + col * 2 + 1)<span class='expansion'>if (r2NodeInput[7] == row * 12 + 6 + col * 2 + 1) {} else throw<br> nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 287) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[7] == row * 12 + 6 + col * 2 + 1"<br> &lt;&lt; "\" "</span></span></td></tr>
+<tr><td class="num" id="LN288">288</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[7];</td></tr>
+<tr><td class="num" id="LN289">289</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN290">290</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN291">291</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN292">292</td><td class="line"><span class='keyword'>void</span> testPynodeLinking()</td></tr>
+<tr><td class="num" id="LN293">293</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN294">294</td><td class="line">  Network net = Network();</td></tr>
+<tr><td class="num" id="LN295">295</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN296">296</td><td class="line">  Region * region1 = net.addRegion(<span class='string_literal'>"region1"</span>, <span class='string_literal'>"TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN297">297</td><td class="line">  Region * region2 = net.addRegion(<span class='string_literal'>"region2"</span>, <span class='string_literal'>"py.TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN298">298</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Linking region 1 to region 2"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN299">299</td><td class="line">  net.link(<span class='string_literal'>"region1"</span>, <span class='string_literal'>"region2"</span>, <span class='string_literal'>"TestFanIn2"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN300">300</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN301">301</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Setting region1 dims to (6,4)"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN302">302</td><td class="line">  Dimensions r1dims;</td></tr>
+<tr><td class="num" id="LN303">303</td><td class="line">  r1dims.push_back(6);</td></tr>
+<tr><td class="num" id="LN304">304</td><td class="line">  r1dims.push_back(4);</td></tr>
+<tr><td class="num" id="LN305">305</td><td class="line">  region1-&gt;setDimensions(r1dims);</td></tr>
+<tr><td class="num" id="LN306">306</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN307">307</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Initializing network..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN308">308</td><td class="line">  net.initialize();</td></tr>
+<tr><td class="num" id="LN309">309</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN310">310</td><td class="line">  <span class='keyword'>const</span> Dimensions&amp; r2dims = region2-&gt;getDimensions();</td></tr>
+<tr><td class="num" id="LN311">311</td><td class="line">  <span class='macro'>NTA_CHECK(r2dims.size() == 2)<span class='expansion'>if (r2dims.size() == 2) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 311) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2dims.size() == 2"<br> &lt;&lt; "\" "</span></span> &lt;&lt; <span class='string_literal'>" actual dims: "</span> &lt;&lt; r2dims.toString();</td></tr>
+<tr><td class="num" id="LN312">312</td><td class="line">  <span class='macro'>NTA_CHECK(r2dims[0] == 3)<span class='expansion'>if (r2dims[0] == 3) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 312) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2dims[0] == 3" &lt;&lt;<br> "\" "</span></span> &lt;&lt; <span class='string_literal'>" actual dims: "</span> &lt;&lt; r2dims.toString();</td></tr>
+<tr><td class="num" id="LN313">313</td><td class="line">  <span class='macro'>NTA_CHECK(r2dims[1] == 2)<span class='expansion'>if (r2dims[1] == 2) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 313) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2dims[1] == 2" &lt;&lt;<br> "\" "</span></span> &lt;&lt; <span class='string_literal'>" actual dims: "</span> &lt;&lt; r2dims.toString();</td></tr>
+<tr><td class="num" id="LN314">314</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN315">315</td><td class="line">  ArrayRef r1OutputArray = region1-&gt;getOutputData(<span class='string_literal'>"bottomUpOut"</span>);</td></tr>
+<tr><td class="num" id="LN316">316</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN317">317</td><td class="line">  region1-&gt;compute();</td></tr>
+<tr><td class="num" id="LN318">318</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN319">319</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Checking region1 output after first iteration..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN320">320</td><td class="line">  Real64 *buffer = (Real64*) r1OutputArray.getBuffer();</td></tr>
+<tr><td class="num" id="LN321">321</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN322">322</td><td class="line">  <span class='keyword'>for</span> (size_t i = 0; i &lt; r1OutputArray.getCount(); i++)</td></tr>
+<tr><td class="num" id="LN323">323</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN324">324</td><td class="line">    <span class='keyword'>if</span> (verbose)</td></tr>
+<tr><td class="num" id="LN325">325</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>"  "</span> &lt;&lt; i &lt;&lt; <span class='string_literal'>"    "</span> &lt;&lt; buffer[i] &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN326">326</td><td class="line">    <span class='keyword'>if</span> (i%2 == 0)</td></tr>
+<tr><td class="num" id="LN327">327</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == 0)<span class='expansion'>if (buffer[i] == 0) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 327) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == 0" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN328">328</td><td class="line">    <span class='keyword'>else</span></td></tr>
+<tr><td class="num" id="LN329">329</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == (i-1)/2)<span class='expansion'>if (buffer[i] == (i-1)/2) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 329)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == (i-1)/2" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN330">330</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN331">331</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN332">332</td><td class="line">  region2-&gt;prepareInputs();</td></tr>
+<tr><td class="num" id="LN333">333</td><td class="line">  ArrayRef r2InputArray = region2-&gt;getInputData(<span class='string_literal'>"bottomUpIn"</span>);</td></tr>
+<tr><td class="num" id="LN334">334</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region 2 input after first iteration:"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN335">335</td><td class="line">  Real64 *buffer2 = (Real64*) r2InputArray.getBuffer();</td></tr>
+<tr><td class="num" id="LN336">336</td><td class="line">  <span class='macro'>NTA_CHECK(buffer != buffer2)<span class='expansion'>if (buffer != buffer2) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 336) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer != buffer2"<br> &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN337">337</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN338">338</td><td class="line">  <span class='keyword'>for</span> (size_t i = 0; i &lt; r2InputArray.getCount(); i++)</td></tr>
+<tr><td class="num" id="LN339">339</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN340">340</td><td class="line">    <span class='keyword'>if</span> (verbose)</td></tr>
+<tr><td class="num" id="LN341">341</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>"  "</span> &lt;&lt; i &lt;&lt; <span class='string_literal'>"    "</span> &lt;&lt; buffer2[i] &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN342">342</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN343">343</td><td class="line">    <span class='keyword'>if</span> (i%2 == 0)</td></tr>
+<tr><td class="num" id="LN344">344</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == 0)<span class='expansion'>if (buffer[i] == 0) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 344) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == 0" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN345">345</td><td class="line">    <span class='keyword'>else</span></td></tr>
+<tr><td class="num" id="LN346">346</td><td class="line">      <span class='macro'>NTA_CHECK(buffer[i] == (i-1)/2)<span class='expansion'>if (buffer[i] == (i-1)/2) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 346)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "buffer[i] == (i-1)/2" &lt;&lt;<br> "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN347">347</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN348">348</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN349">349</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region 2 input by node"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN350">350</td><td class="line">  std::vector&lt;Real64&gt; r2NodeInput;</td></tr>
+<tr><td class="num" id="LN351">351</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN352">352</td><td class="line">  <span class='keyword'>for</span> (size_t node = 0; node &lt; 6; node++)</td></tr>
+<tr><td class="num" id="LN353">353</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN354">354</td><td class="line">    region2-&gt;getInput(<span class='string_literal'>"bottomUpIn"</span>)-&gt;getInputForNode(node, r2NodeInput);</td></tr>
+<tr><td class="num" id="LN355">355</td><td class="line">    <span class='keyword'>if</span> (verbose)</td></tr>
+<tr><td class="num" id="LN356">356</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN357">357</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>"Node "</span> &lt;&lt; node &lt;&lt; <span class='string_literal'>": "</span>;</td></tr>
+<tr><td class="num" id="LN358">358</td><td class="line">      <span class='keyword'>for</span> (size_t i = 0; i &lt; r2NodeInput.size(); i++)</td></tr>
+<tr><td class="num" id="LN359">359</td><td class="line">      {</td></tr>
+<tr><td class="num" id="LN360">360</td><td class="line">        std::cout &lt;&lt; r2NodeInput[i] &lt;&lt; <span class='string_literal'>" "</span>;</td></tr>
+<tr><td class="num" id="LN361">361</td><td class="line">      }</td></tr>
+<tr><td class="num" id="LN362">362</td><td class="line">      std::cout &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN363">363</td><td class="line">    }</td></tr>
+<tr><td class="num" id="LN364">364</td><td class="line">    <span class='comment'>// 4 nodes in r1 fan in to 1 node in r2</span></td></tr>
+<tr><td class="num" id="LN365">365</td><td class="line">    <span class='keyword'>int</span> row = node/3;</td></tr>
+<tr><td class="num" id="LN366">366</td><td class="line">    <span class='keyword'>int</span> col = node - (row * 3);</td></tr>
+<tr><td class="num" id="LN367">367</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput.size() == 8)<span class='expansion'>if (r2NodeInput.size() == 8) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 367)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput.size() == 8"<br> &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN368">368</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[0] == 0)<span class='expansion'>if (r2NodeInput[0] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 368) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[0] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN369">369</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[2] == 0)<span class='expansion'>if (r2NodeInput[2] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 369) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[2] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN370">370</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[4] == 0)<span class='expansion'>if (r2NodeInput[4] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 370) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[4] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN371">371</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[6] == 0)<span class='expansion'>if (r2NodeInput[6] == 0) {} else throw nta::LoggingException(<br>"/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 371) &lt;&lt;<br> "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[6] == 0" &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN372">372</td><td class="line">    <span class='comment'>// these values are specific to the fanin2 link policy</span></td></tr>
+<tr><td class="num" id="LN373">373</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[1] == row * 12    + col * 2)<span class='expansion'>if (r2NodeInput[1] == row * 12 + col * 2) {} else throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 373) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[1] == row * 12 + col * 2"<br> &lt;&lt; "\" "</span></span> </td></tr>
+<tr><td class="num" id="LN374">374</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[1];</td></tr>
+<tr><td class="num" id="LN375">375</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[3] == row * 12    + col * 2 + 1)<span class='expansion'>if (r2NodeInput[3] == row * 12 + col * 2 + 1) {} else throw nta<br>::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 375) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[3] == row * 12 + col * 2 + 1"<br> &lt;&lt; "\" "</span></span></td></tr>
+<tr><td class="num" id="LN376">376</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[3];</td></tr>
+<tr><td class="num" id="LN377">377</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[5] == row * 12 + 6 + col * 2)<span class='expansion'>if (r2NodeInput[5] == row * 12 + 6 + col * 2) {} else throw nta<br>::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 377) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[5] == row * 12 + 6 + col * 2"<br> &lt;&lt; "\" "</span></span></td></tr>
+<tr><td class="num" id="LN378">378</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[5];</td></tr>
+<tr><td class="num" id="LN379">379</td><td class="line">    <span class='macro'>NTA_CHECK(r2NodeInput[7] == row * 12 + 6 + col * 2 + 1)<span class='expansion'>if (r2NodeInput[7] == row * 12 + 6 + col * 2 + 1) {} else throw<br> nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 379) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "r2NodeInput[7] == row * 12 + 6 + col * 2 + 1"<br> &lt;&lt; "\" "</span></span></td></tr>
+<tr><td class="num" id="LN380">380</td><td class="line">      &lt;&lt; <span class='string_literal'>"row: "</span> &lt;&lt; row &lt;&lt; <span class='string_literal'>" col: "</span> &lt;&lt; col &lt;&lt; <span class='string_literal'>" val: "</span> &lt;&lt; r2NodeInput[7];</td></tr>
+<tr><td class="num" id="LN381">381</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN382">382</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN383">383</td><td class="line">  region2-&gt;compute();</td></tr>
+<tr><td class="num" id="LN384">384</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN385">385</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN386">386</td><td class="line"><span class='comment'>//static void loadSingleImage(Region &amp; r)</span></td></tr>
+<tr><td class="num" id="LN387">387</td><td class="line"><span class='comment'>//{</span></td></tr>
+<tr><td class="num" id="LN388">388</td><td class="line"><span class='comment'>//  // Load an image of the 'bed' (from pictures/clean) into the image sensor</span></td></tr>
+<tr><td class="num" id="LN389">389</td><td class="line"><span class='comment'>//  std::vector&lt;std::string&gt; args;</span></td></tr>
+<tr><td class="num" id="LN390">390</td><td class="line"><span class='comment'>//  std::string imagePath = Path::makeAbsolute("bed.bmp");</span></td></tr>
+<tr><td class="num" id="LN391">391</td><td class="line"><span class='comment'>//  if (!Path::exists(imagePath))</span></td></tr>
+<tr><td class="num" id="LN392">392</td><td class="line"><span class='comment'>//  {</span></td></tr>
+<tr><td class="num" id="LN393">393</td><td class="line"><span class='comment'>//    bool rc = Env::get("NTA_ROOTDIR", imagePath);</span></td></tr>
+<tr><td class="num" id="LN394">394</td><td class="line"><span class='comment'>//    NTA_CHECK(rc);</span></td></tr>
+<tr><td class="num" id="LN395">395</td><td class="line"><span class='comment'>//    imagePath = Path::join(imagePath, "share/vision/data/pictures/clean/bed/bed.bmp");</span></td></tr>
+<tr><td class="num" id="LN396">396</td><td class="line"><span class='comment'>//    NTA_CHECK(Path::exists(imagePath));</span></td></tr>
+<tr><td class="num" id="LN397">397</td><td class="line"><span class='comment'>//  }</span></td></tr>
+<tr><td class="num" id="LN398">398</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN399">399</td><td class="line"><span class='comment'>//  args.push_back("loadSingleImage");</span></td></tr>
+<tr><td class="num" id="LN400">400</td><td class="line"><span class='comment'>//  args.push_back(imagePath);</span></td></tr>
+<tr><td class="num" id="LN401">401</td><td class="line"><span class='comment'>//  r.executeCommand(args);</span></td></tr>
+<tr><td class="num" id="LN402">402</td><td class="line"><span class='comment'>//}</span></td></tr>
+<tr><td class="num" id="LN403">403</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN404">404</td><td class="line"><span class='comment'>//void testPynode1xLinking()</span></td></tr>
+<tr><td class="num" id="LN405">405</td><td class="line"><span class='comment'>//{</span></td></tr>
+<tr><td class="num" id="LN406">406</td><td class="line"><span class='comment'>//  // IM + PCA</span></td></tr>
+<tr><td class="num" id="LN407">407</td><td class="line"><span class='comment'>//  {</span></td></tr>
+<tr><td class="num" id="LN408">408</td><td class="line"><span class='comment'>//    Network net;</span></td></tr>
+<tr><td class="num" id="LN409">409</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN410">410</td><td class="line"><span class='comment'>//    // Create a ImgeSensor region with dims 4x4</span></td></tr>
+<tr><td class="num" id="LN411">411</td><td class="line"><span class='comment'>//    Region * r1 = net.addRegion("sensor", "py.ImageSensor", "{width: 4, height: 4}");</span></td></tr>
+<tr><td class="num" id="LN412">412</td><td class="line"><span class='comment'>//    {</span></td></tr>
+<tr><td class="num" id="LN413">413</td><td class="line"><span class='comment'>//      Dimensions d;</span></td></tr>
+<tr><td class="num" id="LN414">414</td><td class="line"><span class='comment'>//      d.push_back(4);</span></td></tr>
+<tr><td class="num" id="LN415">415</td><td class="line"><span class='comment'>//      d.push_back(4);</span></td></tr>
+<tr><td class="num" id="LN416">416</td><td class="line"><span class='comment'>//      r1-&gt;setDimensions(d);</span></td></tr>
+<tr><td class="num" id="LN417">417</td><td class="line"><span class='comment'>//    }</span></td></tr>
+<tr><td class="num" id="LN418">418</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN419">419</td><td class="line"><span class='comment'>//    // Load image into the image sensor</span></td></tr>
+<tr><td class="num" id="LN420">420</td><td class="line"><span class='comment'>//    loadSingleImage(*r1);</span></td></tr>
+<tr><td class="num" id="LN421">421</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN422">422</td><td class="line"><span class='comment'>//    // Create a PCA region with dims 1x1</span></td></tr>
+<tr><td class="num" id="LN423">423</td><td class="line"><span class='comment'>//    /*Region * r2 = */net.addRegion("pca", "py.PCANode", "{bottomUpCount: 1}");</span></td></tr>
+<tr><td class="num" id="LN424">424</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN425">425</td><td class="line"><span class='comment'>//    // Link the sensor's dataOut to the PCA node's bottomUpIn</span></td></tr>
+<tr><td class="num" id="LN426">426</td><td class="line"><span class='comment'>//    net.link(</span></td></tr>
+<tr><td class="num" id="LN427">427</td><td class="line"><span class='comment'>//      "sensor", "pca", </span></td></tr>
+<tr><td class="num" id="LN428">428</td><td class="line"><span class='comment'>//      "UniformLink", "{mapping: in, rfSize: [4, 4]}",</span></td></tr>
+<tr><td class="num" id="LN429">429</td><td class="line"><span class='comment'>//      "dataOut", "bottomUpIn");</span></td></tr>
+<tr><td class="num" id="LN430">430</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN431">431</td><td class="line"><span class='comment'>//    net.initialize();</span></td></tr>
+<tr><td class="num" id="LN432">432</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN433">433</td><td class="line"><span class='comment'>//    net.run(1);</span></td></tr>
+<tr><td class="num" id="LN434">434</td><td class="line"><span class='comment'>//  }</span></td></tr>
+<tr><td class="num" id="LN435">435</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN436">436</td><td class="line"><span class='comment'>//  // IM + KNN</span></td></tr>
+<tr><td class="num" id="LN437">437</td><td class="line"><span class='comment'>//  {</span></td></tr>
+<tr><td class="num" id="LN438">438</td><td class="line"><span class='comment'>//    Network net;</span></td></tr>
+<tr><td class="num" id="LN439">439</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN440">440</td><td class="line"><span class='comment'>//    // Create a ImgeSensor region with dims 4x4</span></td></tr>
+<tr><td class="num" id="LN441">441</td><td class="line"><span class='comment'>//    Region * r1 = net.addRegion("sensor", "py.ImageSensor", "{width: 4, height: 4}");</span></td></tr>
+<tr><td class="num" id="LN442">442</td><td class="line"><span class='comment'>//    {</span></td></tr>
+<tr><td class="num" id="LN443">443</td><td class="line"><span class='comment'>//      Dimensions d;</span></td></tr>
+<tr><td class="num" id="LN444">444</td><td class="line"><span class='comment'>//      d.push_back(4);</span></td></tr>
+<tr><td class="num" id="LN445">445</td><td class="line"><span class='comment'>//      d.push_back(4);</span></td></tr>
+<tr><td class="num" id="LN446">446</td><td class="line"><span class='comment'>//      r1-&gt;setDimensions(d);</span></td></tr>
+<tr><td class="num" id="LN447">447</td><td class="line"><span class='comment'>//    }</span></td></tr>
+<tr><td class="num" id="LN448">448</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN449">449</td><td class="line"><span class='comment'>//    // Load image into the image sensor</span></td></tr>
+<tr><td class="num" id="LN450">450</td><td class="line"><span class='comment'>//    loadSingleImage(*r1);</span></td></tr>
+<tr><td class="num" id="LN451">451</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN452">452</td><td class="line"><span class='comment'>//    // ---</span></td></tr>
+<tr><td class="num" id="LN453">453</td><td class="line"><span class='comment'>//    // Create a KNN classififer region with dims 1</span></td></tr>
+<tr><td class="num" id="LN454">454</td><td class="line"><span class='comment'>//    // (classifier dimensionality collapse will handle dimensionality)</span></td></tr>
+<tr><td class="num" id="LN455">455</td><td class="line"><span class='comment'>//    // ---</span></td></tr>
+<tr><td class="num" id="LN456">456</td><td class="line"><span class='comment'>//    Region * r2 = net.addRegion("classifier", "py.KNNClassifierNode2", "{maxCategoryCount: 2, k: 3}");</span></td></tr>
+<tr><td class="num" id="LN457">457</td><td class="line"><span class='comment'>//    {</span></td></tr>
+<tr><td class="num" id="LN458">458</td><td class="line"><span class='comment'>//      Dimensions d;</span></td></tr>
+<tr><td class="num" id="LN459">459</td><td class="line"><span class='comment'>//      d.push_back(1);</span></td></tr>
+<tr><td class="num" id="LN460">460</td><td class="line"><span class='comment'>//      d.push_back(1);</span></td></tr>
+<tr><td class="num" id="LN461">461</td><td class="line"><span class='comment'>//      r2-&gt;setDimensions(d);</span></td></tr>
+<tr><td class="num" id="LN462">462</td><td class="line"><span class='comment'>//    }</span></td></tr>
+<tr><td class="num" id="LN463">463</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN464">464</td><td class="line"><span class='comment'>//    // Link the sensor's dataOut to the classifier's bottomUpIn</span></td></tr>
+<tr><td class="num" id="LN465">465</td><td class="line"><span class='comment'>//    net.link(</span></td></tr>
+<tr><td class="num" id="LN466">466</td><td class="line"><span class='comment'>//      "sensor", "classifier", </span></td></tr>
+<tr><td class="num" id="LN467">467</td><td class="line"><span class='comment'>//      "UniformLink", "{mapping: in, rfSize: [4, 4]}",</span></td></tr>
+<tr><td class="num" id="LN468">468</td><td class="line"><span class='comment'>//      "dataOut", "bottomUpIn");</span></td></tr>
+<tr><td class="num" id="LN469">469</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN470">470</td><td class="line"><span class='comment'>//    // ---</span></td></tr>
+<tr><td class="num" id="LN471">471</td><td class="line"><span class='comment'>//    // Link the sensor's categoryOut to the classifier's categoryIn</span></td></tr>
+<tr><td class="num" id="LN472">472</td><td class="line"><span class='comment'>//    // (region level linking does not require any parameters)</span></td></tr>
+<tr><td class="num" id="LN473">473</td><td class="line"><span class='comment'>//    // ---</span></td></tr>
+<tr><td class="num" id="LN474">474</td><td class="line"><span class='comment'>//    net.link(</span></td></tr>
+<tr><td class="num" id="LN475">475</td><td class="line"><span class='comment'>//      "sensor", "classifier", </span></td></tr>
+<tr><td class="num" id="LN476">476</td><td class="line"><span class='comment'>//      "UniformLink", "",</span></td></tr>
+<tr><td class="num" id="LN477">477</td><td class="line"><span class='comment'>//      "categoryOut", "categoryIn");</span></td></tr>
+<tr><td class="num" id="LN478">478</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN479">479</td><td class="line"><span class='comment'>//    net.initialize();</span></td></tr>
+<tr><td class="num" id="LN480">480</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN481">481</td><td class="line"><span class='comment'>//    net.run(1);</span></td></tr>
+<tr><td class="num" id="LN482">482</td><td class="line"><span class='comment'>//  }</span></td></tr>
+<tr><td class="num" id="LN483">483</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN484">484</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN485">485</td><td class="line"><span class='comment'>//  //ArrayRef r1OutputArray(NTA_BasicType_Real64);</span></td></tr>
+<tr><td class="num" id="LN486">486</td><td class="line"><span class='comment'>//  //region1-&gt;getOutputData("bottomUpOut", /* copy: */ false, r1OutputArray);</span></td></tr>
+<tr><td class="num" id="LN487">487</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN488">488</td><td class="line"><span class='comment'>//  //region1-&gt;compute();</span></td></tr>
+<tr><td class="num" id="LN489">489</td><td class="line"><span class='comment'>//  //std::cout &lt;&lt; "Checking region1 output after first iteration..." &lt;&lt; std::endl;</span></td></tr>
+<tr><td class="num" id="LN490">490</td><td class="line"><span class='comment'>//  //Real64 *buffer = (Real64*) r1OutputArray.getBuffer();</span></td></tr>
+<tr><td class="num" id="LN491">491</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN492">492</td><td class="line"><span class='comment'>//  //for (size_t i = 0; i &lt; r1OutputArray.getCount(); i++)</span></td></tr>
+<tr><td class="num" id="LN493">493</td><td class="line"><span class='comment'>//  //{</span></td></tr>
+<tr><td class="num" id="LN494">494</td><td class="line"><span class='comment'>//  //  if (verbose)</span></td></tr>
+<tr><td class="num" id="LN495">495</td><td class="line"><span class='comment'>//  //    std::cout &lt;&lt; "  " &lt;&lt; i &lt;&lt; "    " &lt;&lt; buffer[i] &lt;&lt; "" &lt;&lt; std::endl;</span></td></tr>
+<tr><td class="num" id="LN496">496</td><td class="line"><span class='comment'>//  //  if (i%2 == 0)</span></td></tr>
+<tr><td class="num" id="LN497">497</td><td class="line"><span class='comment'>//  //    NTA_CHECK(buffer[i] == 0);</span></td></tr>
+<tr><td class="num" id="LN498">498</td><td class="line"><span class='comment'>//  //  else</span></td></tr>
+<tr><td class="num" id="LN499">499</td><td class="line"><span class='comment'>//  //    NTA_CHECK(buffer[i] == (i-1)/2);</span></td></tr>
+<tr><td class="num" id="LN500">500</td><td class="line"><span class='comment'>//  //}</span></td></tr>
+<tr><td class="num" id="LN501">501</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN502">502</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN503">503</td><td class="line"><span class='comment'>//  //region2-&gt;prepareInputs();</span></td></tr>
+<tr><td class="num" id="LN504">504</td><td class="line"><span class='comment'>//  //ArrayBase r2InputArray(NTA_BasicType_Real64);</span></td></tr>
+<tr><td class="num" id="LN505">505</td><td class="line"><span class='comment'>//  //region2-&gt;getInputData("bottomUpIn", false, r2InputArray);</span></td></tr>
+<tr><td class="num" id="LN506">506</td><td class="line"><span class='comment'>//  //std::cout &lt;&lt; "Region 2 input after first iteration:" &lt;&lt; std::endl;</span></td></tr>
+<tr><td class="num" id="LN507">507</td><td class="line"><span class='comment'>//  //Real64 *buffer2 = (Real64*) r2InputArray.getBuffer();</span></td></tr>
+<tr><td class="num" id="LN508">508</td><td class="line"><span class='comment'>//  //NTA_CHECK(buffer != buffer2);</span></td></tr>
+<tr><td class="num" id="LN509">509</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN510">510</td><td class="line"><span class='comment'>//  //for (size_t i = 0; i &lt; r2InputArray.getCount(); i++)</span></td></tr>
+<tr><td class="num" id="LN511">511</td><td class="line"><span class='comment'>//  //{</span></td></tr>
+<tr><td class="num" id="LN512">512</td><td class="line"><span class='comment'>//  //  if (verbose)</span></td></tr>
+<tr><td class="num" id="LN513">513</td><td class="line"><span class='comment'>//  //    std::cout &lt;&lt; "  " &lt;&lt; i &lt;&lt; "    " &lt;&lt; buffer2[i] &lt;&lt; "" &lt;&lt; std::endl;</span></td></tr>
+<tr><td class="num" id="LN514">514</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN515">515</td><td class="line"><span class='comment'>//  //  if (i%2 == 0)</span></td></tr>
+<tr><td class="num" id="LN516">516</td><td class="line"><span class='comment'>//  //    NTA_CHECK(buffer[i] == 0);</span></td></tr>
+<tr><td class="num" id="LN517">517</td><td class="line"><span class='comment'>//  //  else</span></td></tr>
+<tr><td class="num" id="LN518">518</td><td class="line"><span class='comment'>//  //    NTA_CHECK(buffer[i] == (i-1)/2);</span></td></tr>
+<tr><td class="num" id="LN519">519</td><td class="line"><span class='comment'>//  //}</span></td></tr>
+<tr><td class="num" id="LN520">520</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN521">521</td><td class="line"><span class='comment'>//  //std::cout &lt;&lt; "Region 2 input by node" &lt;&lt; std::endl;</span></td></tr>
+<tr><td class="num" id="LN522">522</td><td class="line"><span class='comment'>//  //std::vector&lt;Real64&gt; r2NodeInput;</span></td></tr>
+<tr><td class="num" id="LN523">523</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN524">524</td><td class="line"><span class='comment'>//  //for (size_t node = 0; node &lt; 6; node++)</span></td></tr>
+<tr><td class="num" id="LN525">525</td><td class="line"><span class='comment'>//  //{</span></td></tr>
+<tr><td class="num" id="LN526">526</td><td class="line"><span class='comment'>//  //  region2-&gt;getInput("bottomUpIn")-&gt;getInputForNode(node, r2NodeInput);</span></td></tr>
+<tr><td class="num" id="LN527">527</td><td class="line"><span class='comment'>//  //  if (verbose)</span></td></tr>
+<tr><td class="num" id="LN528">528</td><td class="line"><span class='comment'>//  //  {</span></td></tr>
+<tr><td class="num" id="LN529">529</td><td class="line"><span class='comment'>//  //    std::cout &lt;&lt; "Node " &lt;&lt; node &lt;&lt; ": ";</span></td></tr>
+<tr><td class="num" id="LN530">530</td><td class="line"><span class='comment'>//  //    for (size_t i = 0; i &lt; r2NodeInput.size(); i++)</span></td></tr>
+<tr><td class="num" id="LN531">531</td><td class="line"><span class='comment'>//  //    {</span></td></tr>
+<tr><td class="num" id="LN532">532</td><td class="line"><span class='comment'>//  //      std::cout &lt;&lt; r2NodeInput[i] &lt;&lt; " ";</span></td></tr>
+<tr><td class="num" id="LN533">533</td><td class="line"><span class='comment'>//  //    }</span></td></tr>
+<tr><td class="num" id="LN534">534</td><td class="line"><span class='comment'>//  //    std::cout &lt;&lt; "" &lt;&lt; std::endl;</span></td></tr>
+<tr><td class="num" id="LN535">535</td><td class="line"><span class='comment'>//  //  }</span></td></tr>
+<tr><td class="num" id="LN536">536</td><td class="line"><span class='comment'>//  //  // 4 nodes in r1 fan in to 1 node in r2</span></td></tr>
+<tr><td class="num" id="LN537">537</td><td class="line"><span class='comment'>//  //  int row = node/2;</span></td></tr>
+<tr><td class="num" id="LN538">538</td><td class="line"><span class='comment'>//  //  int col = node - (row * 2);</span></td></tr>
+<tr><td class="num" id="LN539">539</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput.size() == 8);</span></td></tr>
+<tr><td class="num" id="LN540">540</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[0] == 0);</span></td></tr>
+<tr><td class="num" id="LN541">541</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[2] == 0);</span></td></tr>
+<tr><td class="num" id="LN542">542</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[4] == 0);</span></td></tr>
+<tr><td class="num" id="LN543">543</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[6] == 0);</span></td></tr>
+<tr><td class="num" id="LN544">544</td><td class="line"><span class='comment'>//  //  // these values should match the fanin2 test link policy</span></td></tr>
+<tr><td class="num" id="LN545">545</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[1] == row * 8     + col * 2) </span></td></tr>
+<tr><td class="num" id="LN546">546</td><td class="line"><span class='comment'>//  //    &lt;&lt; "row: " &lt;&lt; row &lt;&lt; " col: " &lt;&lt; col &lt;&lt; " val: " &lt;&lt; r2NodeInput[1];</span></td></tr>
+<tr><td class="num" id="LN547">547</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[3] == row * 8     + col * 2 + 1)</span></td></tr>
+<tr><td class="num" id="LN548">548</td><td class="line"><span class='comment'>//  //    &lt;&lt; "row: " &lt;&lt; row &lt;&lt; " col: " &lt;&lt; col &lt;&lt; " val: " &lt;&lt; r2NodeInput[3];</span></td></tr>
+<tr><td class="num" id="LN549">549</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[5] == row * 8 + 4 + col * 2)</span></td></tr>
+<tr><td class="num" id="LN550">550</td><td class="line"><span class='comment'>//  //    &lt;&lt; "row: " &lt;&lt; row &lt;&lt; " col: " &lt;&lt; col &lt;&lt; " val: " &lt;&lt; r2NodeInput[5];</span></td></tr>
+<tr><td class="num" id="LN551">551</td><td class="line"><span class='comment'>//  //  NTA_CHECK(r2NodeInput[7] == row * 8 + 4 + col * 2 + 1)</span></td></tr>
+<tr><td class="num" id="LN552">552</td><td class="line"><span class='comment'>//  //    &lt;&lt; "row: " &lt;&lt; row &lt;&lt; " col: " &lt;&lt; col &lt;&lt; " val: " &lt;&lt; r2NodeInput[7];</span></td></tr>
+<tr><td class="num" id="LN553">553</td><td class="line"><span class='comment'>//  //}</span></td></tr>
+<tr><td class="num" id="LN554">554</td><td class="line"><span class='comment'>//}</span></td></tr>
+<tr><td class="num" id="LN555">555</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN556">556</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN557">557</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN558">558</td><td class="line"><span class='keyword'>void</span> testYAML()</td></tr>
+<tr><td class="num" id="LN559">559</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN560">560</td><td class="line">  <span class='keyword'>const</span> <span class='keyword'>char</span> *params = <span class='string_literal'>"{int32Param: 1234, real64Param: 23.1}"</span>;</td></tr>
+<tr><td class="num" id="LN561">561</td><td class="line">  <span class='comment'>//  badparams contains a non-existent parameter</span></td></tr>
+<tr><td class="num" id="LN562">562</td><td class="line">  <span class='keyword'>const</span> <span class='keyword'>char</span> *badparams = <span class='string_literal'>"{int32Param: 1234, real64Param: 23.1, badParam: 4}"</span>;</td></tr>
+<tr><td class="num" id="LN563">563</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN564">564</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN565">565</td><td class="line">  Network net = Network();</td></tr>
+<tr><td class="num" id="LN566">566</td><td class="line">  Region* level1;</td></tr>
+<tr><td class="num" id="LN567">567</td><td class="line">  <span class='macro'>SHOULDFAIL(level1 = net.addRegion(<span class='string_literal'>"level1"</span>, <span class='string_literal'>"TestNode"</span>, badparams);)<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { level1 = net.addRegion("level1", "TestNode", badparams<br>);; } catch(std::exception&amp; ) { caughtException = true; std<br>::cout &lt;&lt; "Caught exception as expected: " "level1 = net.addRegion(\"level1\", \"TestNode\", badparams);"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 567) &lt;&lt; "Operation '" "level1 = net.addRegion(\"level1\", \"TestNode\", badparams);"<br> "' did not fail as expected"; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN568">568</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN569">569</td><td class="line">  level1 = net.addRegion(<span class='string_literal'>"level1"</span>, <span class='string_literal'>"TestNode"</span>, params);</td></tr>
+<tr><td class="num" id="LN570">570</td><td class="line">  Dimensions d;</td></tr>
+<tr><td class="num" id="LN571">571</td><td class="line">  d.push_back(1);</td></tr>
+<tr><td class="num" id="LN572">572</td><td class="line">  level1-&gt;setDimensions(d);</td></tr>
+<tr><td class="num" id="LN573">573</td><td class="line">  net.initialize();</td></tr>
+<tr><td class="num" id="LN574">574</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN575">575</td><td class="line">  <span class='comment'>// check default values</span></td></tr>
+<tr><td class="num" id="LN576">576</td><td class="line">  Real32 r32val = level1-&gt;getParameterReal32(<span class='string_literal'>"real32Param"</span>);</td></tr>
+<tr><td class="num" id="LN577">577</td><td class="line">  <span class='macro'>NTA_CHECK(::fabs(r32val - 32.1) &lt; 0.00001)<span class='expansion'>if (::fabs(r32val - 32.1) &lt; 0.00001) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 577)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "::fabs(r32val - 32.1) &lt; 0.00001"<br> &lt;&lt; "\" "</span></span>  &lt;&lt; <span class='string_literal'>"r32val = "</span> &lt;&lt; r32val &lt;&lt; <span class='string_literal'>" diff = "</span> &lt;&lt; (r32val - 32.1);</td></tr>
+<tr><td class="num" id="LN578">578</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN579">579</td><td class="line">  Int64 i64val = level1-&gt;getParameterInt64(<span class='string_literal'>"int64Param"</span>);</td></tr>
+<tr><td class="num" id="LN580">580</td><td class="line">  <span class='macro'>NTA_CHECK(i64val == 64)<span class='expansion'>if (i64val == 64) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 580) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "i64val == 64" &lt;&lt;<br> "\" "</span></span> &lt;&lt; <span class='string_literal'>"i64val = "</span> &lt;&lt; i64val;</td></tr>
+<tr><td class="num" id="LN581">581</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN582">582</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN583">583</td><td class="line">  <span class='comment'>// check values set in region constructor</span></td></tr>
+<tr><td class="num" id="LN584">584</td><td class="line">  Int32 ival = level1-&gt;getParameterInt32(<span class='string_literal'>"int32Param"</span>);</td></tr>
+<tr><td class="num" id="LN585">585</td><td class="line">  <span class='macro'>NTA_CHECK(ival == 1234)<span class='expansion'>if (ival == 1234) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 585) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "ival == 1234" &lt;&lt;<br> "\" "</span></span> &lt;&lt; <span class='string_literal'>"ival = "</span> &lt;&lt; ival;</td></tr>
+<tr><td class="num" id="LN586">586</td><td class="line">  Real64 rval = level1-&gt;getParameterReal64(<span class='string_literal'>"real64Param"</span>);</td></tr>
+<tr><td class="num" id="LN587">587</td><td class="line">  <span class='macro'>NTA_CHECK(::fabs(rval - 23.1) &lt; 0.00000000001)<span class='expansion'>if (::fabs(rval - 23.1) &lt; 0.00000000001) {} else throw nta<br>::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 587) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "::fabs(rval - 23.1) &lt; 0.00000000001"<br> &lt;&lt; "\" "</span></span> &lt;&lt; <span class='string_literal'>"rval = "</span> &lt;&lt; rval;</td></tr>
+<tr><td class="num" id="LN588">588</td><td class="line">  <span class='comment'>// TODO: if we get the real64 param with getParameterInt32 </span></td></tr>
+<tr><td class="num" id="LN589">589</td><td class="line">  <span class='comment'>// it works -- should we flag an error?</span></td></tr>
+<tr><td class="num" id="LN590">590</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN591">591</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Got the correct values for all parameters set at region creation"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN592">592</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN593">593</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN594">594</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN595">595</td><td class="line"><span class='keyword'>void</span> testSecondTimeLeak()</td></tr>
+<tr><td class="num" id="LN596">596</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN597">597</td><td class="line">  Network n;</td></tr>
+<tr><td class="num" id="LN598">598</td><td class="line">  n.addRegion(<span class='string_literal'>"r1"</span>, <span class='string_literal'>"py.TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN599">599</td><td class="line">  n.addRegion(<span class='string_literal'>"r2"</span>, <span class='string_literal'>"py.TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN600">600</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN601">601</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN602">602</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN603">603</td><td class="line"><span class='comment'>//void testNuPIC1x()</span></td></tr>
+<tr><td class="num" id="LN604">604</td><td class="line"><span class='comment'>//{</span></td></tr>
+<tr><td class="num" id="LN605">605</td><td class="line"><span class='comment'>//  // Test image sensor</span></td></tr>
+<tr><td class="num" id="LN606">606</td><td class="line"><span class='comment'>//  {</span></td></tr>
+<tr><td class="num" id="LN607">607</td><td class="line"><span class='comment'>//    Network n;</span></td></tr>
+<tr><td class="num" id="LN608">608</td><td class="line"><span class='comment'>//    Region * r = n.addRegion("r", "py.ImageSensor", "{width: 4, height: 4}");</span></td></tr>
+<tr><td class="num" id="LN609">609</td><td class="line"><span class='comment'>//    </span></td></tr>
+<tr><td class="num" id="LN610">610</td><td class="line"><span class='comment'>//    Dimensions d;</span></td></tr>
+<tr><td class="num" id="LN611">611</td><td class="line"><span class='comment'>//    d.push_back(4);</span></td></tr>
+<tr><td class="num" id="LN612">612</td><td class="line"><span class='comment'>//    d.push_back(4);</span></td></tr>
+<tr><td class="num" id="LN613">613</td><td class="line"><span class='comment'>//    r-&gt;setDimensions(d);</span></td></tr>
+<tr><td class="num" id="LN614">614</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN615">615</td><td class="line"><span class='comment'>//    loadSingleImage(*r);</span></td></tr>
+<tr><td class="num" id="LN616">616</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN617">617</td><td class="line"><span class='comment'>//    Int32 w = r-&gt;getParameterInt32("width");</span></td></tr>
+<tr><td class="num" id="LN618">618</td><td class="line"><span class='comment'>//    NTA_CHECK(w == 4);</span></td></tr>
+<tr><td class="num" id="LN619">619</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN620">620</td><td class="line"><span class='comment'>//    n.run(1);</span></td></tr>
+<tr><td class="num" id="LN621">621</td><td class="line"><span class='comment'>//  }</span></td></tr>
+<tr><td class="num" id="LN622">622</td><td class="line"><span class='comment'>//</span></td></tr>
+<tr><td class="num" id="LN623">623</td><td class="line"><span class='comment'>//}</span></td></tr>
+<tr><td class="num" id="LN624">624</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN625">625</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN626">626</td><td class="line"><span class='keyword'>int</span> realmain(<span class='keyword'>bool</span> leakTest)</td></tr>
+<tr><td class="num" id="LN627">627</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN628">628</td><td class="line">  <span class='comment'>// verbose == true turns on extra output that is useful for</span></td></tr>
+<tr><td class="num" id="LN629">629</td><td class="line">  <span class='comment'>// debugging the test (e.g. when the TestNode compute() </span></td></tr>
+<tr><td class="num" id="LN630">630</td><td class="line">  <span class='comment'>// algorithm changes)</span></td></tr>
+<tr><td class="num" id="LN631">631</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN632">632</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN633">633</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Creating network..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN634">634</td><td class="line">  Network n;</td></tr>
+<tr><td class="num" id="LN635">635</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN636">636</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region count is "</span> &lt;&lt; n.getRegions().getCount() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN637">637</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN638">638</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Adding a FDRNode region..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN639">639</td><td class="line">  Region* level1 = n.addRegion(<span class='string_literal'>"level1"</span>, <span class='string_literal'>"TestNode"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN640">640</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN641">641</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region count is "</span> &lt;&lt; n.getRegions().getCount() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN642">642</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Node type: "</span> &lt;&lt; level1-&gt;getType() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN643">643</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Nodespec is:\n"</span>  &lt;&lt; level1-&gt;getSpec()-&gt;toString() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN644">644</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN645">645</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Adding a PyNode region..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN646">646</td><td class="line">  Region* level2 = n.addRegion(<span class='string_literal'>"level2"</span>, <span class='string_literal'>"py.TestNode"</span>, <span class='string_literal'>"{int32Param: 444}"</span>);</td></tr>
+<tr><td class="num" id="LN647">647</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN648">648</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Region count is "</span> &lt;&lt; n.getRegions().getCount() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN649">649</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Node type: "</span> &lt;&lt; level2-&gt;getType() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN650">650</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Nodespec is:\n"</span>  &lt;&lt; level2-&gt;getSpec()-&gt;toString() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN651">651</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN652">652</td><td class="line">  Int64 val;</td></tr>
+<tr><td class="num" id="LN653">653</td><td class="line">  Real64 rval;</td></tr>
+<tr><td class="num" id="LN654">654</td><td class="line">  std::string int64Param(<span class='string_literal'>"int64Param"</span>);</td></tr>
+<tr><td class="num" id="LN655">655</td><td class="line">  std::string real64Param(<span class='string_literal'>"real64Param"</span>);</td></tr>
+<tr><td class="num" id="LN656">656</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN657">657</td><td class="line">  val = level1-&gt;getParameterInt64(int64Param);</td></tr>
+<tr><td class="num" id="LN658">658</td><td class="line">  rval = level1-&gt;getParameterReal64(real64Param);</td></tr>
+<tr><td class="num" id="LN659">659</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.int64Param = "</span> &lt;&lt; val &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN660">660</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.real64Param = "</span> &lt;&lt; rval &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN661">661</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN662">662</td><td class="line">  val = 20;</td></tr>
+<tr><td class="num" id="LN663">663</td><td class="line">  level1-&gt;setParameterInt64(int64Param, val);</td></tr>
+<tr><td class="num" id="LN664">664</td><td class="line">  val = <span class="mrange">0</span>;</td></tr>
+<tr><td class="num"></td><td class="line"><div id="EndPath" class="msg msgEvent" style="margin-left:3ex">Value stored to 'val' is never read</div></td></tr>
+<tr><td class="num" id="LN665">665</td><td class="line">  val = level1-&gt;getParameterInt64(int64Param);</td></tr>
+<tr><td class="num" id="LN666">666</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.int64Param = "</span> &lt;&lt; val &lt;&lt; <span class='string_literal'>" after setting to 20"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN667">667</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN668">668</td><td class="line">  rval = 30.1;</td></tr>
+<tr><td class="num" id="LN669">669</td><td class="line">  level1-&gt;setParameterReal64(real64Param, rval);</td></tr>
+<tr><td class="num" id="LN670">670</td><td class="line">  rval = 0.0;</td></tr>
+<tr><td class="num" id="LN671">671</td><td class="line">  rval = level1-&gt;getParameterReal64(real64Param);</td></tr>
+<tr><td class="num" id="LN672">672</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.real64Param = "</span> &lt;&lt; rval &lt;&lt; <span class='string_literal'>" after setting to 30.1"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN673">673</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN674">674</td><td class="line">  <span class='comment'>// --- test getParameterInt64Array ---</span></td></tr>
+<tr><td class="num" id="LN675">675</td><td class="line">  <span class='comment'>// Array a is not allocated by us. Will be allocated inside getParameter</span></td></tr>
+<tr><td class="num" id="LN676">676</td><td class="line">  Array a(NTA_BasicType_Int64);</td></tr>
+<tr><td class="num" id="LN677">677</td><td class="line">  level1-&gt;getParameterArray(<span class='string_literal'>"int64ArrayParam"</span>, a);</td></tr>
+<tr><td class="num" id="LN678">678</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.int64ArrayParam size = "</span> &lt;&lt; a.getCount() &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN679">679</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.int64ArrayParam = [ "</span>;</td></tr>
+<tr><td class="num" id="LN680">680</td><td class="line">  Int64 * buff = (Int64 *)a.getBuffer();</td></tr>
+<tr><td class="num" id="LN681">681</td><td class="line">  <span class='keyword'>for</span> (<span class='keyword'>int</span> i = 0; i &lt; <span class='keyword'>int</span>(a.getCount()); ++i)</td></tr>
+<tr><td class="num" id="LN682">682</td><td class="line">    std::cout &lt;&lt; buff[i] &lt;&lt; <span class='string_literal'>" "</span>;</td></tr>
+<tr><td class="num" id="LN683">683</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"]"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN684">684</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN685">685</td><td class="line">  <span class='comment'>// --- test setParameterInt64Array ---</span></td></tr>
+<tr><td class="num" id="LN686">686</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Setting level1.int64ArrayParam to [ 1 2 3 4 ]"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN687">687</td><td class="line">  std::vector&lt;Int64&gt; v(4);</td></tr>
+<tr><td class="num" id="LN688">688</td><td class="line">  <span class='keyword'>for</span> (<span class='keyword'>int</span> i = 0; i &lt; 4; ++i)</td></tr>
+<tr><td class="num" id="LN689">689</td><td class="line">    v[i] = i+1  ;</td></tr>
+<tr><td class="num" id="LN690">690</td><td class="line">  Array newa(NTA_BasicType_Int64, &amp;v[0], v.size());</td></tr>
+<tr><td class="num" id="LN691">691</td><td class="line">  level1-&gt;setParameterArray(<span class='string_literal'>"int64ArrayParam"</span>, newa);</td></tr>
+<tr><td class="num" id="LN692">692</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN693">693</td><td class="line">  <span class='comment'>// get the value of intArrayParam after the setParameter call.</span></td></tr>
+<tr><td class="num" id="LN694">694</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN695">695</td><td class="line">  <span class='comment'>// The array a owns its buffer, so we can call releaseBuffer if we</span></td></tr>
+<tr><td class="num" id="LN696">696</td><td class="line">  <span class='comment'>// want, but the buffer should be reused if we just pass it again. </span></td></tr>
+<tr><td class="num" id="LN697">697</td><td class="line">  <span class='comment'>// a.releaseBuffer();</span></td></tr>
+<tr><td class="num" id="LN698">698</td><td class="line">  level1-&gt;getParameterArray(<span class='string_literal'>"int64ArrayParam"</span>, a);</td></tr>
+<tr><td class="num" id="LN699">699</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.int64ArrayParam size = "</span> &lt;&lt; a.getCount() &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN700">700</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level1.int64ArrayParam = [ "</span>;</td></tr>
+<tr><td class="num" id="LN701">701</td><td class="line">  buff = (Int64 *)a.getBuffer();</td></tr>
+<tr><td class="num" id="LN702">702</td><td class="line">  <span class='keyword'>for</span> (<span class='keyword'>int</span> i = 0; i &lt; <span class='keyword'>int</span>(a.getCount()); ++i)</td></tr>
+<tr><td class="num" id="LN703">703</td><td class="line">    std::cout &lt;&lt; buff[i] &lt;&lt; <span class='string_literal'>" "</span>;</td></tr>
+<tr><td class="num" id="LN704">704</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"]"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN705">705</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN706">706</td><td class="line">  <span class='comment'>// --- Test getParameterReal64 of a PyNode</span></td></tr>
+<tr><td class="num" id="LN707">707</td><td class="line">  rval = level2-&gt;getParameterReal64(<span class='string_literal'>"real64Param"</span>);</td></tr>
+<tr><td class="num" id="LN708">708</td><td class="line">  <span class='macro'>NTA_CHECK(rval == 64.1)<span class='expansion'>if (rval == 64.1) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 708) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "rval == 64.1" &lt;&lt;<br> "\" "</span></span>; </td></tr>
+<tr><td class="num" id="LN709">709</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"level2 getParameterReal64() returned: "</span> &lt;&lt; rval &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN710">710</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN711">711</td><td class="line">  <span class='comment'>// --- Test setParameterReal64 of a PyNode</span></td></tr>
+<tr><td class="num" id="LN712">712</td><td class="line">  level2-&gt;setParameterReal64(<span class='string_literal'>"real64Param"</span>, 77.7);</td></tr>
+<tr><td class="num" id="LN713">713</td><td class="line">  rval = level2-&gt;getParameterReal64(<span class='string_literal'>"real64Param"</span>);</td></tr>
+<tr><td class="num" id="LN714">714</td><td class="line">  <span class='macro'>NTA_CHECK(rval == 77.7)<span class='expansion'>if (rval == 77.7) {} else throw nta::LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 714) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "rval == 77.7" &lt;&lt;<br> "\" "</span></span>; </td></tr>
+<tr><td class="num" id="LN715">715</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN716">716</td><td class="line">  <span class='comment'>// should fail because network has not been initialized</span></td></tr>
+<tr><td class="num" id="LN717">717</td><td class="line">  <span class='macro'>SHOULDFAIL(n.run(1))<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { n.run(1); } catch(std::exception&amp; ) { caughtException<br> = true; std::cout &lt;&lt; "Caught exception as expected: " "n.run(1)"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 717) &lt;&lt; "Operation '" "n.run(1)" "' did not fail as expected"<br>; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN718">718</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN719">719</td><td class="line">  <span class='comment'>// should fail because network can't be initialized</span></td></tr>
+<tr><td class="num" id="LN720">720</td><td class="line">  <span class='macro'>SHOULDFAIL (n.initialize() )<span class='expansion'>{ if (!ignore_negative_tests) { bool caughtException = false;<br> try { n.initialize(); } catch(std::exception&amp; ) { caughtException<br> = true; std::cout &lt;&lt; "Caught exception as expected: " "n.initialize()"<br> "" &lt;&lt; std::endl; } if (!caughtException) { throw nta::<br>LoggingException("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp"<br>, 720) &lt;&lt; "Operation '" "n.initialize()" "' did not fail as expected"<br>; } } }</span></span>;</td></tr>
+<tr><td class="num" id="LN721">721</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN722">722</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Setting dimensions of level1..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN723">723</td><td class="line">  Dimensions d;</td></tr>
+<tr><td class="num" id="LN724">724</td><td class="line">  d.push_back(4);</td></tr>
+<tr><td class="num" id="LN725">725</td><td class="line">  d.push_back(4);</td></tr>
+<tr><td class="num" id="LN726">726</td><td class="line">  level1-&gt;setDimensions(d);</td></tr>
+<tr><td class="num" id="LN727">727</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN728">728</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN729">729</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Setting dimensions of level2..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN730">730</td><td class="line">  level2-&gt;setDimensions(d);</td></tr>
+<tr><td class="num" id="LN731">731</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN732">732</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Initializing again..."</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN733">733</td><td class="line">  n.initialize();</td></tr>
+<tr><td class="num" id="LN734">734</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN735">735</td><td class="line">  level1-&gt;compute();</td></tr>
+<tr><td class="num" id="LN736">736</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN737">737</td><td class="line">  testExceptionBug();</td></tr>
+<tr><td class="num" id="LN738">738</td><td class="line">  testCppInputOutputAccess(level1);</td></tr>
+<tr><td class="num" id="LN739">739</td><td class="line">  testPynodeInputOutputAccess(level2);</td></tr>
+<tr><td class="num" id="LN740">740</td><td class="line">  testPynodeArrayParameters(level2);</td></tr>
+<tr><td class="num" id="LN741">741</td><td class="line">  testCppLinking(<span class='string_literal'>"TestFanIn2"</span>, <span class='string_literal'>""</span>);</td></tr>
+<tr><td class="num" id="LN742">742</td><td class="line">  testCppLinking(<span class='string_literal'>"UniformLink"</span>,<span class='string_literal'>"{mapping: in, rfSize: [2]}"</span>);</td></tr>
+<tr><td class="num" id="LN743">743</td><td class="line">  testPynodeLinking();</td></tr>
+<tr><td class="num" id="LN744">744</td><td class="line">  testYAML();</td></tr>
+<tr><td class="num" id="LN745">745</td><td class="line">  <span class='keyword'>if</span> (!leakTest)</td></tr>
+<tr><td class="num" id="LN746">746</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN747">747</td><td class="line">    <span class='comment'>//testNuPIC1x();</span></td></tr>
+<tr><td class="num" id="LN748">748</td><td class="line">    <span class='comment'>//testPynode1xLinking();</span></td></tr>
+<tr><td class="num" id="LN749">749</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN750">750</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN751">751</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"Done -- all tests passed"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN752">752</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN753">753</td><td class="line">  <span class='keyword'>return</span> 0;</td></tr>
+<tr><td class="num" id="LN754">754</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN755">755</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN756">756</td><td class="line"><span class='keyword'>int</span> main(<span class='keyword'>int</span> argc, <span class='keyword'>char</span> *argv[])</td></tr>
+<tr><td class="num" id="LN757">757</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN758">758</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN759">759</td><td class="line">  <span class='comment'>/*</span> </td></tr>
+<tr><td class="num" id="LN760">760</td><td class="line">   <span class='comment'>* Without arguments, this program is a simple end-to-end demo</span></td></tr>
+<tr><td class="num" id="LN761">761</td><td class="line">   <span class='comment'>* of NuPIC 2 functionality, used as a developer tool (when</span> </td></tr>
+<tr><td class="num" id="LN762">762</td><td class="line">   <span class='comment'>* we add a feature, we add it to this program.</span> </td></tr>
+<tr><td class="num" id="LN763">763</td><td class="line">   <span class='comment'>* With an integer argument N, runs the same test N times</span></td></tr>
+<tr><td class="num" id="LN764">764</td><td class="line">   <span class='comment'>* and requires that memory use stay constant -- it can't</span></td></tr>
+<tr><td class="num" id="LN765">765</td><td class="line">   <span class='comment'>* grow by even one byte.</span> </td></tr>
+<tr><td class="num" id="LN766">766</td><td class="line">   <span class='comment'>*/</span></td></tr>
+<tr><td class="num" id="LN767">767</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN768">768</td><td class="line">  <span class='comment'>// TODO: real argument parsing</span></td></tr>
+<tr><td class="num" id="LN769">769</td><td class="line">  <span class='comment'>// Optional arg is number of iterations to do. </span></td></tr>
+<tr><td class="num" id="LN770">770</td><td class="line">  <span class='macro'>NTA_CHECK(argc == 1 || argc == 2)<span class='expansion'>if (argc == 1 || argc == 2) {} else throw nta::LoggingException<br>("/home/marek/devel/nupic/nta/apps/htmtest/htmtest.cpp", 770)<br> &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "argc == 1 || argc == 2"<br> &lt;&lt; "\" "</span></span>;</td></tr>
+<tr><td class="num" id="LN771">771</td><td class="line">  size_t count = 1;</td></tr>
+<tr><td class="num" id="LN772">772</td><td class="line">  <span class='keyword'>if</span> (argc == 2)</td></tr>
+<tr><td class="num" id="LN773">773</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN774">774</td><td class="line">    std::stringstream ss(argv[1]);</td></tr>
+<tr><td class="num" id="LN775">775</td><td class="line">    ss &gt;&gt; count;</td></tr>
+<tr><td class="num" id="LN776">776</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN777">777</td><td class="line">  <span class='comment'>// Start checking memory usage after this many iterations. </span></td></tr>
+<tr><td class="num" id="LN778">778</td><td class="line"><span class='directive'>#ifdef NTA_PLATFORM_win32</span></td></tr>
+<tr><td class="num" id="LN779">779</td><td class="line">  <span class='comment'>// takes longer to settle down on win32</span></td></tr>
+<tr><td class="num" id="LN780">780</td><td class="line">  size_t memoryLeakStartIter = 6000;</td></tr>
+<tr><td class="num" id="LN781">781</td><td class="line"><span class='directive'>#else</span></td></tr>
+<tr><td class="num" id="LN782">782</td><td class="line">  size_t memoryLeakStartIter = 150;</td></tr>
+<tr><td class="num" id="LN783">783</td><td class="line"><span class='directive'>#endif</span></td></tr>
+<tr><td class="num" id="LN784">784</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN785">785</td><td class="line">  <span class='comment'>// This determines how frequently we check. </span></td></tr>
+<tr><td class="num" id="LN786">786</td><td class="line">  size_t memoryLeakDeltaIterCheck = 10;</td></tr>
+<tr><td class="num" id="LN787">787</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN788">788</td><td class="line">  size_t minCount = memoryLeakStartIter + 5 * memoryLeakDeltaIterCheck;</td></tr>
+<tr><td class="num" id="LN789">789</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN790">790</td><td class="line">  <span class='keyword'>if</span> (count &gt; 1 &amp;&amp; count &lt; minCount)</td></tr>
+<tr><td class="num" id="LN791">791</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN792">792</td><td class="line">    std::cout &lt;&lt; <span class='string_literal'>"Run count of "</span> &lt;&lt; count &lt;&lt; <span class='string_literal'>" specified\n"</span>;</td></tr>
+<tr><td class="num" id="LN793">793</td><td class="line">    std::cout &lt;&lt; <span class='string_literal'>"When run in leak detection mode, count must be at least "</span> &lt;&lt; minCount &lt;&lt; <span class='string_literal'>"\n"</span>;</td></tr>
+<tr><td class="num" id="LN794">794</td><td class="line">    ::exit(1);</td></tr>
+<tr><td class="num" id="LN795">795</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN796">796</td><td class="line">   </td></tr>
+<tr><td class="num" id="LN797">797</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN798">798</td><td class="line">  size_t initial_vmem = 0;</td></tr>
+<tr><td class="num" id="LN799">799</td><td class="line">  size_t initial_rmem = 0;</td></tr>
+<tr><td class="num" id="LN800">800</td><td class="line">  size_t current_vmem = 0;</td></tr>
+<tr><td class="num" id="LN801">801</td><td class="line">  size_t current_rmem = 0;</td></tr>
+<tr><td class="num" id="LN802">802</td><td class="line">  <span class='keyword'>try</span> {</td></tr>
+<tr><td class="num" id="LN803">803</td><td class="line">    <span class='keyword'>for</span> (size_t i = 0; i &lt; count; i++)</td></tr>
+<tr><td class="num" id="LN804">804</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN805">805</td><td class="line">      <span class='comment'>//MemoryMonitor m;</span></td></tr>
+<tr><td class="num" id="LN806">806</td><td class="line">      NuPIC::init();</td></tr>
+<tr><td class="num" id="LN807">807</td><td class="line">      realmain(count &gt; 1);</td></tr>
+<tr><td class="num" id="LN808">808</td><td class="line">      <span class='comment'>//testExceptionBug();</span></td></tr>
+<tr><td class="num" id="LN809">809</td><td class="line">      <span class='comment'>//testPynode1xLinking();</span></td></tr>
+<tr><td class="num" id="LN810">810</td><td class="line">      <span class='comment'>// testNuPIC1x();</span></td></tr>
+<tr><td class="num" id="LN811">811</td><td class="line">      <span class='comment'>//testSecondTimeLeak();</span></td></tr>
+<tr><td class="num" id="LN812">812</td><td class="line">      <span class='comment'>//testPynodeLinking();</span></td></tr>
+<tr><td class="num" id="LN813">813</td><td class="line">      <span class='comment'>//testCppLinking("TestFanIn2","");</span></td></tr>
+<tr><td class="num" id="LN814">814</td><td class="line">      NuPIC::shutdown();</td></tr>
+<tr><td class="num" id="LN815">815</td><td class="line">      <span class='comment'>// memory leak detection</span></td></tr>
+<tr><td class="num" id="LN816">816</td><td class="line">      <span class='comment'>// we check even prior to the initial tracking iteration, because the act</span></td></tr>
+<tr><td class="num" id="LN817">817</td><td class="line">      <span class='comment'>// of checking potentially modifies our memory usage</span></td></tr>
+<tr><td class="num" id="LN818">818</td><td class="line">      <span class='keyword'>if</span> (i % memoryLeakDeltaIterCheck == 0)</td></tr>
+<tr><td class="num" id="LN819">819</td><td class="line">      {</td></tr>
+<tr><td class="num" id="LN820">820</td><td class="line">        OS::getProcessMemoryUsage(current_rmem, current_vmem);</td></tr>
+<tr><td class="num" id="LN821">821</td><td class="line">        <span class='keyword'>if</span>(i == memoryLeakStartIter)</td></tr>
+<tr><td class="num" id="LN822">822</td><td class="line">        {</td></tr>
+<tr><td class="num" id="LN823">823</td><td class="line">          initial_rmem = current_rmem;</td></tr>
+<tr><td class="num" id="LN824">824</td><td class="line">          initial_vmem = current_vmem;</td></tr>
+<tr><td class="num" id="LN825">825</td><td class="line">        }</td></tr>
+<tr><td class="num" id="LN826">826</td><td class="line">        std::cout &lt;&lt; <span class='string_literal'>"Memory usage: "</span> &lt;&lt; current_vmem &lt;&lt; <span class='string_literal'>" (virtual) "</span> </td></tr>
+<tr><td class="num" id="LN827">827</td><td class="line">                  &lt;&lt; current_rmem &lt;&lt; <span class='string_literal'>" (real) at iteration "</span> &lt;&lt; i &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN828">828</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN829">829</td><td class="line">        <span class='keyword'>if</span>(i &gt;= memoryLeakStartIter)</td></tr>
+<tr><td class="num" id="LN830">830</td><td class="line">        {</td></tr>
+<tr><td class="num" id="LN831">831</td><td class="line">          <span class='keyword'>if</span> (current_vmem &gt; initial_vmem || current_rmem &gt; initial_rmem)</td></tr>
+<tr><td class="num" id="LN832">832</td><td class="line">          {</td></tr>
+<tr><td class="num" id="LN833">833</td><td class="line">            std::cout &lt;&lt; <span class='string_literal'>"Tracked memory usage (iteration "</span></td></tr>
+<tr><td class="num" id="LN834">834</td><td class="line">                      &lt;&lt; memoryLeakStartIter &lt;&lt; <span class='string_literal'>"): "</span> &lt;&lt; initial_vmem</td></tr>
+<tr><td class="num" id="LN835">835</td><td class="line">                      &lt;&lt; <span class='string_literal'>" (virtual) "</span> &lt;&lt; initial_rmem &lt;&lt; <span class='string_literal'>" (real)"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN836">836</td><td class="line">            <span class='keyword'>throw</span> std::runtime_error(<span class='string_literal'>"Memory leak detected"</span>);</td></tr>
+<tr><td class="num" id="LN837">837</td><td class="line">          }</td></tr>
+<tr><td class="num" id="LN838">838</td><td class="line">        }</td></tr>
+<tr><td class="num" id="LN839">839</td><td class="line">      }</td></tr>
+<tr><td class="num" id="LN840">840</td><td class="line">    }</td></tr>
+<tr><td class="num" id="LN841">841</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN842">842</td><td class="line">  } <span class='keyword'>catch</span> (nta::Exception&amp; e) {</td></tr>
+<tr><td class="num" id="LN843">843</td><td class="line">    std::cout </td></tr>
+<tr><td class="num" id="LN844">844</td><td class="line">      &lt;&lt; <span class='string_literal'>"Exception: "</span> &lt;&lt; e.getMessage() </td></tr>
+<tr><td class="num" id="LN845">845</td><td class="line">      &lt;&lt; <span class='string_literal'>" at: "</span> &lt;&lt; e.getFilename() &lt;&lt; <span class='string_literal'>":"</span> &lt;&lt; e.getLineNumber()</td></tr>
+<tr><td class="num" id="LN846">846</td><td class="line">      &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN847">847</td><td class="line">    <span class='keyword'>return</span> 1;</td></tr>
+<tr><td class="num" id="LN848">848</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN849">849</td><td class="line">  } <span class='keyword'>catch</span> (std::exception&amp; e) {</td></tr>
+<tr><td class="num" id="LN850">850</td><td class="line">    std::cout &lt;&lt; <span class='string_literal'>"Exception: "</span> &lt;&lt; e.what() &lt;&lt; <span class='string_literal'>""</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN851">851</td><td class="line">    <span class='keyword'>return</span> 1;</td></tr>
+<tr><td class="num" id="LN852">852</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN853">853</td><td class="line">  <span class='keyword'>catch</span> (...) {</td></tr>
+<tr><td class="num" id="LN854">854</td><td class="line">    std::cout &lt;&lt; <span class='string_literal'>"\nhtmtest is exiting because an exception was thrown"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN855">855</td><td class="line">    <span class='keyword'>return</span> 1;</td></tr>
+<tr><td class="num" id="LN856">856</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN857">857</td><td class="line">  <span class='keyword'>if</span> (count &gt; 20)</td></tr>
+<tr><td class="num" id="LN858">858</td><td class="line">    std::cout &lt;&lt; <span class='string_literal'>"Memory leak check passed -- "</span> &lt;&lt; count &lt;&lt; <span class='string_literal'>" iterations"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN859">859</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN860">860</td><td class="line">  std::cout &lt;&lt; <span class='string_literal'>"--- ALL TESTS PASSED ---"</span> &lt;&lt; std::endl;</td></tr>
+<tr><td class="num" id="LN861">861</td><td class="line">  <span class='keyword'>return</span> 0;</td></tr>
+<tr><td class="num" id="LN862">862</td><td class="line">}</td></tr>
+</table></body></html>

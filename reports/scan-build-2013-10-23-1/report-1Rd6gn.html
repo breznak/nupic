@@ -1,0 +1,303 @@
+<!doctype html>
+<html>
+<head>
+<title>/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp</title>
+<style type="text/css">
+ body { color:#000000; background-color:#ffffff }
+ body { font-family:Helvetica, sans-serif; font-size:10pt }
+ h1 { font-size:14pt }
+ .code { border-collapse:collapse; width:100%; }
+ .code { font-family: "Monospace", monospace; font-size:10pt }
+ .code { line-height: 1.2em }
+ .comment { color: green; font-style: oblique }
+ .keyword { color: blue }
+ .string_literal { color: red }
+ .directive { color: darkmagenta }
+ .expansion { display: none; }
+ .macro:hover .expansion { display: block; border: 2px solid #FF0000; padding: 2px; background-color:#FFF0F0; font-weight: normal;   -webkit-border-radius:5px;  -webkit-box-shadow:1px 1px 7px #000; position: absolute; top: -1em; left:10em; z-index: 1 } 
+ .macro { color: darkmagenta; background-color:LemonChiffon; position: relative }
+ .num { width:2.5em; padding-right:2ex; background-color:#eeeeee }
+ .num { text-align:right; font-size:8pt }
+ .num { color:#444444 }
+ .line { padding-left: 1ex; border-left: 3px solid #ccc }
+ .line { white-space: pre }
+ .msg { -webkit-box-shadow:1px 1px 7px #000 }
+ .msg { -webkit-border-radius:5px }
+ .msg { font-family:Helvetica, sans-serif; font-size:8pt }
+ .msg { float:left }
+ .msg { padding:0.25em 1ex 0.25em 1ex }
+ .msg { margin-top:10px; margin-bottom:10px }
+ .msg { font-weight:bold }
+ .msg { max-width:60em; word-wrap: break-word; white-space: pre-wrap }
+ .msgT { padding:0x; spacing:0x }
+ .msgEvent { background-color:#fff8b4; color:#000000 }
+ .msgControl { background-color:#bbbbbb; color:#000000 }
+ .mrange { background-color:#dfddf3 }
+ .mrange { border-bottom:1px solid #6F9DBE }
+ .PathIndex { font-weight: bold; padding:0px 5px; margin-right:5px; }
+ .PathIndex { -webkit-border-radius:8px }
+ .PathIndexEvent { background-color:#bfba87 }
+ .PathIndexControl { background-color:#8c8c8c }
+ .PathNav a { text-decoration:none; font-size: larger }
+ .CodeInsertionHint { font-weight: bold; background-color: #10dd10 }
+ .CodeRemovalHint { background-color:#de1010 }
+ .CodeRemovalHint { border-bottom:1px solid #6F9DBE }
+ table.simpletable {
+   padding: 5px;
+   font-size:12pt;
+   margin:20px;
+   border-collapse: collapse; border-spacing: 0px;
+ }
+ td.rowname {
+   text-align:right; font-weight:bold; color:#444444;
+   padding-right:2ex; }
+</style>
+</head>
+<body>
+<!-- BUGDESC Access to field 'type' results in a dereference of a null pointer (loaded from variable 'e') -->
+
+<!-- BUGTYPE Dereference of null pointer -->
+
+<!-- BUGCATEGORY Logic error -->
+
+<!-- BUGFILE /home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp -->
+
+<!-- BUGLINE 201 -->
+
+<!-- BUGPATHLENGTH 8 -->
+
+<!-- BUGMETAEND -->
+<!-- REPORTHEADER -->
+<h3>Bug Summary</h3>
+<table class="simpletable">
+<tr><td class="rowname">File:</td><td>home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp</td></tr>
+<tr><td class="rowname">Location:</td><td><a href="#EndPath">line 201, column 7</a></td></tr>
+<tr><td class="rowname">Description:</td><td>Access to field 'type' results in a dereference of a null pointer (loaded from variable 'e')</td></tr>
+</table>
+<!-- REPORTSUMMARYEXTRA -->
+<h3>Annotated Source Code</h3>
+<table class="code">
+<tr><td class="num" id="LN1">1</td><td class="line"><span class='comment'>/*</span></td></tr>
+<tr><td class="num" id="LN2">2</td><td class="line"> <span class='comment'>* ---------------------------------------------------------------------</span></td></tr>
+<tr><td class="num" id="LN3">3</td><td class="line"> <span class='comment'>* Numenta Platform for Intelligent Computing (NuPIC)</span></td></tr>
+<tr><td class="num" id="LN4">4</td><td class="line"> <span class='comment'>* Copyright (C) 2013, Numenta, Inc.  Unless you have purchased from</span></td></tr>
+<tr><td class="num" id="LN5">5</td><td class="line"> <span class='comment'>* Numenta, Inc. a separate commercial license for this software code, the</span></td></tr>
+<tr><td class="num" id="LN6">6</td><td class="line"> <span class='comment'>* following terms and conditions apply:</span></td></tr>
+<tr><td class="num" id="LN7">7</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN8">8</td><td class="line"> <span class='comment'>* This program is free software: you can redistribute it and/or modify</span></td></tr>
+<tr><td class="num" id="LN9">9</td><td class="line"> <span class='comment'>* it under the terms of the GNU General Public License version 3 as</span></td></tr>
+<tr><td class="num" id="LN10">10</td><td class="line"> <span class='comment'>* published by the Free Software Foundation.</span></td></tr>
+<tr><td class="num" id="LN11">11</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN12">12</td><td class="line"> <span class='comment'>* This program is distributed in the hope that it will be useful,</span></td></tr>
+<tr><td class="num" id="LN13">13</td><td class="line"> <span class='comment'>* but WITHOUT ANY WARRANTY; without even the implied warranty of</span></td></tr>
+<tr><td class="num" id="LN14">14</td><td class="line"> <span class='comment'>* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</span></td></tr>
+<tr><td class="num" id="LN15">15</td><td class="line"> <span class='comment'>* See the GNU General Public License for more details.</span></td></tr>
+<tr><td class="num" id="LN16">16</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN17">17</td><td class="line"> <span class='comment'>* You should have received a copy of the GNU General Public License</span></td></tr>
+<tr><td class="num" id="LN18">18</td><td class="line"> <span class='comment'>* along with this program.  If not, see http://www.gnu.org/licenses.</span></td></tr>
+<tr><td class="num" id="LN19">19</td><td class="line"> <span class='comment'>*</span></td></tr>
+<tr><td class="num" id="LN20">20</td><td class="line"> <span class='comment'>* http://numenta.org/licenses/</span></td></tr>
+<tr><td class="num" id="LN21">21</td><td class="line"> <span class='comment'>* ---------------------------------------------------------------------</span></td></tr>
+<tr><td class="num" id="LN22">22</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr><td class="num" id="LN23">23</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN24">24</td><td class="line"><span class='comment'>/** @file</span></td></tr>
+<tr><td class="num" id="LN25">25</td><td class="line"> <span class='comment'>* Implementation for Directory test</span></td></tr>
+<tr><td class="num" id="LN26">26</td><td class="line"> <span class='comment'>*/</span></td></tr>
+<tr><td class="num" id="LN27">27</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN28">28</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN29">29</td><td class="line"><span class='directive'>#include &lt;nta/os/Directory.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN30">30</td><td class="line"><span class='directive'>#include &lt;nta/os/Path.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN31">31</td><td class="line"><span class='directive'>#include &lt;nta/os/OS.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN32">32</td><td class="line"><span class='directive'>#include &lt;nta/os/FStream.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN33">33</td><td class="line"><span class='directive'>#include "DirectoryTest.hpp"</span></td></tr>
+<tr><td class="num" id="LN34">34</td><td class="line"><span class='directive'>#include &lt;apr-1/apr.h&gt;</span></td></tr>
+<tr><td class="num" id="LN35">35</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN36">36</td><td class="line"><span class='directive'>#ifdef WIN32</span></td></tr>
+<tr><td class="num" id="LN37">37</td><td class="line">  <span class='directive'>#include &lt;windows.h&gt;</span></td></tr>
+<tr><td class="num" id="LN38">38</td><td class="line"><span class='directive'>#else</span></td></tr>
+<tr><td class="num" id="LN39">39</td><td class="line">  <span class='directive'>#include &lt;unistd.h&gt;</span></td></tr>
+<tr><td class="num" id="LN40">40</td><td class="line"><span class='directive'>#endif</span></td></tr>
+<tr><td class="num" id="LN41">41</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN42">42</td><td class="line"><span class='directive'>#include &lt;algorithm&gt; // sort</span></td></tr>
+<tr><td class="num" id="LN43">43</td><td class="line"><span class='keyword'>using</span> <span class='keyword'>namespace</span> std;</td></tr>
+<tr><td class="num" id="LN44">44</td><td class="line"><span class='keyword'>using</span> <span class='keyword'>namespace</span> nta;</td></tr>
+<tr><td class="num" id="LN45">45</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN46">46</td><td class="line"><span class='keyword'>static</span> std::string getCurrDir()</td></tr>
+<tr><td class="num" id="LN47">47</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN48">48</td><td class="line">    <span class='keyword'>char</span> buff[<span class='macro'>APR_PATH_MAX<span class='expansion'>4096</span></span>+1];</td></tr>
+<tr><td class="num" id="LN49">49</td><td class="line"><span class='directive'>#ifdef WIN32</span></td></tr>
+<tr><td class="num" id="LN50">50</td><td class="line">  DWORD res = ::GetCurrentDirectoryA(<span class='macro'>APR_PATH_MAX<span class='expansion'>4096</span></span>, (LPSTR)buff);</td></tr>
+<tr><td class="num" id="LN51">51</td><td class="line">  <span class='macro'>NTA_CHECK(res &gt; 0)<span class='expansion'>if (res &gt; 0) {} else throw nta::LoggingException("/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 51) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "res &gt; 0" &lt;&lt;<br> "\" "</span></span> &lt;&lt; OS::getErrorMessage();</td></tr>
+<tr><td class="num" id="LN52">52</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN53">53</td><td class="line"><span class='directive'>#else</span></td></tr>
+<tr><td class="num" id="LN54">54</td><td class="line">  <span class='keyword'>char</span> * s = ::getcwd(buff, <span class='macro'>APR_PATH_MAX<span class='expansion'>4096</span></span>);</td></tr>
+<tr><td class="num" id="LN55">55</td><td class="line">  <span class='macro'>NTA_CHECK(s != NULL)<span class='expansion'>if (s != __null) {} else throw nta::LoggingException("/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 55) &lt;&lt; "CHECK FAILED: \"" &lt;&lt; "s != NULL" &lt;&lt;<br> "\" "</span></span> &lt;&lt; OS::getErrorMessage();</td></tr>
+<tr><td class="num" id="LN56">56</td><td class="line"><span class='directive'>#endif</span></td></tr>
+<tr><td class="num" id="LN57">57</td><td class="line">  <span class='keyword'>return</span> buff;  </td></tr>
+<tr><td class="num" id="LN58">58</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN59">59</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN60">60</td><td class="line"><span class='keyword'>void</span> DirectoryTest::RunTests()</td></tr>
+<tr><td class="num" id="LN61">61</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN62">62</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN63">63</td><td class="line">  std::string sep(Path::sep);</td></tr>
+<tr><td class="num" id="LN64">64</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN65">65</td><td class="line">  <span class='comment'>// Test exists</span></td></tr>
+<tr><td class="num" id="LN66">66</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN67">67</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN68">68</td><td class="line">    <span class='macro'>TEST(!Directory::exists(<span class='string_literal'>"No such dir"</span>))<span class='expansion'>testEqual("!Directory::exists(\"No such dir\")", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 68, true, (!Directory::exists("No such dir")))</span></span>;</td></tr>
+<tr><td class="num" id="LN69">69</td><td class="line">    <span class='keyword'>if</span> (Directory::exists(<span class='string_literal'>"dir_0"</span>))</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path1" class="msg msgControl" style="margin-left:5ex"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">1</div></td><td>Taking false branch</td><td><div class="PathNav"><a href="#Path2" title="Next event (2)">&#x2192;</a></div></td></tr></table></div></td></tr>
+<tr><td class="num" id="LN70">70</td><td class="line">      Directory::removeTree(<span class='string_literal'>"dir_0"</span>);</td></tr>
+<tr><td class="num" id="LN71">71</td><td class="line">    Directory::create(<span class='string_literal'>"dir_0"</span>);</td></tr>
+<tr><td class="num" id="LN72">72</td><td class="line">    <span class='macro'>TEST(Directory::exists(<span class='string_literal'>"dir_0"</span>))<span class='expansion'>testEqual("Directory::exists(\"dir_0\")", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 72, true, (Directory::exists("dir_0")))</span></span>;    </td></tr>
+<tr><td class="num" id="LN73">73</td><td class="line">    Directory::removeTree(<span class='string_literal'>"dir_0"</span>);</td></tr>
+<tr><td class="num" id="LN74">74</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN75">75</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN76">76</td><td class="line">  <span class='comment'>// Test setCWD</span></td></tr>
+<tr><td class="num" id="LN77">77</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN78">78</td><td class="line">    Directory::create(<span class='string_literal'>"dir_1"</span>);</td></tr>
+<tr><td class="num" id="LN79">79</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN80">80</td><td class="line">    std::string baseDir = Path::makeAbsolute(getCurrDir());</td></tr>
+<tr><td class="num" id="LN81">81</td><td class="line">    Directory::setCWD(<span class='string_literal'>"dir_1"</span>);</td></tr>
+<tr><td class="num" id="LN82">82</td><td class="line">    std::string cwd1 = Path::makeAbsolute(getCurrDir());    </td></tr>
+<tr><td class="num" id="LN83">83</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN84">84</td><td class="line">    std::string cwd2 = Path::makeAbsolute(baseDir + Path::sep + std::string(<span class='string_literal'>"dir_1"</span>));</td></tr>
+<tr><td class="num" id="LN85">85</td><td class="line">    <span class='macro'>TESTEQUAL2(<span class='string_literal'>"makeAbsolute"</span>,  cwd1, cwd2)<span class='expansion'>testEqual("makeAbsolute", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 85, cwd1, cwd2)</span></span>;</td></tr>
+<tr><td class="num" id="LN86">86</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN87">87</td><td class="line">    Directory::setCWD(baseDir);</td></tr>
+<tr><td class="num" id="LN88">88</td><td class="line">    <span class='macro'>TESTEQUAL2(<span class='string_literal'>"setCWD"</span>, baseDir, getCurrDir())<span class='expansion'>testEqual("setCWD", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 88, baseDir, getCurrDir())</span></span>;</td></tr>
+<tr><td class="num" id="LN89">89</td><td class="line">    Directory::removeTree(<span class='string_literal'>"dir_1"</span>);</td></tr>
+<tr><td class="num" id="LN90">90</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN91">91</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN92">92</td><td class="line">  <span class='comment'>// Test getCWD</span></td></tr>
+<tr><td class="num" id="LN93">93</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN94">94</td><td class="line">    <span class='macro'>TESTEQUAL2(<span class='string_literal'>"getCWD2"</span>, getCurrDir(), Directory::getCWD())<span class='expansion'>testEqual("getCWD2", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 94, getCurrDir(), Directory::getCWD())</span></span>;</td></tr>
+<tr><td class="num" id="LN95">95</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN96">96</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN97">97</td><td class="line">  <span class='comment'>// Test removeTree and create</span></td></tr>
+<tr><td class="num" id="LN98">98</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN99">99</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN100">100</td><td class="line">    std::string p = Path::makeAbsolute(std::string(<span class='string_literal'>"someDir"</span>));</td></tr>
+<tr><td class="num" id="LN101">101</td><td class="line">    std::string d = Path::join(p, <span class='string_literal'>"someSubDir"</span>);</td></tr>
+<tr><td class="num" id="LN102">102</td><td class="line">    <span class='keyword'>if</span> (Path::exists(p))</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path2" class="msg msgControl" style="margin-left:5ex"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">2</div></td><td><div class="PathNav"><a href="#Path1" title="Previous event (1)">&#x2190;</a></div></td></td><td>Taking false branch</td><td><div class="PathNav"><a href="#Path3" title="Next event (3)">&#x2192;</a></div></td></tr></table></div></td></tr>
+<tr><td class="num" id="LN103">103</td><td class="line">      Directory::removeTree(p);</td></tr>
+<tr><td class="num" id="LN104">104</td><td class="line">    <span class='macro'>TEST(!Path::exists(p))<span class='expansion'>testEqual("!Path::exists(p)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 104, true, (!Path::exists(p)))</span></span>;</td></tr>
+<tr><td class="num" id="LN105">105</td><td class="line">    <span class='macro'>SHOULDFAIL(Directory::create(d))<span class='expansion'>{ if (!disableNegativeTests_) { bool caughtException = false;<br> try { Directory::create(d); } catch(std::exception&amp; ) { caughtException<br> = true; } testEqual("statement '" "Directory::create(d)" "' should fail"<br>, "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 105, true, caughtException); } else { disable("statement '"<br> "Directory::create(d)" "' should fail", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 105); } }</span></span>; <span class='comment'>// nonrecursive create should fail</span></td></tr>
+<tr><td class="num" id="LN106">106</td><td class="line">    Directory::create(d, <span class='keyword'>false</span>, <span class='keyword'>true</span> <span class='comment'>/* recursive */</span>);</td></tr>
+<tr><td class="num" id="LN107">107</td><td class="line">    <span class='macro'>TEST(Path::exists(d))<span class='expansion'>testEqual("Path::exists(d)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 107, true, (Path::exists(d)))</span></span>;</td></tr>
+<tr><td class="num" id="LN108">108</td><td class="line">    Directory::removeTree(p);</td></tr>
+<tr><td class="num" id="LN109">109</td><td class="line">    <span class='macro'>TEST(!Path::exists(d))<span class='expansion'>testEqual("!Path::exists(d)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 109, true, (!Path::exists(d)))</span></span>;</td></tr>
+<tr><td class="num" id="LN110">110</td><td class="line">    <span class='macro'>TEST(!Path::exists(p))<span class='expansion'>testEqual("!Path::exists(p)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 110, true, (!Path::exists(p)))</span></span>;</td></tr>
+<tr><td class="num" id="LN111">111</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN112">112</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN113">113</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN114">114</td><td class="line">  <span class='comment'>// Test copyTree</span></td></tr>
+<tr><td class="num" id="LN115">115</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN116">116</td><td class="line">    std::string p = Path::makeAbsolute(std::string(<span class='string_literal'>"someDir"</span>));</td></tr>
+<tr><td class="num" id="LN117">117</td><td class="line">    std::string a = Path::join(p, <span class='string_literal'>"A"</span>);</td></tr>
+<tr><td class="num" id="LN118">118</td><td class="line">    std::string b = Path::join(p, <span class='string_literal'>"B"</span>);</td></tr>
+<tr><td class="num" id="LN119">119</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN120">120</td><td class="line">    <span class='keyword'>if</span> (Path::exists(p))</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path3" class="msg msgControl" style="margin-left:5ex"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">3</div></td><td><div class="PathNav"><a href="#Path2" title="Previous event (2)">&#x2190;</a></div></td></td><td>Taking false branch</td><td><div class="PathNav"><a href="#Path4" title="Next event (4)">&#x2192;</a></div></td></tr></table></div></td></tr>
+<tr><td class="num" id="LN121">121</td><td class="line">      Directory::removeTree(p);</td></tr>
+<tr><td class="num" id="LN122">122</td><td class="line">    <span class='macro'>TEST(!Path::exists(p))<span class='expansion'>testEqual("!Path::exists(p)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 122, true, (!Path::exists(p)))</span></span>;</td></tr>
+<tr><td class="num" id="LN123">123</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN124">124</td><td class="line">    Directory::create(a, <span class='keyword'>false</span>, <span class='keyword'>true</span> <span class='comment'>/* recursive */</span>);</td></tr>
+<tr><td class="num" id="LN125">125</td><td class="line">    <span class='macro'>TEST(Path::exists(a))<span class='expansion'>testEqual("Path::exists(a)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 125, true, (Path::exists(a)))</span></span>;</td></tr>
+<tr><td class="num" id="LN126">126</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN127">127</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN128">128</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN129">129</td><td class="line">    Directory::create(b);</td></tr>
+<tr><td class="num" id="LN130">130</td><td class="line">    <span class='macro'>TEST(Path::exists(b))<span class='expansion'>testEqual("Path::exists(b)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 130, true, (Path::exists(b)))</span></span>;</td></tr>
+<tr><td class="num" id="LN131">131</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN132">132</td><td class="line">    std::string src(Path::join(b, <span class='string_literal'>"1.txt"</span>));</td></tr>
+<tr><td class="num" id="LN133">133</td><td class="line">    <span class='keyword'>if</span> (Path::exists(src))</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path4" class="msg msgControl" style="margin-left:5ex"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">4</div></td><td><div class="PathNav"><a href="#Path3" title="Previous event (3)">&#x2190;</a></div></td></td><td>Taking false branch</td><td><div class="PathNav"><a href="#Path5" title="Next event (5)">&#x2192;</a></div></td></tr></table></div></td></tr>
+<tr><td class="num" id="LN134">134</td><td class="line">      Path::remove(src);</td></tr>
+<tr><td class="num" id="LN135">135</td><td class="line">    <span class='macro'>TEST(!Path::exists(src))<span class='expansion'>testEqual("!Path::exists(src)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 135, true, (!Path::exists(src)))</span></span>;</td></tr>
+<tr><td class="num" id="LN136">136</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN137">137</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN138">138</td><td class="line">      OFStream f(src.c_str());</td></tr>
+<tr><td class="num" id="LN139">139</td><td class="line">      f &lt;&lt; <span class='string_literal'>"12345"</span>;</td></tr>
+<tr><td class="num" id="LN140">140</td><td class="line">      f.close();</td></tr>
+<tr><td class="num" id="LN141">141</td><td class="line">    }</td></tr>
+<tr><td class="num" id="LN142">142</td><td class="line">    <span class='macro'>TEST(Path::exists(src))<span class='expansion'>testEqual("Path::exists(src)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 142, true, (Path::exists(src)))</span></span>;</td></tr>
+<tr><td class="num" id="LN143">143</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN144">144</td><td class="line">    std::string dest = Path::join(a, <span class='string_literal'>"B"</span>, <span class='string_literal'>"1.txt"</span>);</td></tr>
+<tr><td class="num" id="LN145">145</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN146">146</td><td class="line">    <span class='macro'>TEST(!Directory::exists(Path::normalize(Path::join(a, <span class='string_literal'>"B"</span>))))<span class='expansion'>testEqual("!Directory::exists(Path::normalize(Path::join(a, \"B\")))"<br>, "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 146, true, (!Directory::exists(Path::normalize(Path::join(a<br>, "B")))))</span></span>;</td></tr>
+<tr><td class="num" id="LN147">147</td><td class="line">    Directory::copyTree(b, a);</td></tr>
+<tr><td class="num" id="LN148">148</td><td class="line">    <span class='macro'>TEST(Directory::exists(Path::normalize(Path::join(a, <span class='string_literal'>"B"</span>))))<span class='expansion'>testEqual("Directory::exists(Path::normalize(Path::join(a, \"B\")))"<br>, "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 148, true, (Directory::exists(Path::normalize(Path::join(a,<br> "B")))))</span></span>;</td></tr>
+<tr><td class="num" id="LN149">149</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN150">150</td><td class="line">    <span class='macro'>TEST(Path::exists(dest))<span class='expansion'>testEqual("Path::exists(dest)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 150, true, (Path::exists(dest)))</span></span>;</td></tr>
+<tr><td class="num" id="LN151">151</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN152">152</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN153">153</td><td class="line">      std::string s;</td></tr>
+<tr><td class="num" id="LN154">154</td><td class="line">      IFStream f(dest.c_str());</td></tr>
+<tr><td class="num" id="LN155">155</td><td class="line">      f &gt;&gt; s;</td></tr>
+<tr><td class="num" id="LN156">156</td><td class="line">      <span class='macro'>TEST(s == <span class='string_literal'>"12345"</span>)<span class='expansion'>testEqual("s == \"12345\"", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 156, true, (s == "12345"))</span></span>;</td></tr>
+<tr><td class="num" id="LN157">157</td><td class="line">      f.close();</td></tr>
+<tr><td class="num" id="LN158">158</td><td class="line">    }</td></tr>
+<tr><td class="num" id="LN159">159</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN160">160</td><td class="line">    Directory::removeTree(p);</td></tr>
+<tr><td class="num" id="LN161">161</td><td class="line">    <span class='macro'>TEST(!Path::exists(p))<span class='expansion'>testEqual("!Path::exists(p)", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 161, true, (!Path::exists(p)))</span></span>;</td></tr>
+<tr><td class="num" id="LN162">162</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN163">163</td><td class="line">  </td></tr>
+<tr><td class="num" id="LN164">164</td><td class="line">  <span class='comment'>// Test Iterator</span></td></tr>
+<tr><td class="num" id="LN165">165</td><td class="line">  {</td></tr>
+<tr><td class="num" id="LN166">166</td><td class="line">    <span class='keyword'>if</span> (Directory::exists(<span class='string_literal'>"A"</span>))</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path5" class="msg msgControl" style="margin-left:5ex"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">5</div></td><td><div class="PathNav"><a href="#Path4" title="Previous event (4)">&#x2190;</a></div></td></td><td>Taking false branch</td><td><div class="PathNav"><a href="#Path6" title="Next event (6)">&#x2192;</a></div></td></tr></table></div></td></tr>
+<tr><td class="num" id="LN167">167</td><td class="line">      Directory::removeTree(<span class='string_literal'>"A"</span>);</td></tr>
+<tr><td class="num" id="LN168">168</td><td class="line">    Directory::create(<span class='string_literal'>"A"</span>);</td></tr>
+<tr><td class="num" id="LN169">169</td><td class="line">    Directory::create(<span class='string_literal'>"A"</span> + sep + <span class='string_literal'>"B"</span>);</td></tr>
+<tr><td class="num" id="LN170">170</td><td class="line">    Directory::create(<span class='string_literal'>"A"</span> + sep + <span class='string_literal'>"C"</span>);</td></tr>
+<tr><td class="num" id="LN171">171</td><td class="line">    </td></tr>
+<tr><td class="num" id="LN172">172</td><td class="line">    {</td></tr>
+<tr><td class="num" id="LN173">173</td><td class="line">      Directory::Iterator di(<span class='string_literal'>"A"</span>);</td></tr>
+<tr><td class="num" id="LN174">174</td><td class="line">      Directory::Entry entry;</td></tr>
+<tr><td class="num" id="LN175">175</td><td class="line">      Directory::Entry * e = <span class='macro'>NULL<span class='expansion'>__null</span></span>;</td></tr>
+<tr><td class="num" id="LN176">176</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN177">177</td><td class="line">      vector&lt;string&gt; subdirs;</td></tr>
+<tr><td class="num" id="LN178">178</td><td class="line">      e = di.next(entry);</td></tr>
+<tr><td class="num" id="LN179">179</td><td class="line">      <span class='macro'>TEST(e != NULL)<span class='expansion'>testEqual("e != NULL", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 179, true, (e != __null))</span></span>;</td></tr>
+<tr><td class="num" id="LN180">180</td><td class="line">      <span class='macro'>TEST(e-&gt;type == Directory::Entry::DIRECTORY)<span class='expansion'>testEqual("e-&gt;type == Directory::Entry::DIRECTORY", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 180, true, (e-&gt;type == Directory::Entry::DIRECTORY))</span></span>;</td></tr>
+<tr><td class="num" id="LN181">181</td><td class="line">      subdirs.push_back(e-&gt;path);</td></tr>
+<tr><td class="num" id="LN182">182</td><td class="line">      string first = e-&gt;path;</td></tr>
+<tr><td class="num" id="LN183">183</td><td class="line">      </td></tr>
+<tr><td class="num" id="LN184">184</td><td class="line">      e = di.next(entry);</td></tr>
+<tr><td class="num" id="LN185">185</td><td class="line">      <span class='macro'>TEST(e != NULL)<span class='expansion'>testEqual("e != NULL", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 185, true, (e != __null))</span></span>;</td></tr>
+<tr><td class="num" id="LN186">186</td><td class="line">      <span class='macro'>TEST(e-&gt;type == Directory::Entry::DIRECTORY)<span class='expansion'>testEqual("e-&gt;type == Directory::Entry::DIRECTORY", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 186, true, (e-&gt;type == Directory::Entry::DIRECTORY))</span></span>;</td></tr>
+<tr><td class="num" id="LN187">187</td><td class="line">      subdirs.push_back(e-&gt;path);</td></tr>
+<tr><td class="num" id="LN188">188</td><td class="line">      </td></tr>
+<tr><td class="num" id="LN189">189</td><td class="line">      e = di.next(entry);</td></tr>
+<tr><td class="num" id="LN190">190</td><td class="line">      <span class='macro'>TEST(e == NULL)<span class='expansion'>testEqual("e == NULL", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 190, true, (e == __null))</span></span>;</td></tr>
+<tr><td class="num" id="LN191">191</td><td class="line">      </td></tr>
+<tr><td class="num" id="LN192">192</td><td class="line">      <span class='comment'>// Get around different directory iteration orders on different platforms</span></td></tr>
+<tr><td class="num" id="LN193">193</td><td class="line">      std::sort(subdirs.begin(), subdirs.end());</td></tr>
+<tr><td class="num" id="LN194">194</td><td class="line">      <span class='macro'>TEST(subdirs[0] == <span class='string_literal'>"B"</span>)<span class='expansion'>testEqual("subdirs[0] == \"B\"", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 194, true, (subdirs[0] == "B"))</span></span>;</td></tr>
+<tr><td class="num" id="LN195">195</td><td class="line">      <span class='macro'>TEST(subdirs[1] == <span class='string_literal'>"C"</span>)<span class='expansion'>testEqual("subdirs[1] == \"C\"", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 195, true, (subdirs[1] == "C"))</span></span>;</td></tr>
+<tr><td class="num" id="LN196">196</td><td class="line">      </td></tr>
+<tr><td class="num" id="LN197">197</td><td class="line">      <span class='comment'>// check that after reset first entry is returned again</span></td></tr>
+<tr><td class="num" id="LN198">198</td><td class="line">      di.reset();</td></tr>
+<tr><td class="num" id="LN199">199</td><td class="line">      <span class="mrange">e = di.next(entry)</span>;</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path6" class="msg msgEvent" style="margin-left:7ex"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexEvent">6</div></td><td><div class="PathNav"><a href="#Path5" title="Previous event (5)">&#x2190;</a></div></td></td><td>Value assigned to 'e'</td><td><div class="PathNav"><a href="#Path7" title="Next event (7)">&#x2192;</a></div></td></tr></table></div></td></tr>
+<tr><td class="num" id="LN200">200</td><td class="line">      <span class='macro'>TEST(e != NULL)<span class='expansion'>testEqual("e != NULL", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 200, true, (e != __null))</span></span>;</td></tr>
+<tr><td class="num"></td><td class="line"><div id="Path7" class="msg msgControl" style="margin-left:7ex; max-width:100em"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">7</div></td><td><div class="PathNav"><a href="#Path6" title="Previous event (6)">&#x2190;</a></div></td></td><td>Within the expansion of the macro 'TEST':
+</td><td><div class="PathNav"><a href="#EndPath" title="Next event (8)">&#x2192;</a></div></td></tr></table><div class="msg msgEvent" style="width:94%; margin-left:5px"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexEvent">a</div></td><td valign="top">Assuming pointer value is null</td></tr></table></div>
+</div></td></tr>
+<tr><td class="num" id="LN201">201</td><td class="line">      <span class='macro'>TEST(e-&gt;type == Directory::Entry::DIRECTORY)<span class='expansion'>testEqual("e-&gt;type == Directory::Entry::DIRECTORY", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 201, true, (e-&gt;type == Directory::Entry::DIRECTORY))</span></span>;</td></tr>
+<tr><td class="num"></td><td class="line"><div id="EndPath" class="msg msgControl" style="margin-left:7ex; max-width:100em"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexControl">8</div></td><td><div class="PathNav"><a href="#Path7" title="Previous event (7)">&#x2190;</a></div></td></td><td>Within the expansion of the macro 'TEST':
+</td></tr></table><div class="msg msgEvent" style="width:94%; margin-left:5px"><table class="msgT"><tr><td valign="top"><div class="PathIndex PathIndexEvent">a</div></td><td valign="top">Access to field 'type' results in a dereference of a null pointer (loaded from variable 'e')</td></tr></table></div>
+</div></td></tr>
+<tr><td class="num" id="LN202">202</td><td class="line">      <span class='macro'>TEST(e-&gt;path == first)<span class='expansion'>testEqual("e-&gt;path == first", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 202, true, (e-&gt;path == first))</span></span>;		</td></tr>
+<tr><td class="num" id="LN203">203</td><td class="line">    }  	</td></tr>
+<tr><td class="num" id="LN204">204</td><td class="line"> </td></tr>
+<tr><td class="num" id="LN205">205</td><td class="line">    <span class='comment'>// Cleanup test dirs</span></td></tr>
+<tr><td class="num" id="LN206">206</td><td class="line">    <span class='macro'>TEST(Path::exists(<span class='string_literal'>"A"</span>))<span class='expansion'>testEqual("Path::exists(\"A\")", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 206, true, (Path::exists("A")))</span></span>;</td></tr>
+<tr><td class="num" id="LN207">207</td><td class="line">    Directory::removeTree(<span class='string_literal'>"A"</span>);</td></tr>
+<tr><td class="num" id="LN208">208</td><td class="line">    <span class='macro'>TEST(!Path::exists(<span class='string_literal'>"A"</span>))<span class='expansion'>testEqual("!Path::exists(\"A\")", "/home/marek/devel/nupic/qa/testeverything/../../nta/os/unittests/DirectoryTest.cpp"<br>, 208, true, (!Path::exists("A")))</span></span>;</td></tr>
+<tr><td class="num" id="LN209">209</td><td class="line">  }</td></tr>
+<tr><td class="num" id="LN210">210</td><td class="line">}</td></tr>
+<tr><td class="num" id="LN211">211</td><td class="line"> </td></tr>
+</table></body></html>

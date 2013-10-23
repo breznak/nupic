@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+<title>/home/marek/devel/nupic/external/common/include/boost/concept/usage.hpp</title>
+<style type="text/css">
+ body { color:#000000; background-color:#ffffff }
+ body { font-family:Helvetica, sans-serif; font-size:10pt }
+ h1 { font-size:14pt }
+ .code { border-collapse:collapse; width:100%; }
+ .code { font-family: "Monospace", monospace; font-size:10pt }
+ .code { line-height: 1.2em }
+ .comment { color: green; font-style: oblique }
+ .keyword { color: blue }
+ .string_literal { color: red }
+ .directive { color: darkmagenta }
+ .expansion { display: none; }
+ .macro:hover .expansion { display: block; border: 2px solid #FF0000; padding: 2px; background-color:#FFF0F0; font-weight: normal;   -webkit-border-radius:5px;  -webkit-box-shadow:1px 1px 7px #000; position: absolute; top: -1em; left:10em; z-index: 1 } 
+ .macro { color: darkmagenta; background-color:LemonChiffon; position: relative }
+ .num { width:2.5em; padding-right:2ex; background-color:#eeeeee }
+ .num { text-align:right; font-size:8pt }
+ .num { color:#444444 }
+ .line { padding-left: 1ex; border-left: 3px solid #ccc }
+ .line { white-space: pre }
+ .msg { -webkit-box-shadow:1px 1px 7px #000 }
+ .msg { -webkit-border-radius:5px }
+ .msg { font-family:Helvetica, sans-serif; font-size:8pt }
+ .msg { float:left }
+ .msg { padding:0.25em 1ex 0.25em 1ex }
+ .msg { margin-top:10px; margin-bottom:10px }
+ .msg { font-weight:bold }
+ .msg { max-width:60em; word-wrap: break-word; white-space: pre-wrap }
+ .msgT { padding:0x; spacing:0x }
+ .msgEvent { background-color:#fff8b4; color:#000000 }
+ .msgControl { background-color:#bbbbbb; color:#000000 }
+ .mrange { background-color:#dfddf3 }
+ .mrange { border-bottom:1px solid #6F9DBE }
+ .PathIndex { font-weight: bold; padding:0px 5px; margin-right:5px; }
+ .PathIndex { -webkit-border-radius:8px }
+ .PathIndexEvent { background-color:#bfba87 }
+ .PathIndexControl { background-color:#8c8c8c }
+ .PathNav a { text-decoration:none; font-size: larger }
+ .CodeInsertionHint { font-weight: bold; background-color: #10dd10 }
+ .CodeRemovalHint { background-color:#de1010 }
+ .CodeRemovalHint { border-bottom:1px solid #6F9DBE }
+ table.simpletable {
+   padding: 5px;
+   font-size:12pt;
+   margin:20px;
+   border-collapse: collapse; border-spacing: 0px;
+ }
+ td.rowname {
+   text-align:right; font-weight:bold; color:#444444;
+   padding-right:2ex; }
+</style>
+</head>
+<body>
+<!-- BUGDESC Called C++ object pointer is null -->
+
+<!-- BUGTYPE Called C++ object pointer is null -->
+
+<!-- BUGCATEGORY Logic error -->
+
+<!-- BUGFILE /home/marek/devel/nupic/external/common/include/boost/concept/usage.hpp -->
+
+<!-- BUGLINE 22 -->
+
+<!-- BUGPATHLENGTH 1 -->
+
+<!-- BUGMETAEND -->
+<!-- REPORTHEADER -->
+<h3>Bug Summary</h3>
+<table class="simpletable">
+<tr><td class="rowname">File:</td><td>home/marek/devel/nupic/external/common/include/boost/concept/usage.hpp</td></tr>
+<tr><td class="rowname">Location:</td><td><a href="#EndPath">line 22, column 29</a></td></tr>
+<tr><td class="rowname">Description:</td><td>Called C++ object pointer is null</td></tr>
+</table>
+<!-- REPORTSUMMARYEXTRA -->
+<h3>Annotated Source Code</h3>
+<table class="code">
+<tr><td class="num" id="LN1">1</td><td class="line"><span class='comment'>// Copyright David Abrahams 2006. Distributed under the Boost</span></td></tr>
+<tr><td class="num" id="LN2">2</td><td class="line"><span class='comment'>// Software License, Version 1.0. (See accompanying</span></td></tr>
+<tr><td class="num" id="LN3">3</td><td class="line"><span class='comment'>// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)</span></td></tr>
+<tr><td class="num" id="LN4">4</td><td class="line"><span class='directive'>#ifndef BOOST_CONCEPT_USAGE_DWA2006919_HPP</span></td></tr>
+<tr><td class="num" id="LN5">5</td><td class="line"><span class='directive'># define BOOST_CONCEPT_USAGE_DWA2006919_HPP</span></td></tr>
+<tr><td class="num" id="LN6">6</td><td class="line"></td></tr>
+<tr><td class="num" id="LN7">7</td><td class="line"><span class='directive'># include &lt;boost/concept/assert.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN8">8</td><td class="line"><span class='directive'># include &lt;boost/detail/workaround.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN9">9</td><td class="line"><span class='directive'># include &lt;boost/concept/detail/backward_compatibility.hpp&gt;</span></td></tr>
+<tr><td class="num" id="LN10">10</td><td class="line"></td></tr>
+<tr><td class="num" id="LN11">11</td><td class="line"><span class='keyword'>namespace</span> boost { <span class='keyword'>namespace</span> concepts { </td></tr>
+<tr><td class="num" id="LN12">12</td><td class="line"></td></tr>
+<tr><td class="num" id="LN13">13</td><td class="line"><span class='directive'># if <span class='macro'>BOOST_WORKAROUND(__GNUC__, == 2)<span class='expansion'>((0 + 0 == 0) &amp;&amp; (4 != 0) &amp;&amp; (1 % (( (4 == 2)<br> ) + 1)))</span></span></span></td></tr>
+<tr><td class="num" id="LN14">14</td><td class="line"></td></tr>
+<tr><td class="num" id="LN15">15</td><td class="line"><span class='directive'>#  define <span class='macro'>BOOST_CONCEPT_USAGE(model)<span class='expansion'>typedef ::boost::concepts::detail::instantiate&lt; &amp;::boost<br>::concepts::requirement_&lt;void(*)(boost::concepts::usage_requirements<br>&lt;model&gt;)&gt;::failed&gt; boost_concept_check15; ~model(<br>)</span></span> ~model()</span></td></tr>
+<tr><td class="num" id="LN16">16</td><td class="line"></td></tr>
+<tr><td class="num" id="LN17">17</td><td class="line"><span class='directive'># else</span> </td></tr>
+<tr><td class="num" id="LN18">18</td><td class="line"></td></tr>
+<tr><td class="num" id="LN19">19</td><td class="line"><span class='keyword'>template</span> &lt;<span class='keyword'>class</span> Model&gt;</td></tr>
+<tr><td class="num" id="LN20">20</td><td class="line"><span class='keyword'>struct</span> usage_requirements</td></tr>
+<tr><td class="num" id="LN21">21</td><td class="line">{</td></tr>
+<tr><td class="num" id="LN22">22</td><td class="line">    ~usage_requirements() { <span class="mrange">((Model*)0)</span>-&gt;~Model(); }</td></tr>
+<tr><td class="num"></td><td class="line"><div id="EndPath" class="msg msgEvent" style="margin-left:29ex">Called C++ object pointer is null</div></td></tr>
+<tr><td class="num" id="LN23">23</td><td class="line">};</td></tr>
+<tr><td class="num" id="LN24">24</td><td class="line"></td></tr>
+<tr><td class="num" id="LN25">25</td><td class="line"><span class='directive'>#  if <span class='macro'>BOOST_WORKAROUND(__GNUC__, &lt;= 3)<span class='expansion'>((0 + 0 == 0) &amp;&amp; (4 != 0) &amp;&amp; (1 % (( (4 &lt;=<br> 3) ) + 1)))</span></span></span></td></tr>
+<tr><td class="num" id="LN26">26</td><td class="line"></td></tr>
+<tr><td class="num" id="LN27">27</td><td class="line"><span class='directive'>#   define <span class='macro'>BOOST_CONCEPT_USAGE(model)<span class='expansion'>typedef ::boost::concepts::detail::instantiate&lt; &amp;::boost<br>::concepts::requirement_&lt;void(*)(boost::concepts::usage_requirements<br>&lt;model&gt;)&gt;::failed&gt; boost_concept_check27; ~model(<br>)</span></span>                                    \</span></td></tr>
+<tr><td class="num" id="LN28">28</td><td class="line">      <span class='directive'>model(); /* at least 2.96 and 3.4.3 both need this :( */           \</span></td></tr>
+<tr><td class="num" id="LN29">29</td><td class="line">      <span class='directive'><span class='macro'>BOOST_CONCEPT_ASSERT((boost::concepts::usage_requirements&lt;model&gt;))<span class='expansion'>typedef ::boost::concepts::detail::instantiate&lt; &amp;::boost<br>::concepts::requirement_&lt;void(*)(boost::concepts::usage_requirements<br>&lt;model&gt;)&gt;::failed&gt; boost_concept_check29</span></span>; \</span></td></tr>
+<tr><td class="num" id="LN30">30</td><td class="line">      <span class='directive'>~model()</span></td></tr>
+<tr><td class="num" id="LN31">31</td><td class="line"></td></tr>
+<tr><td class="num" id="LN32">32</td><td class="line"><span class='directive'>#  else</span></td></tr>
+<tr><td class="num" id="LN33">33</td><td class="line"></td></tr>
+<tr><td class="num" id="LN34">34</td><td class="line"><span class='directive'>#   define <span class='macro'>BOOST_CONCEPT_USAGE(model)<span class='expansion'>typedef ::boost::concepts::detail::instantiate&lt; &amp;::boost<br>::concepts::requirement_&lt;void(*)(boost::concepts::usage_requirements<br>&lt;model&gt;)&gt;::failed&gt; boost_concept_check34; ~model(<br>)</span></span>                                    \</span></td></tr>
+<tr><td class="num" id="LN35">35</td><td class="line">      <span class='directive'><span class='macro'>BOOST_CONCEPT_ASSERT((boost::concepts::usage_requirements&lt;model&gt;))<span class='expansion'>typedef ::boost::concepts::detail::instantiate&lt; &amp;::boost<br>::concepts::requirement_&lt;void(*)(boost::concepts::usage_requirements<br>&lt;model&gt;)&gt;::failed&gt; boost_concept_check35</span></span>; \</span></td></tr>
+<tr><td class="num" id="LN36">36</td><td class="line">      <span class='directive'>~model()</span></td></tr>
+<tr><td class="num" id="LN37">37</td><td class="line"></td></tr>
+<tr><td class="num" id="LN38">38</td><td class="line"><span class='directive'>#  endif</span></td></tr>
+<tr><td class="num" id="LN39">39</td><td class="line"></td></tr>
+<tr><td class="num" id="LN40">40</td><td class="line"><span class='directive'># endif</span> </td></tr>
+<tr><td class="num" id="LN41">41</td><td class="line"></td></tr>
+<tr><td class="num" id="LN42">42</td><td class="line">}} <span class='comment'>// namespace boost::concepts</span></td></tr>
+<tr><td class="num" id="LN43">43</td><td class="line"></td></tr>
+<tr><td class="num" id="LN44">44</td><td class="line"><span class='directive'>#endif // BOOST_CONCEPT_USAGE_DWA2006919_HPP</span></td></tr>
+</table></body></html>

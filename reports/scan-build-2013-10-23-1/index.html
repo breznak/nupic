@@ -1,0 +1,354 @@
+<html>
+<head>
+<title>ntabuild - scan-build results</title>
+<link type="text/css" rel="stylesheet" href="scanview.css"/>
+<script src="sorttable.js"></script>
+<script language='javascript' type="text/javascript">
+function SetDisplay(RowClass, DisplayVal)
+{
+  var Rows = document.getElementsByTagName("tr");
+  for ( var i = 0 ; i < Rows.length; ++i ) {
+    if (Rows[i].className == RowClass) {
+      Rows[i].style.display = DisplayVal;
+    }
+  }
+}
+
+function CopyCheckedStateToCheckButtons(SummaryCheckButton) {
+  var Inputs = document.getElementsByTagName("input");
+  for ( var i = 0 ; i < Inputs.length; ++i ) {
+    if (Inputs[i].type == "checkbox") {
+      if(Inputs[i] != SummaryCheckButton) {
+        Inputs[i].checked = SummaryCheckButton.checked;
+        Inputs[i].onclick();
+	  }
+    }
+  }
+}
+
+function returnObjById( id ) {
+    if (document.getElementById) 
+        var returnVar = document.getElementById(id);
+    else if (document.all)
+        var returnVar = document.all[id];
+    else if (document.layers) 
+        var returnVar = document.layers[id];
+    return returnVar; 
+}
+
+var NumUnchecked = 0;
+
+function ToggleDisplay(CheckButton, ClassName) {
+  if (CheckButton.checked) {
+    SetDisplay(ClassName, "");
+    if (--NumUnchecked == 0) {
+      returnObjById("AllBugsCheck").checked = true;
+    }
+  }
+  else {
+    SetDisplay(ClassName, "none");
+    NumUnchecked++;
+    returnObjById("AllBugsCheck").checked = false;
+  }
+}
+</script>
+<!-- SUMMARYENDHEAD -->
+</head>
+<body>
+<h1>ntabuild - scan-build results</h1>
+
+<table>
+<tr><th>User:</th><td>marek@beruska</td></tr>
+<tr><th>Working Directory:</th><td>/tmp/ntabuild</td></tr>
+<tr><th>Command Line:</th><td>make -j 4 -o /tmp/ntabuild</td></tr>
+<tr><th>Clang Version:</th><td>clang version 3.3 (tags/RELEASE_33/final)
+</td></tr>
+<tr><th>Date:</th><td>Wed Oct 23 01:06:30 2013</td></tr>
+</table>
+<h2>Bug Summary</h2><table>
+<thead><tr><td>Bug Type</td><td>Quantity</td><td class="sorttable_nosort">Display?</td></tr></thead>
+<tr style="font-weight:bold"><td class="SUMM_DESC">All Bugs</td><td class="Q">73</td><td><center><input type="checkbox" id="AllBugsCheck" onClick="CopyCheckedStateToCheckButtons(this);" checked/></center></td></tr>
+<tr><th>Cplusplus</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Call virtual function during construction or Destruction</td><td class="Q">3</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_cplusplus_call_virtual_function_during_construction_or_destruction');" checked/></center></td></tr>
+<tr><th>Dead code</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Idempotent operation</td><td class="Q">15</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_code_idempotent_operation');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Unreachable code</td><td class="Q">32</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_code_unreachable_code');" checked/></center></td></tr>
+<tr><th>Dead store</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Dead assignment</td><td class="Q">2</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_dead_store_dead_assignment');" checked/></center></td></tr>
+<tr><th>Logic error</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Called C++ object pointer is null</td><td class="Q">3</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_called_c++_object_pointer_is_null');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Cast from non-struct type to struct type</td><td class="Q">10</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_cast_from_non-struct_type_to_struct_type');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Dereference of null pointer</td><td class="Q">4</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_dereference_of_null_pointer');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Out-of-bound access</td><td class="Q">1</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_out-of-bound_access');" checked/></center></td></tr>
+<tr><td class="SUMM_DESC">Out-of-bound array access</td><td class="Q">2</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_logic_error_out-of-bound_array_access');" checked/></center></td></tr>
+<tr><th>Memory Error</th><th colspan=2></th></tr>
+<tr><td class="SUMM_DESC">Memory leak</td><td class="Q">1</td><td><center><input type="checkbox" onClick="ToggleDisplay(this,'bt_memory_error_memory_leak');" checked/></center></td></tr>
+</table>
+<h2>Reports</h2>
+
+<table class="sortable" style="table-layout:automatic">
+<thead><tr>
+  <td>Bug Group</td>
+  <td class="sorttable_sorted">Bug Type<span id="sorttable_sortfwdind">&nbsp;&#x25BE;</span></td>
+  <td>File</td>
+  <td class="Q">Line</td>
+  <td class="Q">Path Length</td>
+  <td class="sorttable_nosort"></td>
+  <!-- REPORTBUGCOL -->
+</tr></thead>
+<tbody>
+<tr class="bt_cplusplus_call_virtual_function_during_construction_or_destruction"><td class="DESC">Cplusplus</td><td class="DESC">Call virtual function during construction or Destruction</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/regions<span class="W"> </span>/VectorFileSensor.cpp</td><td class="Q">93</td><td class="Q">1</td><td><a href="report-ozWnyu.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ozWnyu.html" -->
+</tr>
+<tr class="bt_cplusplus_call_virtual_function_during_construction_or_destruction"><td class="DESC">Cplusplus</td><td class="DESC">Call virtual function during construction or Destruction</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/engine<span class="W"> </span>/TestNode.cpp</td><td class="Q">95</td><td class="Q">1</td><td><a href="report-hJPRgs.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-hJPRgs.html" -->
+</tr>
+<tr class="bt_cplusplus_call_virtual_function_during_construction_or_destruction"><td class="DESC">Cplusplus</td><td class="DESC">Call virtual function during construction or Destruction</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/utils<span class="W"> </span>/LoggingException.cpp</td><td class="Q">39</td><td class="Q">1</td><td><a href="report-r4mPNO.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-r4mPNO.html" -->
+</tr>
+<tr class="bt_logic_error_called_c++_object_pointer_is_null"><td class="DESC">Logic error</td><td class="DESC">Called C++ object pointer is null</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/concept<span class="W"> </span>/detail<span class="W"> </span>/general.hpp</td><td class="Q">38</td><td class="Q">1</td><td><a href="report-bATVpu.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bATVpu.html" -->
+</tr>
+<tr class="bt_logic_error_called_c++_object_pointer_is_null"><td class="DESC">Logic error</td><td class="DESC">Called C++ object pointer is null</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/concept<span class="W"> </span>/usage.hpp</td><td class="Q">22</td><td class="Q">1</td><td><a href="report-l9BBr0.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-l9BBr0.html" -->
+</tr>
+<tr class="bt_logic_error_called_c++_object_pointer_is_null"><td class="DESC">Logic error</td><td class="DESC">Called C++ object pointer is null</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/algorithms<span class="W"> </span>/SpatialPooler.cpp</td><td class="Q">195</td><td class="Q">5</td><td><a href="report-rWwAPb.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-rWwAPb.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">3</td><td><a href="report-HdmSnP.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-HdmSnP.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/move.h</td><td class="Q">50</td><td class="Q">1</td><td><a href="report-DuL53m.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-DuL53m.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">3</td><td><a href="report-2NiGQc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2NiGQc.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">3</td><td><a href="report-QBqypJ.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-QBqypJ.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">4</td><td><a href="report-KuKeCC.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-KuKeCC.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">4</td><td><a href="report-JLqhmj.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-JLqhmj.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">5</td><td><a href="report-ecpHu6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ecpHu6.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">2</td><td><a href="report-swBdNM.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-swBdNM.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">4</td><td><a href="report-uM5c4j.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-uM5c4j.html" -->
+</tr>
+<tr class="bt_logic_error_cast_from_non-struct_type_to_struct_type"><td class="DESC">Logic error</td><td class="DESC">Cast from non-struct type to struct type</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/basic_string.h</td><td class="Q">301</td><td class="Q">4</td><td><a href="report-9NIfcg.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-9NIfcg.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/apps<span class="W"> </span>/htmtest<span class="W"> </span>/htmtest.cpp</td><td class="Q">670</td><td class="Q">1</td><td><a href="report-6qiXdm.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6qiXdm.html" -->
+</tr>
+<tr class="bt_dead_store_dead_assignment"><td class="DESC">Dead store</td><td class="DESC">Dead assignment</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/apps<span class="W"> </span>/htmtest<span class="W"> </span>/htmtest.cpp</td><td class="Q">664</td><td class="Q">1</td><td><a href="report-axqCFL.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-axqCFL.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/unittests<span class="W"> </span>/DirectoryTest.cpp</td><td class="Q">201</td><td class="Q">8</td><td><a href="report-1Rd6gn.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1Rd6gn.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/unittests<span class="W"> </span>/DirectoryTest.cpp</td><td class="Q">186</td><td class="Q">8</td><td><a href="report-ZublM2.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ZublM2.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/unittests<span class="W"> </span>/DirectoryTest.cpp</td><td class="Q">180</td><td class="Q">8</td><td><a href="report-RscWhI.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-RscWhI.html" -->
+</tr>
+<tr class="bt_logic_error_dereference_of_null_pointer"><td class="DESC">Logic error</td><td class="DESC">Dereference of null pointer</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/engine<span class="W"> </span>/unittests<span class="W"> </span>/RegionTest.cpp</td><td class="Q">138</td><td class="Q">4</td><td><a href="report-4liHwC.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-4liHwC.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/exception<span class="W"> </span>/exception.hpp</td><td class="Q">419</td><td class="Q">3</td><td><a href="report-yjchOF.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-yjchOF.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/exception<span class="W"> </span>/exception.hpp</td><td class="Q">418</td><td class="Q">3</td><td><a href="report-6UfHOQ.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6UfHOQ.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/exception<span class="W"> </span>/exception.hpp</td><td class="Q">417</td><td class="Q">3</td><td><a href="report-QHCuP1.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-QHCuP1.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/stl_deque.h</td><td class="Q">614</td><td class="Q">3</td><td><a href="report-HQn4pc.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-HQn4pc.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>usr<span class="W"> </span>/include<span class="W"> </span>/c++<span class="W"> </span>/4.8.2<span class="W"> </span>/bits<span class="W"> </span>/stl_deque.h</td><td class="Q">585</td><td class="Q">3</td><td><a href="report-JWJHpd.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-JWJHpd.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/Directory.cpp</td><td class="Q">243</td><td class="Q">7</td><td><a href="report-Eca1SK.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-Eca1SK.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/Timer.cpp</td><td class="Q">146</td><td class="Q">4</td><td><a href="report-aiX2vq.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-aiX2vq.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/Env.cpp</td><td class="Q">60</td><td class="Q">8</td><td><a href="report-QnXjkU.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-QnXjkU.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">777</td><td class="Q">4</td><td><a href="report-WpvHSa.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-WpvHSa.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">775</td><td class="Q">3</td><td><a href="report-X6wVCX.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-X6wVCX.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/utils<span class="W"> </span>/StringUtils.cpp</td><td class="Q">44</td><td class="Q">4</td><td><a href="report-hML4Ck.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-hML4Ck.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/Fraction.cpp</td><td class="Q">282</td><td class="Q">2</td><td><a href="report-VXOtcV.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-VXOtcV.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/Fraction.cpp</td><td class="Q">282</td><td class="Q">2</td><td><a href="report-fb9Axa.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-fb9Axa.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/Fraction.cpp</td><td class="Q">278</td><td class="Q">3</td><td><a href="report-t1qWSp.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-t1qWSp.html" -->
+</tr>
+<tr class="bt_dead_code_idempotent_operation"><td class="DESC">Dead code</td><td class="DESC">Idempotent operation</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/Fraction.cpp</td><td class="Q">278</td><td class="Q">3</td><td><a href="report-qeRxeF.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-qeRxeF.html" -->
+</tr>
+<tr class="bt_memory_error_memory_leak"><td class="DESC">Memory Error</td><td class="DESC">Memory leak</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/regions<span class="W"> </span>/VectorFile.cpp</td><td class="Q">694</td><td class="Q">19</td><td><a href="report-NekFRY.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-NekFRY.html" -->
+</tr>
+<tr class="bt_logic_error_out-of-bound_access"><td class="DESC">Logic error</td><td class="DESC">Out-of-bound access</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/unordered<span class="W"> </span>/detail<span class="W"> </span>/util.hpp</td><td class="Q">103</td><td class="Q">3</td><td><a href="report-CDFCXz.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-CDFCXz.html" -->
+</tr>
+<tr class="bt_logic_error_out-of-bound_array_access"><td class="DESC">Logic error</td><td class="DESC">Out-of-bound array access</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/algorithms<span class="W"> </span>/unittests<span class="W"> </span>/FlatSpatialPoolerTest.cpp</td><td class="Q">83</td><td class="Q">9</td><td><a href="report-1D23YF.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1D23YF.html" -->
+</tr>
+<tr class="bt_logic_error_out-of-bound_array_access"><td class="DESC">Logic error</td><td class="DESC">Out-of-bound array access</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">410</td><td class="Q">11</td><td><a href="report-OERoIV.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-OERoIV.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/unittests<span class="W"> </span>/ExceptionTest.cpp</td><td class="Q">51</td><td class="Q">1</td><td><a href="report-1UQS3B.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-1UQS3B.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/unittests<span class="W"> </span>/ExceptionTest.cpp</td><td class="Q">35</td><td class="Q">1</td><td><a href="report-UEV34F.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-UEV34F.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/types<span class="W"> </span>/Exception.hpp</td><td class="Q">128</td><td class="Q">1</td><td><a href="report-i8bTNn.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-i8bTNn.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/math<span class="W"> </span>/array_algo.hpp</td><td class="Q">105</td><td class="Q">1</td><td><a href="report-C845EF.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-C845EF.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/math<span class="W"> </span>/array_algo.hpp</td><td class="Q">104</td><td class="Q">1</td><td><a href="report-bD5dho.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-bD5dho.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/math<span class="W"> </span>/array_algo.hpp</td><td class="Q">103</td><td class="Q">1</td><td><a href="report-60nAZ6.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-60nAZ6.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/math<span class="W"> </span>/array_algo.hpp</td><td class="Q">102</td><td class="Q">1</td><td><a href="report-aBS5NP.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-aBS5NP.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/math<span class="W"> </span>/array_algo.hpp</td><td class="Q">101</td><td class="Q">1</td><td><a href="report-auSIIy.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-auSIIy.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/functional<span class="W"> </span>/hash<span class="W"> </span>/detail<span class="W"> </span>/hash_float.hpp</td><td class="Q">83</td><td class="Q">1</td><td><a href="report-panJJN.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-panJJN.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/algorithms<span class="W"> </span>/unittests<span class="W"> </span>/SpatialPoolerTest.cpp</td><td class="Q">212</td><td class="Q">1</td><td><a href="report-K51QIx.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-K51QIx.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/algorithms<span class="W"> </span>/unittests<span class="W"> </span>/SpatialPoolerTest.cpp</td><td class="Q">204</td><td class="Q">1</td><td><a href="report-KJSIi7.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-KJSIi7.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/external<span class="W"> </span>/common<span class="W"> </span>/include<span class="W"> </span>/boost<span class="W"> </span>/smart_ptr<span class="W"> </span>/detail<span class="W"> </span>/yield_k.hpp</td><td class="Q">103</td><td class="Q">1</td><td><a href="report-vtrYgL.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-vtrYgL.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/apps<span class="W"> </span>/htmtest<span class="W"> </span>/htmtest.cpp</td><td class="Q">152</td><td class="Q">1</td><td><a href="report-ekx57a.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ekx57a.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/apps<span class="W"> </span>/htmtest<span class="W"> </span>/htmtest.cpp</td><td class="Q">126</td><td class="Q">1</td><td><a href="report-2eJgBA.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-2eJgBA.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/apps<span class="W"> </span>/htmtest<span class="W"> </span>/htmtest.cpp</td><td class="Q">117</td><td class="Q">1</td><td><a href="report-ONib5Z.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ONib5Z.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/Env.cpp</td><td class="Q">78</td><td class="Q">1</td><td><a href="report-ETeCAu.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-ETeCAu.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/FStream.cpp</td><td class="Q">200</td><td class="Q">1</td><td><a href="report-oA9jbp.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-oA9jbp.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/os<span class="W"> </span>/FStream.cpp</td><td class="Q">196</td><td class="Q">1</td><td><a href="report-KlgK4O.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-KlgK4O.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">778</td><td class="Q">1</td><td><a href="report-EIdRwM.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-EIdRwM.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">776</td><td class="Q">1</td><td><a href="report-uUPkfz.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-uUPkfz.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">441</td><td class="Q">1</td><td><a href="report-BKCi1l.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-BKCi1l.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">439</td><td class="Q">1</td><td><a href="report-Fq5pqK.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-Fq5pqK.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">437</td><td class="Q">1</td><td><a href="report-N7OjQ8.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-N7OjQ8.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">434</td><td class="Q">1</td><td><a href="report-vFrZgx.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-vFrZgx.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/ntypes<span class="W"> </span>/Buffer.cpp</td><td class="Q">313</td><td class="Q">1</td><td><a href="report-6dLyak.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6dLyak.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/utils<span class="W"> </span>/TRandom.cpp</td><td class="Q">53</td><td class="Q">1</td><td><a href="report-rLctQA.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-rLctQA.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/test<span class="W"> </span>/Tester.cpp</td><td class="Q">83</td><td class="Q">1</td><td><a href="report-EwDYiS.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-EwDYiS.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/nta<span class="W"> </span>/algorithms<span class="W"> </span>/imageSensorLite.cpp</td><td class="Q">591</td><td class="Q">1</td><td><a href="report-6pRoSn.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-6pRoSn.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/lang<span class="W"> </span>/py<span class="W"> </span>/support<span class="W"> </span>/PyHelpers.cpp</td><td class="Q">178</td><td class="Q">1</td><td><a href="report-yT0SJ3.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-yT0SJ3.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/lang<span class="W"> </span>/py<span class="W"> </span>/support<span class="W"> </span>/PyHelpers.cpp</td><td class="Q">94</td><td class="Q">1</td><td><a href="report-UrIwzB.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-UrIwzB.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/lang<span class="W"> </span>/py<span class="W"> </span>/support<span class="W"> </span>/PyHelpers.cpp</td><td class="Q">81</td><td class="Q">1</td><td><a href="report-cEtRp9.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-cEtRp9.html" -->
+</tr>
+<tr class="bt_dead_code_unreachable_code"><td class="DESC">Dead code</td><td class="DESC">Unreachable code</td><td>home<span class="W"> </span>/marek<span class="W"> </span>/devel<span class="W"> </span>/nupic<span class="W"> </span>/lang<span class="W"> </span>/py<span class="W"> </span>/support<span class="W"> </span>/NumpyVector.cpp</td><td class="Q">181</td><td class="Q">1</td><td><a href="report-A1WhDl.html#EndPath">View Report</a></td>
+<!-- REPORTBUG id="report-A1WhDl.html" -->
+</tr>
+</tbody>
+</table>
+
+<h2>Analyzer Failures</h2>
+<p>The analyzer had problems processing the following files:</p>
+<table>
+<thead><tr><td>Problem</td><td>Source File</td><td>Preprocessed File</td><td>STDERR Output</td></tr></thead>
+<tr><td>Crash</td><td>tmp/ntabuild/py/bindings/iorange/iorange_py.cpp</td><td><a href="failures/clang_crash_0f2GC6.ii">clang_crash_0f2GC6.ii</a></td><td><a href="failures/clang_crash_0f2GC6.ii.stderr.txt">clang_crash_0f2GC6.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="tmp/ntabuild/py/bindings/iorange/iorange_py.cpp" file="failures/clang_crash_0f2GC6.ii" clangfile="failures/clang_crash_0f2GC6.clang.ii" stderr="failures/clang_crash_0f2GC6.ii.stderr.txt" info="failures/clang_crash_0f2GC6.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/regions/SpatialPoolerNode.cpp</td><td><a href="failures/clang_crash_1ehxGI.ii">clang_crash_1ehxGI.ii</a></td><td><a href="failures/clang_crash_1ehxGI.ii.stderr.txt">clang_crash_1ehxGI.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/regions/SpatialPoolerNode.cpp" file="failures/clang_crash_1ehxGI.ii" clangfile="failures/clang_crash_1ehxGI.clang.ii" stderr="failures/clang_crash_1ehxGI.ii.stderr.txt" info="failures/clang_crash_1ehxGI.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/algorithms/Cells4.cpp</td><td><a href="failures/clang_crash_9K8MlL.ii">clang_crash_9K8MlL.ii</a></td><td><a href="failures/clang_crash_9K8MlL.ii.stderr.txt">clang_crash_9K8MlL.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/algorithms/Cells4.cpp" file="failures/clang_crash_9K8MlL.ii" clangfile="failures/clang_crash_9K8MlL.clang.ii" stderr="failures/clang_crash_9K8MlL.ii.stderr.txt" info="failures/clang_crash_9K8MlL.ii.info.txt" -->
+<tr><td>Crash</td><td>tmp/ntabuild/lang/py/bindings/engine_internal/engine_internal_py.cpp</td><td><a href="failures/clang_crash_A0G7WF.ii">clang_crash_A0G7WF.ii</a></td><td><a href="failures/clang_crash_A0G7WF.ii.stderr.txt">clang_crash_A0G7WF.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="tmp/ntabuild/lang/py/bindings/engine_internal/engine_internal_py.cpp" file="failures/clang_crash_A0G7WF.ii" clangfile="failures/clang_crash_A0G7WF.clang.ii" stderr="failures/clang_crash_A0G7WF.ii.stderr.txt" info="failures/clang_crash_A0G7WF.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/algorithms/Cell.cpp</td><td><a href="failures/clang_crash_OhNpmp.ii">clang_crash_OhNpmp.ii</a></td><td><a href="failures/clang_crash_OhNpmp.ii.stderr.txt">clang_crash_OhNpmp.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/algorithms/Cell.cpp" file="failures/clang_crash_OhNpmp.ii" clangfile="failures/clang_crash_OhNpmp.clang.ii" stderr="failures/clang_crash_OhNpmp.ii.stderr.txt" info="failures/clang_crash_OhNpmp.ii.info.txt" -->
+<tr><td>Crash</td><td>tmp/ntabuild/py/bindings/algorithms/algorithms_py.cpp</td><td><a href="failures/clang_crash_aUmonb.ii">clang_crash_aUmonb.ii</a></td><td><a href="failures/clang_crash_aUmonb.ii.stderr.txt">clang_crash_aUmonb.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="tmp/ntabuild/py/bindings/algorithms/algorithms_py.cpp" file="failures/clang_crash_aUmonb.ii" clangfile="failures/clang_crash_aUmonb.clang.ii" stderr="failures/clang_crash_aUmonb.ii.stderr.txt" info="failures/clang_crash_aUmonb.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/algorithms/svm.cpp</td><td><a href="failures/clang_crash_gqb1Wz.ii">clang_crash_gqb1Wz.ii</a></td><td><a href="failures/clang_crash_gqb1Wz.ii.stderr.txt">clang_crash_gqb1Wz.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/algorithms/svm.cpp" file="failures/clang_crash_gqb1Wz.ii" clangfile="failures/clang_crash_gqb1Wz.clang.ii" stderr="failures/clang_crash_gqb1Wz.ii.stderr.txt" info="failures/clang_crash_gqb1Wz.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/py/cpp_region/PyRegion.cpp</td><td><a href="failures/clang_crash_j1pY6d.ii">clang_crash_j1pY6d.ii</a></td><td><a href="failures/clang_crash_j1pY6d.ii.stderr.txt">clang_crash_j1pY6d.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/py/cpp_region/PyRegion.cpp" file="failures/clang_crash_j1pY6d.ii" clangfile="failures/clang_crash_j1pY6d.clang.ii" stderr="failures/clang_crash_j1pY6d.ii.stderr.txt" info="failures/clang_crash_j1pY6d.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/algorithms/linear.cpp</td><td><a href="failures/clang_crash_mDpsW7.ii">clang_crash_mDpsW7.ii</a></td><td><a href="failures/clang_crash_mDpsW7.ii.stderr.txt">clang_crash_mDpsW7.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/algorithms/linear.cpp" file="failures/clang_crash_mDpsW7.ii" clangfile="failures/clang_crash_mDpsW7.clang.ii" stderr="failures/clang_crash_mDpsW7.ii.stderr.txt" info="failures/clang_crash_mDpsW7.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/algorithms/spatial_pooler.cpp</td><td><a href="failures/clang_crash_tekkNQ.ii">clang_crash_tekkNQ.ii</a></td><td><a href="failures/clang_crash_tekkNQ.ii.stderr.txt">clang_crash_tekkNQ.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/algorithms/spatial_pooler.cpp" file="failures/clang_crash_tekkNQ.ii" clangfile="failures/clang_crash_tekkNQ.clang.ii" stderr="failures/clang_crash_tekkNQ.ii.stderr.txt" info="failures/clang_crash_tekkNQ.ii.info.txt" -->
+<tr><td>Crash</td><td>home/marek/devel/nupic/nta/engine/RegionImplFactory.cpp</td><td><a href="failures/clang_crash_z35Rsa.ii">clang_crash_z35Rsa.ii</a></td><td><a href="failures/clang_crash_z35Rsa.ii.stderr.txt">clang_crash_z35Rsa.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/nta/engine/RegionImplFactory.cpp" file="failures/clang_crash_z35Rsa.ii" clangfile="failures/clang_crash_z35Rsa.clang.ii" stderr="failures/clang_crash_z35Rsa.ii.stderr.txt" info="failures/clang_crash_z35Rsa.ii.info.txt" -->
+<tr><td>Other Error</td><td>tmp/ntabuild/py/bindings/math/math_py.cpp</td><td><a href="failures/clang_other_error_89PqqO.ii">clang_other_error_89PqqO.ii</a></td><td><a href="failures/clang_other_error_89PqqO.ii.stderr.txt">clang_other_error_89PqqO.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="tmp/ntabuild/py/bindings/math/math_py.cpp" file="failures/clang_other_error_89PqqO.ii" clangfile="failures/clang_other_error_89PqqO.clang.ii" stderr="failures/clang_other_error_89PqqO.ii.stderr.txt" info="failures/clang_other_error_89PqqO.ii.info.txt" -->
+<tr><td>Other Error</td><td>home/marek/devel/nupic/py/bindings/math/PySparseTensor.cpp</td><td><a href="failures/clang_other_error_m9ANAY.ii">clang_other_error_m9ANAY.ii</a></td><td><a href="failures/clang_other_error_m9ANAY.ii.stderr.txt">clang_other_error_m9ANAY.ii.stderr.txt</a></td></tr>
+  <!-- REPORTPROBLEM src="home/marek/devel/nupic/py/bindings/math/PySparseTensor.cpp" file="failures/clang_other_error_m9ANAY.ii" clangfile="failures/clang_other_error_m9ANAY.clang.ii" stderr="failures/clang_other_error_m9ANAY.ii.stderr.txt" info="failures/clang_other_error_m9ANAY.ii.info.txt" -->
+</table>
+<p>Please consider submitting preprocessed files as <a href="http://clang-analyzer.llvm.org/filing_bugs.html">bug reports</a>. <!-- REPORTCRASHES --> </p>
+</body></html>

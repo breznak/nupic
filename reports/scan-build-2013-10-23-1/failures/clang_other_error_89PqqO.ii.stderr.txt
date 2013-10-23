@@ -1,0 +1,19 @@
+In file included from math_py.cpp:2715:
+In file included from /home/marek/devel/nupic/lang/py/support/PyHelpers.hpp:35:
+In file included from /home/marek/devel/nupic/nta/utils/Log.hpp:32:
+/home/marek/devel/nupic/nta/utils/LoggingException.hpp:66:11: error: call to function 'operator<<' that is neither visible in the template definition nor found by argument-dependent lookup
+      ss_ << obj;
+          ^
+/home/marek/devel/nupic/nta/math/Index.hpp:878:25: note: in instantiation of function template specialization 'nta::LoggingException::operator<<<std::vector<unsigned int, std::allocator<unsigned int> > >' requested here
+          << "passed: " << dims;
+                        ^
+/home/marek/devel/nupic/nta/math/SparseTensor.hpp:2660:14: note: in instantiation of function template specialization 'nta::project<std::vector<unsigned int, std::allocator<unsigned int> >, PyTensorIndex, std::vector<unsigned int, std::allocator<unsigned int> > >' requested here
+             project(compDims1, it1->first, pit1);
+             ^
+/home/marek/devel/nupic/py/bindings/math/PySparseTensor.hpp:468:13: note: in instantiation of function template specialization 'nta::SparseTensor<PyTensorIndex, float>::inner_product_nz<PyTensorIndex, PyTensorIndex, std::multiplies<float>, std::plus<float> >' requested here
+    tensor_.inner_product_nz(dim1, dim2, B.tensor_, C.tensor_, std::multiplies<nta::Real>(), std::plus<nta::Real>());
+            ^
+/home/marek/devel/nupic/nta/math/stl_io.hpp:544:24: note: 'operator<<' should be declared prior to the call site
+  inline std::ostream& operator<<(std::ostream& out_stream, const std::vector<T>& v)
+                       ^
+1 error generated.
