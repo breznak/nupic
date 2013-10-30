@@ -92,7 +92,7 @@ namespace nta {
       class CState
       {
       public:
-        static const NTA_UInt16 VERSION = 2; // latest "API" version
+        static const NTA_UInt16 VERSION = 1; // latest "API" version
 
         CState()
         {
@@ -828,8 +828,7 @@ namespace nta {
 #ifndef SWIG
       std::ostream& operator<<(std::ostream& outStream, const Segment& seg);
       std::ostream& operator<<(std::ostream& outStream, const CState& cstate);
-      std::ostream& operator<<(std::ostream& outStream,
-                               const CStateIndexed& cstate);
+      std::ostream& operator<<(std::ostream& outStream, const CStateIndexed& cstate);
 #endif
 
       //-----------------------------------------------------------------------
