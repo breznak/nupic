@@ -103,20 +103,23 @@ namespace nta {
         //--------------------------------------------------------------------------------
         Segment& operator[](UInt segIdx)
         {
-          return _segments.at(segIdx);
+          NTA_ASSERT(segIdx < _segments.size());
+          return _segments[segIdx];
         }
 
         //--------------------------------------------------------------------------------
         const Segment& operator[](UInt segIdx) const
         {
-          return _segments.at(segIdx);
+          NTA_ASSERT(segIdx < _segments.size());
+          return _segments[segIdx];
         }
 
         //--------------------------------------------------------------------------------
-        Segment& getSegment(UInt segIdx) const
+        Segment& getSegment(UInt segIdx)
         {
-          return _segments.at(segIdx);
-        } //TODO need all of the 3 above?
+          NTA_ASSERT(segIdx < _segments.size());
+          return _segments[segIdx];
+        }
 
         //--------------------------------------------------------------------------------
         /**
