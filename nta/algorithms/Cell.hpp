@@ -59,11 +59,12 @@ namespace nta {
         bool empty() const { return _segments.size() == _freeSegments.size(); }
 
         //--------------------------------------------------------------------------------
+        /* number of all synapses in  this Cell (in all its Segments) */
         UInt nSynapses() const
         {
           UInt n = 0;
-          for (UInt i = 0; i != _segments.size(); ++i)
-            n += _segments[i].size();
+          for (Segment seg: _segments)
+            n += seg.size();
           return n;
         }
 
