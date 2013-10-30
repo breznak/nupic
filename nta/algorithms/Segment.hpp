@@ -514,6 +514,8 @@ namespace nta {
           _synapses.resize(0);
           _seqSegFlag = false;
           _nConnected = 0;
+	  _totalActivations = 0;
+	  _positiveActivations = 0; 
         }
 
         //-----------------------------------------------------------------------

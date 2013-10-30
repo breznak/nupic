@@ -220,8 +220,6 @@ namespace nta {
 
           _segments[segIdx].clear(); // important in case we push_back later
           _freeSegments.push_back(segIdx);
-          _segments[segIdx]._totalActivations = 0;
-          _segments[segIdx]._positiveActivations = 0;
 
           NTA_ASSERT(_segments[segIdx].empty());
           NTA_ASSERT(is_in(segIdx, _freeSegments));
