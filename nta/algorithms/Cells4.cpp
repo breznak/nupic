@@ -2382,8 +2382,7 @@ UInt Cells4::getCellIdx(UInt colIdx, UInt cellIdxInCol)
   return colIdx * _nCellsPerCol + cellIdxInCol;
 }
 
-Segment*
-Cells4::getSegment(UInt colIdx, UInt cellIdxInCol, UInt segIdx)
+Segment* Cells4::getSegment(UInt colIdx, UInt cellIdxInCol, UInt segIdx)
 {
   NTA_ASSERT(colIdx < nColumns());
   NTA_ASSERT(cellIdxInCol < nCellsPerCol());
@@ -2405,15 +2404,14 @@ Segment& Cells4::segment(UInt cellIdx, UInt segIdx)
 }
 
 
-std::vector<UInt>
-Cells4::getNonEmptySegList(UInt colIdx, UInt cellIdxInCol)
+std::vector<Segment> Cells4::getNonEmptySegList(UInt colIdx, UInt cellIdxInCol)
 {
   NTA_ASSERT(colIdx < nColumns());
   NTA_ASSERT(cellIdxInCol < nCellsPerCol());
 
   UInt cellIdx = colIdx * nCellsPerCol() + cellIdxInCol;
 
-  return _cells[cellIdx].getNonEmptySegList();
+  return _cells[cellIdx]._getNonEmptySegList();
 }
 
 //----------------------------------------------------------------------

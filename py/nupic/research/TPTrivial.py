@@ -295,7 +295,7 @@ class TPTrivial(TP):
 
     """
     segList = self.cells3.getNonEmptySegList(c,i)
-    seg = self.cells3.getSegment(c, i, segList[segIdx])
+    seg = segList[segIdx]
     numSyn = seg.size()
     assert numSyn != 0
 

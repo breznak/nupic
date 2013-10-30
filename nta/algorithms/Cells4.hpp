@@ -603,8 +603,7 @@ namespace nta {
          * Can return a previously freed segment (segment size == 0) if called with a segIdx
          * which is in the "free" list of the cell.
          */
-        Segment*
-        getSegment(UInt colIdx, UInt cellIdxInCol, UInt segIdx);
+        Segment* getSegment(UInt colIdx, UInt cellIdxInCol, UInt segIdx);
 
         //-----------------------------------------------------------------------
         /**
@@ -1090,10 +1089,9 @@ namespace nta {
 
         //-----------------------------------------------------------------------
         /**
-         * Returns list of indices of segments that are *not* empty in the free list.
+         * Returns list of segments that are *not* empty in the free list.
          */
-        std::vector<UInt>
-        getNonEmptySegList(UInt colIdx, UInt cellIdxInCol);
+        std::vector<Segment> getNonEmptySegList(UInt colIdx, UInt cellIdxInCol);
 
 
         //-----------------------------------------------------------------------

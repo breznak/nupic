@@ -90,12 +90,12 @@ namespace nta {
         /**
          * Returns list of segments that are not empty.
          */
-        std::vector<UInt> getNonEmptySegList() const
+        std::vector<Segment> _getNonEmptySegList() const
         {
-          std::vector<UInt> non_empties;
-          for (UInt i = 0; i != _segments.size(); ++i)
-            if (!_segments[i].empty())
-              non_empties.push_back(i);
+          std::vector<Segment> non_empties;
+          for (auto seg: _segments)
+            if (!seg.empty())
+              non_empties.push_back(seg);
           NTA_ASSERT(non_empties.size() == nSegments());
           return non_empties;
         }

@@ -591,7 +591,7 @@ class TP10X2(TP):
       gidx = c * self.cellsPerColumn + i
       print "Column", c, "Cell", i, "(%d)"%(gidx),":", nSegs, "segment(s)"
       for k,segIdx in enumerate(segList):
-        seg = self.cells4.getSegment(c, i, segIdx)
+        seg = segIdx
         isActive = self.slowIsSegmentActive(seg, 't')
         if onlyActiveSegments and not isActive:
           continue
@@ -643,7 +643,7 @@ class TP10X2(TP):
 
     """
     segList = self.cells4.getNonEmptySegList(c,i)
-    seg = self.cells4.getSegment(c, i, segList[segIdx])
+    seg = segList[segIdx]
     numSyn = seg.size()
     assert numSyn != 0
 
@@ -743,7 +743,7 @@ class TP10X2(TP):
                 else:
                   distPermValues[p] = 1
 
-            segObj = self.cells4.getSegment(c, i, segList[segIdx])
+            segObj = segList[segIdx]
             age = self.iterationIdx - segObj.getLastActiveIteration()
             ageBucket = int(age/ageBucketSize)
             distAges[ageBucket][1] += 1
