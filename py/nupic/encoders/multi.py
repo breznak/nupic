@@ -76,8 +76,7 @@ class MultiEncoder(Encoder):
         result = numpy.array(result)
       # else: # 'List'
       return result
-      
-    
+     
   ############################################################################
   def setFieldStats(self, fieldName, fieldStatistics ):
     for (name, encoder, offset) in self.encoders:

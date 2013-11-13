@@ -21,7 +21,6 @@
 
 from array import array
 
-
 ############################################################################
 def bitsToString(arr):
   """Returns a string representing a numpy array of 0's and 1's"""
@@ -30,4 +29,40 @@ def bitsToString(arr):
     if arr[i] == 1:
       s[i]='*'
   return s
+
+############################################################################
+def dictToList(dic):
+  """convert a dict to list, returns two lists: values, names;
+     use: (listVals, listNames) = dictToList(myDict)
+     myDict['aa']=1 -> listVals[0]=='1', listNames[0]=='aa' """
+  if not isinstance(dic, dict):
+    raise Exception("you must provide a dict as a parameter")
+  listVals=[]
+  listNames=[]
+  for key in sorted(dic.keys()):
+    listVals.append(dic[key])
+    listNames.append(key)
+  return (listVals, listNames)
+
+
+def listToDict(listValues, listNames=None):
+  """convert list of values to a dict, if listNames is not provided, the name
+     dict.key "idx{number}" will be used."""
+  if not isinstance(listValues,list):
+    raise Exception("must give a list as parameter(s)")
+  dic = {}
+  names=[]
+  key=""
+  if listNames is not None:
+    names=listNames
+  else:
+    names=range(len(listValues))
+    key="idx"
+  mx=len(listValues)
+  for i in range(0,mx):
+    k=key+str(names[i])
+    v=listValues[i]
+    dic[k] = v
+  return dic
+#############################################################################
 
