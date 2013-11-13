@@ -35,6 +35,7 @@ from nupic.encoders.utils import bitsToString
 
 from nupic.data import dictutils
 from nupic.data.dictutils import DictObj
+from nupic.encoders.utils import listToDict
 import numpy
 
 class MultiEncoder(Encoder):
@@ -57,6 +58,7 @@ class MultiEncoder(Encoder):
     if encoderDescriptions is not None:
       self.addMultipleEncoders(encoderDescriptions)
     self.outputMode = outputMode
+    self._encodersNames=set([])
 
   ############################################################################
   def decode(self, encoded, ff=''):
@@ -87,7 +89,9 @@ class MultiEncoder(Encoder):
     """ add encoder to the pool, 
       fieldName is the variable this encoder will cover, encoder is the encoder instance;
       Note: 'NumpyArray' and 'List' do not! use name-variable pairs, so variable representation depends on order when added."""
-
+    if fieldName in self._encodersNames:
+      raise Exception("Only one encoder for same field possible! %s" % fieldName)
+    self._encodersNames.add(fieldName)
     self.encoders.append((fieldName, encoder, self.width))
     for d in encoder.getDescription():
       self.description.append((d[0], d[1] + self.width))
@@ -115,15 +119,10 @@ class MultiEncoder(Encoder):
       
   ############################################################################
   # encodes list ([1, 2, 3]), or numpy.ndarray (numpy.array([1, 2, 3]) 
-  def encodeIntoArray_List(self, vals, output):
-    if not (isinstance(vals, list) and len(vals)==len(self.encoders)):
+  def encodeIntoArray_List(self, valsAsList, output):
+    if not (isinstance(valsAsList, list) and len(valsAsList)==len(self.encoders)):
       raise Exception("vals must be specified and must be a list of length == self.encoders (%d)" % len(self.encoders))
-
-    d = {}
-    for i in range(0,len(vals)):
-      name = self.encoders[i][0]
-      dictutils.rUpdate(d, { str(name) : vals[i] })
-    self.encodeIntoArray_DictObj(d, output)
+    self.encodeIntoArray_DictObj(listToDict(valsAsList, list(self._encodersNames)), output)
 
   ############################################################################
   # encodes DictObj dictionary ({"name": value}) 
@@ -147,14 +146,14 @@ class MultiEncoder(Encoder):
 
   ############################################################################
   def encodeField(self, fieldName, value):
-    for name, encoder, offset in self.encoders:
+    for (name, encoder, _) in self.encoders:
       if name == fieldName:
         return encoder.encode(value)
 
   ############################################################################
   def encodeEachField(self, inputRecord):
     encodings = []
-    for name, encoder, offset in self.encoders:
+    for (name, encoder, _) in self.encoders:
       encodings.append(encoder.encode(getattr(inputRecord, name)))
     return encodings
 
