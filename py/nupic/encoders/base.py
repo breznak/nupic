@@ -506,7 +506,7 @@ class Encoder(object):
     fieldsOrder = []
 
     # What is the effective parent name?
-    if parentFieldName == '':
+    if parentFieldName == '' or parentFieldName is None:
       parentName = self.name
     else:
       parentName = "%s.%s" % (parentFieldName, self.name)

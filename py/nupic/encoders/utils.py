@@ -31,16 +31,20 @@ def bitsToString(arr):
   return s
 
 ############################################################################
-def dictToList(dic):
+def dictToList(dic,nameOrdering=None):
   """convert a dict to list, returns two lists: values, names;
      use: (listVals, listNames) = dictToList(myDict)
      myDict['aa']=1 -> listVals[0]=='1', listNames[0]=='aa' """
   if not isinstance(dic, dict):
     raise Exception("you must provide a dict as a parameter")
+  print(nameOrdering)
   listVals=[]
   listNames=[]
   for key in sorted(dic.keys()):
-    listVals.append(dic[key])
+    v=dic[key]
+    if isinstance(v,tuple):
+      v=v[1] # bloody OPF
+    listVals.append(v)
     listNames.append(key)
   return (listVals, listNames)
 

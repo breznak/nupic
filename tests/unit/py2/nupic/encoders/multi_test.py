@@ -47,7 +47,7 @@ class MultiEncoderTest(unittest.TestCase):
       e.addEncoder("myval", ScalarEncoder(w=5, resolution=1, minval=1, maxval=10,
                     periodic=False, name="aux"))
       self.assertEqual(e.getWidth(), 21)
-      self.assertEqual(e.getDescription(), [("day of week", 0), ("aux", 7)])
+      self.assertEqual(e.getDescription(), [("dow", 0), ("myval", 7)])
 
       d = DictObj(dow=3, myval=10)
       expected=numpy.array([0,1,1,1,0,0,0] + [0,0,0,0,0,0,0,0,0,1,1,1,1,1], dtype='uint8')
@@ -62,9 +62,9 @@ class MultiEncoderTest(unittest.TestCase):
       decoded = e.decode(output)
       #print decoded
       self.assertEqual(len(decoded), 2)
-      (ranges, desc) = decoded[0]['aux']
+      (ranges, desc) = decoded[0]['myval']
       self.assertTrue(len(ranges) == 1 and numpy.array_equal(ranges[0], [10, 10]))
-      (ranges, desc) = decoded[0]['day of week']
+      (ranges, desc) = decoded[0]['dow']
       self.assertTrue(len(ranges) == 1 and numpy.array_equal(ranges[0], [3, 3]))
       print "decodedToStr=>", e.decodedToStr(decoded)
 

@@ -35,7 +35,7 @@ from nupic.encoders.utils import bitsToString
 
 from nupic.data import dictutils
 from nupic.data.dictutils import DictObj
-from nupic.encoders.utils import listToDict
+from nupic.encoders.utils import listToDict, dictToList
 import numpy
 
 class MultiEncoder(Encoder):
@@ -66,18 +66,13 @@ class MultiEncoder(Encoder):
      'Dict' - standard behavior, return a dict (DictObj)
      'List' - return python's list
      'NumpyArray' - return numpy.array"""
-    if self.outputMode == 'Dict':
-      return super(MultiEncoder, self).decode(encoded, ff)
-    else:   
-      dec = self.topDownCompute(encoded)
-      result = []
-      for i in range(0,len(self.encoders)):
-        result.append(dec[i].value)
-
-      if self.outputMode == 'NumpyArray':
-        result = numpy.array(result)
-      # else: # 'List'
-      return result
+    result = super(MultiEncoder, self).decode(encoded, ff)
+    print(result)
+    if self.outputMode == 'List':
+      result = dictToList(result[0],result[1])
+    elif self.outputMode == 'NumpyArray':
+      result = numpy.array(dictToList(result[0],result[1]))
+    return result
      
   ############################################################################
   def setFieldStats(self, fieldName, fieldStatistics ):
@@ -92,6 +87,7 @@ class MultiEncoder(Encoder):
     if fieldName in self._encodersNames:
       raise Exception("Only one encoder for same field possible! %s" % fieldName)
     self._encodersNames.add(fieldName)
+    encoder.name=fieldName
     self.encoders.append((fieldName, encoder, self.width))
     for d in encoder.getDescription():
       self.description.append((d[0], d[1] + self.width))
