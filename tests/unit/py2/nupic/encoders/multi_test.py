@@ -96,12 +96,8 @@ class MultiEncoderTest(unittest.TestCase):
     #List
     res_List = e.encode([18, "Eve"])
   
-    #Array
-    #TODO numpy.array cant carry int &str together!
-    ##res_NpyArr = e.encode(numpy.array([18, "Eve"]))
-
     #check encodings
-    assert (res_Dict == res_List).all() #and (res_List == res_NpyArr).all() 
+    assert (res_Dict == res_List).all()  
 
     #decode
     l = [21, "Mark"]
@@ -116,13 +112,9 @@ class MultiEncoderTest(unittest.TestCase):
     #'List'
     e.outputMode = 'List'
     res = e.decode(le)
+    res=res[0]
     assert( isinstance(res, list) and isinstance(res[0],int) and res[0] == 21 and res[1] == "Mark")
 
-    #'NumpyArray'
-    e.outputMode = 'NumpyArray'
-    res = e.decode(le)
-    assert isinstance(res, numpy.ndarray) #and res[0] == 21 and res[1] == "Mark" #TODO: ndarray broken when int & str together
-  
   ################################################################################
   def testSimpleVector(self):
     """testing SimpleVector..."""

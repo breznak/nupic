@@ -43,14 +43,14 @@ class MultiEncoder(Encoder):
   multiple components. A MultiEncode contains a number
   of sub-encoders, each of which encodes a separate component.
 
-  input is overloaded to accept any of: DictObj, list, numpy.array; 
+  input is overloaded to accept any of: DictObj, list; 
   output can be in these formats too, use self.outputMode to set desired one."""
 
 
   def __init__(self, encoderDescriptions=None, outputMode='Dict'):
     """constructs MultiEncoder; 
      params: (optional) encoderDescriptions - add these encoders; 
-     params: (optional) outputMode - one of {'Dict','List','NumpyArray'} specify type of output"""
+     params: (optional) outputMode - one of {'Dict','List'} specify type of output"""
     self.width = 0
     self.encoders = []
     self.description = []
@@ -64,14 +64,11 @@ class MultiEncoder(Encoder):
   def decode(self, encoded, ff=''):
     """decode (encoded) SDR, output depends on value of self.outputMode: 
      'Dict' - standard behavior, return a dict (DictObj)
-     'List' - return python's list
-     'NumpyArray' - return numpy.array"""
+     'List' - return python's list"""
     result = super(MultiEncoder, self).decode(encoded, ff)
     print(result)
     if self.outputMode == 'List':
       result = dictToList(result[0],result[1])
-    elif self.outputMode == 'NumpyArray':
-      result = numpy.array(dictToList(result[0],result[1]))
     return result
      
   ############################################################################
@@ -83,7 +80,7 @@ class MultiEncoder(Encoder):
   def addEncoder(self, fieldName, encoder):
     """ add encoder to the pool, 
       fieldName is the variable this encoder will cover, encoder is the encoder instance;
-      Note: 'NumpyArray' and 'List' do not! use name-variable pairs, so variable representation depends on order when added."""
+      Note: 'List's do not! use name-variable pairs, so variable representation depends on order when added."""
     if fieldName in self._encodersNames:
       raise Exception("Only one encoder for same field possible! %s" % fieldName)
     self._encodersNames.add(fieldName)
@@ -100,29 +97,17 @@ class MultiEncoder(Encoder):
   # overloaded function encodeIntoArray, calls specific encodeIntoArray_* as needed
   def encodeIntoArray(self, obj, output):
     """encode, 
-     accepts any of: DictObj, list, numpy.array
+     accepts any of: dict, list
      returns SDR"""
-    if(isinstance(obj, dict)):
-      return self.encodeIntoArray_DictObj(obj, output)
-    elif(isinstance(obj,list)):
-      return self.encodeIntoArray_List(obj, output)
-    elif(isinstance(obj,numpy.ndarray)):
-      # TODO: numpy.array cannot contain a string, it can! but then all vals are converted to str->problem
-      return self.encodeIntoArray_List(obj.tolist(), output) # cast and call
+    if(isinstance(obj, list)):
+      if not len(obj)==len(self.encoders):
+        raise Exception("obj must be specified and must be a list of length == self.encoders (%d)" % len(self.encoders))
+      obj = listToDict(obj, list(self._encodersNames))
+    elif(isinstance(obj,dict)):
+      pass
     else:
-      raise Exception("obj type must be one of: list, numpy.ndarray, DictObj")
-
+      raise Exception("obj type must be one of: list, dict")
       
-  ############################################################################
-  # encodes list ([1, 2, 3]), or numpy.ndarray (numpy.array([1, 2, 3]) 
-  def encodeIntoArray_List(self, valsAsList, output):
-    if not (isinstance(valsAsList, list) and len(valsAsList)==len(self.encoders)):
-      raise Exception("vals must be specified and must be a list of length == self.encoders (%d)" % len(self.encoders))
-    self.encodeIntoArray_DictObj(listToDict(valsAsList, list(self._encodersNames)), output)
-
-  ############################################################################
-  # encodes DictObj dictionary ({"name": value}) 
-  def encodeIntoArray_DictObj(self, obj, output):
     for name, encoder, offset in self.encoders:
         encoder.encodeIntoArray(self._getInputValue(obj, name), output[offset:])
 
@@ -199,7 +184,7 @@ class SimpleVector(MultiEncoder):
    represented by ScalarEncoders, it's a convenience wrapper around MultiEncoder, 
    output is as numpy array, so it can be used for other processing."""
    
-  def __init__(self, length, minVal, maxVal, outputMode='NumpyArray', w=7, verbosity=0, fieldNames=None):
+  def __init__(self, length, minVal, maxVal, outputMode='List', w=7, verbosity=0, fieldNames=None):
     """param length: how many values/numbers the array holds; array.size()
        param minVal, maxVal : range of all values
        param (opt) outputMode: see MultiEncoder, output type
