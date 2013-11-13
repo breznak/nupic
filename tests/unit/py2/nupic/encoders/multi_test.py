@@ -110,8 +110,8 @@ class MultiEncoderTest(unittest.TestCase):
     res = e.decode(le)
     print(type(res[0]))
     assert isinstance(res[0], dict)
-    res=res[0]
-    #TODO assert( int(res['age'][1]) == 21 and res['firstname'] == "Mark")
+    res=res[0] # res was tuple (dict, description)
+    assert( float(res['age'][1]) == 21 and res['firstname'] == "Mark")
 
     #'List'
     e.outputMode = 'List'
