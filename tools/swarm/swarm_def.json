@@ -1,0 +1,31 @@
+{
+  "includedFields": [
+    {
+      "fieldName": "letter", 
+      "fieldType": "string"
+    }
+  ], 
+  "streamDef": {
+    "info": "childrens-stories", 
+    "version": 1, 
+    "streams": [
+      {
+        "info": "childrens_stories.csv", 
+        "source": "file://linguist/childrens_stories.csv", 
+        "columns": [
+          "*"
+        ], 
+        "last_record": 10000
+      }
+    ]
+  }, 
+  "inferenceType": "MultiStep", 
+  "inferenceArgs": {
+    "predictionSteps": [
+      1,2,3,4,5,6,7,8,9,10
+    ], 
+    "predictedField": "letter"
+  }, 
+  "iterationCount": -1, 
+  "swarmSize": "large"
+}
