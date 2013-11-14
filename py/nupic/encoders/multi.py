@@ -54,7 +54,7 @@ class MultiEncoder(Encoder):
     self.width = 0
     self.encoders = []
     self.description = []
-    self.name = ''
+    self.name = 'MultiEncoder'
     if encoderDescriptions is not None:
       self.addMultipleEncoders(encoderDescriptions)
     self.outputMode = outputMode
@@ -84,10 +84,9 @@ class MultiEncoder(Encoder):
     if fieldName in self._encodersNames:
       raise Exception("Only one encoder for same field possible! %s" % fieldName)
     self._encodersNames.add(fieldName)
-    encoder.name=fieldName
     self.encoders.append((fieldName, encoder, self.width))
     for d in encoder.getDescription():
-      self.description.append((d[0], d[1] + self.width))
+      self.description.append((d[0], d[1] + self.width)) # (name,offset)
     self.width += encoder.getWidth()
 
     self._flattenedEncoderList = None
@@ -109,7 +108,7 @@ class MultiEncoder(Encoder):
       raise Exception("obj type must be one of: list, dict")
       
     for name, encoder, offset in self.encoders:
-        encoder.encodeIntoArray(self._getInputValue(obj, name), output[offset:])
+        encoder.encode(obj[name], output[offset:])
 
   ############################################################################
   def getDescription(self):
@@ -134,6 +133,8 @@ class MultiEncoder(Encoder):
   ############################################################################
   def encodeEachField(self, inputRecord):
     encodings = []
+    print("inrec %s" % (inputRecord))
+    assert False
     for (name, encoder, _) in self.encoders:
       encodings.append(encoder.encode(getattr(inputRecord, name)))
     return encodings
@@ -162,8 +163,8 @@ class MultiEncoder(Encoder):
     }
     """
     
-    # Sort the encoders so that they end up in a controlled order
-    encoderList = sorted(fieldEncodings.items())
+    # do not sort, order matters
+    encoderList = fieldEncodings.items()
     for key, fieldParams in encoderList:
       if ':' not in key and fieldParams is not None:
         fieldParams = fieldParams.copy()
@@ -203,4 +204,4 @@ class SimpleVector(MultiEncoder):
       name = "idx" + str(i)
       if(fieldNames is not None):
         name = fieldNames[i]
-      self.addEncoder(name, ScalarEncoder(w, minVal, maxVal, resolution=1))
+      self.addEncoder(name, ScalarEncoder(w, minVal, maxVal, resolution=1, name=name))

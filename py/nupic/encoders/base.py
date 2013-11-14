@@ -187,15 +187,13 @@ class Encoder(object):
     """ Returns a reference to each sub-encoder in this encoder. They are
     returned in the same order as they are for getScalarNames and getScalars
     """
-    if hasattr(self, '_flattenedEncoderList') and \
-        self._flattenedEncoderList is not None:
-
+    if hasattr(self, '_flattenedEncoderList') and self._flattenedEncoderList is not None:
       return self._flattenedEncoderList
 
     encoders = []
 
     if self.encoders is not None:
-      for (name, encoder, offset) in self.encoders:
+      for (_, encoder, _) in self.encoders:
         subEncoders = encoder.getEncoderList()
         encoders.extend(subEncoders)
     else:
@@ -203,7 +201,6 @@ class Encoder(object):
 
     self._flattenedEncoderList = encoders
     return encoders
-
 
   ############################################################################
   def getScalars(self, input):
