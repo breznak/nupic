@@ -1,5 +1,12 @@
 
 from nupic.encoders.passthru import PassThruEncoder as I
+try:
+  import rospy
+  from std_msgs.msg import *
+except:
+  print "Couldn't import ROS."
+  raise
+
 
 class ROSEncoder(I):
   """ ROS """
@@ -27,13 +34,6 @@ class ROSEncoder(I):
     if nodeType not in ["Listener", "Publisher"]:
       raise Exception("ROS: nodeType must be one of \"Listener\", \"Publisher\" ")
 
-    try:
-      import rospy
-      from std_msgs.msg import *
-    except:
-      print "Couldn't import ROS."
-      raise
-   
     if self.type == "Publisher":
       self.pub = rospy.Publisher(self.topic, self.format)    # create new publisher which will publish to the topic
       rospy.init_node('talker', anonymous=True)   # init new ROS node called 'talker'
@@ -52,7 +52,7 @@ class ROSEncoder(I):
     if rospy.is_shutdown():               # check for ROS node to be killed
       raise Exception("ROS is down")
     rospy.loginfo(input)                      # print to ROS console
-    self.pub.publish(input)                        # publish the message
+    self.pub.publish(self.format(input))                        # publish the message
     # actually only pass the data further:
     return input
 
