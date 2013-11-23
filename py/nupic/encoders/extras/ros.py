@@ -60,7 +60,7 @@ class ROSSubscriber(I):
     self.listeners = []
 
     if self._postTopic is not None:
-      self.pub = rospy.Publisher(self._postTopic, self._postListenFormat) # to this channel we'll send the data after listener's callback is finished
+      self.pub = rospy.Publisher(self._postTopic, self._postFormat) # to this channel we'll send the data after listener's callback is finished
     
     for i in xrange(0, len(topics)):
       self.listeners[i] = message_filters.Subscriber("Listener_"+self.topics[i], self.formats[i])
@@ -76,5 +76,5 @@ class ROSSubscriber(I):
     rospy.loginfo(rospy.get_caller_id()+"I heard %s",data) # write to ROS console
     result = self._callback(data) # call the user-defined function
     if self._postTopic is not None:
-      self.pub.publish(self._postListenFormat(result))  # publish further
+      self.pub.publish(self._postFormat(result))  # publish further
 
