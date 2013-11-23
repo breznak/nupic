@@ -25,4 +25,18 @@ class ROSEncoder(I):
     except:
       raise Exception("Couldn't import ROS.")
    
-  
+    if self.type == "Publisher":
+      self.pub = rospy.Publisher(self.topic, self.format)    # create new publisher which will publish to the topic
+      rospy.init_node('talker', anonymous=True)   # init new ROS node called 'talker'
+    elif self.type == "Listener":
+      pass
+
+
+  # override parent
+  def encode(self, input):
+    if not rospy.is_shutdown():               # check for ROS node to be killed
+      rospy.loginfo(input)                      # print to ROS console
+      self.pub.publish(input)                        # publish the message
+      # actually only pass the data further:
+      return input
+
