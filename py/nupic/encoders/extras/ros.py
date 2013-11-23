@@ -44,7 +44,11 @@ class ROSEncoder(I):
       # create subscriber for messages of type String on the topic & assign callback fcn
       rospy.Subscriber(self.topic, self.format, self.callback)   
       # spin() simply keeps python from exiting until this node is stopped - loops forever! 
-      rospy.spin()
+      #rospy.spin() 
+      # call manually from the application, eg use TimeSync etc.. 
+
+  def loop(self):
+    rospy.spin()
 
 
   # override parent
@@ -57,7 +61,7 @@ class ROSEncoder(I):
     return input
 
 
-  def callback(data):                         
+  def callback(self,data):                         
     """callback funciton - workload for listener()"""
     rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data) # write to ROS console
     self._callback(data.data) # call the user-defined function
