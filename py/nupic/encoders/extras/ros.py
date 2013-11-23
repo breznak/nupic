@@ -29,9 +29,10 @@ class ROSEncoder(I):
 
     try:
       import rospy
-      from ros_msgs.msg import *
+      from std_msgs.msg import *
     except:
-      raise Exception("Couldn't import ROS.")
+      print "Couldn't import ROS."
+      raise
    
     if self.type == "Publisher":
       self.pub = rospy.Publisher(self.topic, self.format)    # create new publisher which will publish to the topic
