@@ -8,11 +8,11 @@ from std_msgs.msg import UInt16
 import rospy
 
 def talker():
-  publisher2 = ROS(1, "topic2", "Publisher")
+  publisher2 = ROS(1, "topic2", "Publisher", UInt16)
 
   i = 0
   while not rospy.is_shutdown(): 
-    publisher2.publish(i)
+    publisher2.encode(i)
     i += 1
     rospy.sleep(2.0)
 
