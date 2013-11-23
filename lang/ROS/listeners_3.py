@@ -10,24 +10,27 @@ import rospy
 
 def listen():
 #TODO: use one listener subscribed to multiple topics
-  listener1 = ROS(1, "topic1", "Listener", listenerCallbackFn=callback1, postListenTopic="news")
-  listener2 = ROS(1, "topic2", "Listener", listenerCallbackFn=callback2, postListenTopic="news")
+  listener1 = ROS(1, "topic1", "Listener", UInt16, listenerCallbackFn=callback1, postListenTopic="news")
+  listener2 = ROS(1, "topic2", "Listener", UInt16, listenerCallbackFn=callback2, postListenTopic="news")
 
+########################################################################
+# global functions, variables
+_msg1 = None # msg recieved from Listener1
+_msg2 = None # dtto 2
 
-  _msg1 = None # msg recieved from Listener1
-  _msg2 = None # dtto 2
-
-  def callback1(data):
+def callback1(data):
     global _msg1
-    _msg1 = data.data
+    _msg1 = data
+    print "call1", data
     pprint()
 
-  def callback2(data):
+def callback2(data):
     global _msg2
-    _msg2 = data.data
+    _msg2 = data
+    print "call2", _msg2
     pprint()
 
-  def pprint():
+def pprint():
     global _msg1
     global _msg2
     if(_msg1 is not None and _msg2 is not None):

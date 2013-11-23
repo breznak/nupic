@@ -14,8 +14,8 @@ def work():
   data=[1,2,3,4,5]
   layer0 = ROS(1, "input", "Publisher", Float32) # pass thru encoder for raw input
   enc = Enc(3, 1, 5, n=15) # encoder for raw input to bit-array
-  layer1 = ROS(enc.width(), "encoded", "Publisher", Int8MultiArray) # publish the encoded bit array
-  sp = SP( inputDimensions=enc.width,
+  layer1 = ROS(enc.getWidth(), "encoded", "Publisher", Int8MultiArray) # publish the encoded bit array
+  sp = SP( inputDimensions=enc.getWidth(),
                columnDimensions=10,
                potentialRadius=3,
                potentialPct=0.5,
@@ -31,18 +31,24 @@ def work():
                dutyCyclePeriod=1000,
                maxBoost=10.0,
                seed=-1,
-               spVerbosity=0)
+               spVerbosity=0,
+          )
   layer2 = ROS(sp.getNumColumns(), "SP", "Publisher", Int8MultiArray) # SDR from the SP
 
   # run all the layers:
   for d in data:
     i = d
+    print "at layer 0, type:",type(i)," msg:",i 
     i = layer0.encode(i)
     i = enc.encode(i)
+    i = i.tolist()
+    print "at layer 1, type:",type(i)," msg:",i
     i = layer1.encode(i)
     retVal = numpy.array([0]*len(i))
     sp.compute(numpy.array([i]), True, retVal)
-    i = layer2.encode(retVal.tolist())
+    i = retVal.tolist()
+    print "at layer 2, type:",type(i)," msg:",i
+    i = layer2.encode(i)
     rospy.sleep(2.0)
 
   # that's it :)  
