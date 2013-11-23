@@ -34,9 +34,10 @@ class ROSEncoder(I):
 
   # override parent
   def encode(self, input):
-    if not rospy.is_shutdown():               # check for ROS node to be killed
-      rospy.loginfo(input)                      # print to ROS console
-      self.pub.publish(input)                        # publish the message
-      # actually only pass the data further:
-      return input
+    if rospy.is_shutdown():               # check for ROS node to be killed
+      raise Exception("ROS is down")
+    rospy.loginfo(input)                      # print to ROS console
+    self.pub.publish(input)                        # publish the message
+    # actually only pass the data further:
+    return input
 
