@@ -61,11 +61,13 @@ class ROSSubscriber(I):
 
     if self._postTopic is not None:
       self.pub = rospy.Publisher(self._postTopic, self._postFormat) # to this channel we'll send the data after listener's callback is finished
-    
+      rospy.init_node("Publisher_"+self._postTopic, anonymous=True)
+
     for i in xrange(0, len(topics)):
-      self.listeners[i] = message_filters.Subscriber("Listener_"+self.topics[i], self.formats[i])
+      self.listeners.append( message_filters.Subscriber("Listener_"+self.topics[i], self.formats[i]))
     ts = message_filters.TimeSynchronizer(self.listeners, 10)
     ts.registerCallback(self.callback)
+    self.loop()
 
   def loop(self):
     rospy.spin()
