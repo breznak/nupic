@@ -17,7 +17,7 @@ class ROSPublisher(I):
          topic -- a "string" for Publisher;
          msgFormat -- (obj) type of the ROS msg, see http://wiki.ros.org/std_msgs
     """
-    super(ROSEncoder, self).__init__(n, w=None, multiply=1, name=name, forced=True)
+    super(ROSPublisher, self).__init__(n, w=None, multiply=1, name=name, forced=True)
     self.topic = topic
     self.format = msgFormat
 
@@ -49,7 +49,7 @@ class ROSSubscriber(I):
        Warning: Listener node is passive - it sits and waits for data to come. After calling the constructor(), Listener will 
                 start listening in an infinite loop - no code after it will be executed.
     """
-    super(ROSEncoder, self).__init__(n, w=None, multiply=1, name=name, forced=True)
+    super(ROSListener, self).__init__(n, w=None, multiply=1, name=name, forced=True)
     self.topic = topic
     self._postTopic = postListenTopic
     self.format = msgFormat
@@ -58,7 +58,7 @@ class ROSSubscriber(I):
 
     if self._postTopic is not None:
       self.pub = rospy.Publisher(self._postTopic, self.format) # to this channel we'll send the data after listener's callback is finished
-    rospy.init_node('listener', anonymous=True)     # create new ROS node
+    rospy.init_node("Listener_"+topic, anonymous=True)     # create new ROS node
     # create subscriber for messages of type String on the topic & assign callback fcn
     rospy.Subscriber(self.topic, self.format, self.callback)
     # spin() simply keeps python from exiting until this node is stopped - loops forever! 
