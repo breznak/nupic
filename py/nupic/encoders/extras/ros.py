@@ -3,6 +3,7 @@ from nupic.encoders.passthru import PassThruEncoder as I
 try:
   import rospy
   from std_msgs.msg import *
+  import message_filters
 except:
   print "Couldn't import ROS."
   raise
@@ -38,32 +39,33 @@ class ROSPublisher(I):
 class ROSSubscriber(I):
   """ROS Subscriber node wrapped around PassThru encoder for CLA"""
 
-  def __init__(self, n, topic, msgFormat, listenerCallbackFn, postListenTopic=None, name="ROS"):
+  def __init__(self, n, topicis, msgFormats, listenerCallbackFn, postListenTopic=None, postListenFormat=None, name="ROS"):
     """params:
          n -- #bits of input (== also #bits of output);
-         topic -- a "string" for Publisher, a list of strings for Listener;
-         msgFormat -- (obj) type of the ROS msg, see http://wiki.ros.org/std_msgs
-         listenerCallbackFn -- a function, that is executed each time listener recieves an input;
+         topics -- a list of strings for Listener;
+         msgFormats -- (list[] of obj) type of the ROS msg, see http://wiki.ros.org/std_msgs
+         listenerCallbackFn -- a function, that is executed each time listener recieves an input; for n listeners must have n arguments;
          postListenTopic  -- (optional) (string) topic to which data are reposted after recieving by the listener. 
 
        Warning: Listener node is passive - it sits and waits for data to come. After calling the constructor(), Listener will 
                 start listening in an infinite loop - no code after it will be executed.
     """
     super(ROSSubscriber, self).__init__(n, w=None, multiply=1, name=name, forced=True)
-    self.topic = topic
+    self.topics = topics
     self._postTopic = postListenTopic
-    self.format = msgFormat
+    self._postFormat = postListenFormat
+    self.formats = msgFormats
     self._callback = listenerCallbackFn
     self.pub = None
+    self.listeners = []
 
     if self._postTopic is not None:
-      self.pub = rospy.Publisher(self._postTopic, self.format) # to this channel we'll send the data after listener's callback is finished
-    rospy.init_node("Listener_"+topic, anonymous=True)     # create new ROS node
-    # create subscriber for messages of type String on the topic & assign callback fcn
-    rospy.Subscriber(self.topic, self.format, self.callback)
-    # spin() simply keeps python from exiting until this node is stopped - loops forever! 
-    #rospy.spin() 
-    # call manually from the application, eg use TimeSync etc.. 
+      self.pub = rospy.Publisher(self._postTopic, self._postListenFormat) # to this channel we'll send the data after listener's callback is finished
+    
+    for i in xrange(0, len(topics)):
+      self.listeners[i] = message_filters.Subscriber("Listener_"+self.topics[i], self.formats[i])
+    ts = message_filters.TimeSynchronizer(self.listeners, 10)
+    ts.registerCallback(self.callback)
 
   def loop(self):
     rospy.spin()
@@ -71,8 +73,8 @@ class ROSSubscriber(I):
 
   def callback(self,data):                         
     """callback funciton - workload for listener()"""
-    rospy.loginfo(rospy.get_caller_id()+"I heard %s",data.data) # write to ROS console
-    self._callback(data.data) # call the user-defined function
+    rospy.loginfo(rospy.get_caller_id()+"I heard %s",data) # write to ROS console
+    result = self._callback(data) # call the user-defined function
     if self._postTopic is not None:
-      self.pub.publish(self.format(data.data))  # publish further
+      self.pub.publish(self._postListenFormat(result))  # publish further
 
