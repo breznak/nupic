@@ -39,7 +39,7 @@ class ROSPublisher(I):
 class ROSSubscriber(I):
   """ROS Subscriber node wrapped around PassThru encoder for CLA"""
 
-  def __init__(self, n, topicis, msgFormats, listenerCallbackFn, postListenTopic=None, postListenFormat=None, name="ROS"):
+  def __init__(self, n, topics, msgFormats, listenerCallbackFn, postListenTopic=None, postListenFormat=None, name="ROS"):
     """params:
          n -- #bits of input (== also #bits of output);
          topics -- a list of strings for Listener;
