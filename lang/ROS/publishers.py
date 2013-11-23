@@ -9,12 +9,13 @@ from std_msgs.msg import Float32, Int8MultiArray # the ROS type of msgs we'll be
 import rospy
 import numpy
 
-# initialize:
-data=[1,2,3,4,5]
-layer0 = ROS(1, "input", "Publisher", Float32) # pass thru encoder for raw input
-enc = Enc(3, 1, 5, n=15) # encoder for raw input to bit-array
-layer1 = ROS(enc.width(), "encoded", "Publisher", Int8MultiArray) # publish the encoded bit array
-sp = SP( inputDimensions=enc.width,
+def work():
+  # initialize:
+  data=[1,2,3,4,5]
+  layer0 = ROS(1, "input", "Publisher", Float32) # pass thru encoder for raw input
+  enc = Enc(3, 1, 5, n=15) # encoder for raw input to bit-array
+  layer1 = ROS(enc.width(), "encoded", "Publisher", Int8MultiArray) # publish the encoded bit array
+  sp = SP( inputDimensions=enc.width,
                columnDimensions=10,
                potentialRadius=3,
                potentialPct=0.5,
@@ -31,17 +32,24 @@ sp = SP( inputDimensions=enc.width,
                maxBoost=10.0,
                seed=-1,
                spVerbosity=0)
-layer2 = ROS(sp.getNumColumns(), "SP", "Publisher", Int8MultiArray) # SDR from the SP
+  layer2 = ROS(sp.getNumColumns(), "SP", "Publisher", Int8MultiArray) # SDR from the SP
 
-# run all the layers:
-for d in data:
-  i = d
-  i = layer0.encode(i)
-  i = enc.encode(i)
-  i = layer1.encode(i)
-  retVal = numpy.array([0]*len(i))
-  sp.compute(numpy.array([i]), True, retVal)
-  i = layer2.encode(retVal.tolist())
-  rospy.sleep(2.0)
+  # run all the layers:
+  for d in data:
+    i = d
+    i = layer0.encode(i)
+    i = enc.encode(i)
+    i = layer1.encode(i)
+    retVal = numpy.array([0]*len(i))
+    sp.compute(numpy.array([i]), True, retVal)
+    i = layer2.encode(retVal.tolist())
+    rospy.sleep(2.0)
 
-# that's it :)  
+  # that's it :)  
+
+
+if __name__ == '__main__':
+     try:
+         work()
+     except rospy.ROSInterruptException:
+         pass

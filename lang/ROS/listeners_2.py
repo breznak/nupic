@@ -7,12 +7,20 @@ from nupic.encoders.extras.ros import ROSEncoder as ROS
 from std_msgs.msg import UInt16
 import rospy
 
-publisher2 = ROS(1, "topic2", "Publisher")
+def talker():
+  publisher2 = ROS(1, "topic2", "Publisher")
 
-i = 0
-while not rospy.is_shutdown(): 
-  publisher2.publish(i)
-  i += 1
-  rospy.sleep(2.0)
+  i = 0
+  while not rospy.is_shutdown(): 
+    publisher2.publish(i)
+    i += 1
+    rospy.sleep(2.0)
 
+
+
+if __name__ == '__main__':
+     try:
+         talker()
+     except rospy.ROSInterruptException:
+         pass
 
