@@ -49,7 +49,7 @@ class ROSSubscriber(I):
        Warning: Listener node is passive - it sits and waits for data to come. After calling the constructor(), Listener will 
                 start listening in an infinite loop - no code after it will be executed.
     """
-    super(ROSListener, self).__init__(n, w=None, multiply=1, name=name, forced=True)
+    super(ROSSubscriber, self).__init__(n, w=None, multiply=1, name=name, forced=True)
     self.topic = topic
     self._postTopic = postListenTopic
     self.format = msgFormat

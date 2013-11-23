@@ -4,6 +4,7 @@
 
 # listener node, run this node last
 from nupic.encoders.extras.ros import ROSSubscriber as ROS
+from nupic.encoders.extras.ros import ROSPublisher as PUB
 from std_msgs.msg import UInt16
 import rospy
 
