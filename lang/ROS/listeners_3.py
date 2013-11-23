@@ -3,15 +3,15 @@
 """ This example demonstrates two publishers join in 1 listener node """
 
 # listener node, run this node last
-from nupic.encoders.extras.ros import ROSEncoder as ROS
+from nupic.encoders.extras.ros import ROSSubscriber as ROS
 from std_msgs.msg import UInt16
 import rospy
 
 
 def listen():
 #TODO: use one listener subscribed to multiple topics
-  listener1 = ROS(1, "topic1", "Listener", UInt16, listenerCallbackFn=callback1, postListenTopic="news")
-  listener2 = ROS(1, "topic2", "Listener", UInt16, listenerCallbackFn=callback2, postListenTopic="news")
+  listener1 = ROS(1, "topic1", UInt16, callback1, postListenTopic="news")
+  listener2 = ROS(1, "topic2", UInt16, callback2, postListenTopic="news")
 
 ########################################################################
 # global functions, variables
