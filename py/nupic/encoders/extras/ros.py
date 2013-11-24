@@ -64,7 +64,7 @@ class ROSSubscriber(I):
       rospy.init_node("Publisher_"+self._postTopic, anonymous=True)
 
     for i in xrange(0, len(topics)):
-      self.listeners.append( message_filters.Subscriber("Listener_"+self.topics[i], self.formats[i]))
+      self.listeners.append( message_filters.Subscriber(self.topics[i], self.formats[i]))
     ts = message_filters.TimeSynchronizer(self.listeners, 10)
     ts.registerCallback(self.callback)
     self.loop()
