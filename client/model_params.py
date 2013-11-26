@@ -47,8 +47,9 @@ MODEL_PARAMS = {
     # Model parameter dictionary.
     'modelParams': {
         # The type of inference that this model will perform
-        'inferenceType': 'NontemporalClassification',
-
+  #      'inferenceType': 'NontemporalClassification',  # somewhat works..but wrong
+  #      'inferenceType' : 'TemporalNextStep', #???returns only 0.0 result
+         'inferenceType' : 'TemporalMultiStep',
         'sensorParams': {
             # Sensor diagnostic output verbosity control;
             # if > 0: sensor region will print out on screen what it's sensing
