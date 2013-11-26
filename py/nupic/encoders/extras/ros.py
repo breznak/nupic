@@ -65,9 +65,9 @@ class ROSSubscriber(I):
 
     for i in xrange(0, len(topics)):
       rospy.init_node('listen', anonymous=True)
-      self.listeners.append( message_filters.Subscriber(self.topics[i], self.formats[i]))
-    ts = message_filters.TimeSynchronizer(self.listeners, 10)
-    ts.registerCallback(self.callback)
+      self.listeners.append( rospy.Subscriber(self.topics[i], self.formats[i]), self._callback)
+#    ts = message_filters.TimeSynchronizer(self.listeners, 10)
+#    ts.registerCallback(self.callback)
     self.loop()
 
   def loop(self):
@@ -76,8 +76,16 @@ class ROSSubscriber(I):
 
   def callback(self,data):                         
     """callback funciton - workload for listener()"""
-    rospy.loginfo(rospy.get_caller_id()+"I heard %s",data) # write to ROS console
-    result = self._callback(data) # call the user-defined function
+    global mem
+    mem[hash(self)]=data
+    rospy.loginfo(rospy.get_caller_id()+" - ", hash(self), " I heard %s",data) # write to ROS console
+    if len(mem)==len(self.topics): # all responses arrived
+      multi = mem.values()
+      mem = {}
+      result = self._callback(multi) # call the user-defined function
     if self._postTopic is not None:
       self.pub.publish(self._postFormat(result))  # publish further
 
+
+# global var
+mem = dict()
