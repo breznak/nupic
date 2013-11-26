@@ -11,7 +11,7 @@ import rospy
 
 def listen():
 # use one listener subscribed to multiple topics - TimeSync
-  listener = ROS(2, ["topic1", "topic2"], [UInt16,UInt16], callback, postListenTopic="news", postListenFormat=String)
+  listener = ROS(2, ["topic1", "topic2"], [UInt16,UInt16], callback, postListenTopic=None, postListenFormat=String)
 
 ########################################################################
 

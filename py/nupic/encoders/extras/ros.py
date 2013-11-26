@@ -22,8 +22,8 @@ class ROSPublisher(I):
     self.topic = topic
     self.format = msgFormat
 
+    rospy.init_node(self.topic, anonymous=True)   # init new ROS node called 'talker'
     self.pub = rospy.Publisher(self.topic, self.format)    # create new publisher which will publish to the topic
-    rospy.init_node("Publisher_"+self.topic, anonymous=True)   # init new ROS node called 'talker'
 
   # override parent
   def encode(self, input):
@@ -60,11 +60,12 @@ class ROSSubscriber(I):
     self.listeners = []
 
     if self._postTopic is not None:
+      rospy.init_node(self._postTopic, anonymous=True)
       self.pub = rospy.Publisher(self._postTopic, self._postFormat) # to this channel we'll send the data after listener's callback is finished
-      rospy.init_node("Publisher_"+self._postTopic, anonymous=True)
 
     for i in xrange(0, len(topics)):
-      self.listeners.append( message_filters.Subscriber("Listener_"+self.topics[i], self.formats[i]))
+      rospy.init_node('listen', anonymous=True)
+      self.listeners.append( message_filters.Subscriber(self.topics[i], self.formats[i]))
     ts = message_filters.TimeSynchronizer(self.listeners, 10)
     ts.registerCallback(self.callback)
     self.loop()
