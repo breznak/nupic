@@ -47,7 +47,7 @@ MODEL_PARAMS = {
     # Model parameter dictionary.
     'modelParams': {
         # The type of inference that this model will perform
-        'inferenceType': 'TemporalMultiStep',
+        'inferenceType': 'NontemporalClassification',
 
         'sensorParams': {
             # Sensor diagnostic output verbosity control;
@@ -66,16 +66,20 @@ MODEL_PARAMS = {
                 '_classifierInput': {
                     'fieldname': 'letter',
                     'classifierOnly': True,
-                    'type': 'SimpleUtilityEncoder',
+                    'type': 'ScalarEncoder',
                     'w': 21,
-                    'length': 2
+                    'resolution': 0.1,
+                    'minval' : 0,
+                    'maxval' : 100
                 },
                 'letter': {
                        'fieldname': u'letter',
                        'name': u'letter',
-                       'type': 'SimpleUtilityEncoder',
+                       'type': 'ScalarEncoder',
                        'w': 21,
-                       'length' : 2
+                       'resolution': 0.1,
+                       'minval' : 0, 
+                       'maxval' : 100
                 }
             },
 
@@ -145,91 +149,7 @@ MODEL_PARAMS = {
         # TP is necessary for making temporal predictions, such as predicting
         # the next inputs.  Without TP, the model is only capable of
         # reconstructing missing sensor inputs (via SP).
-        'tpEnable' : True,
-
-        'tpParams': {
-            # TP diagnostic output verbosity control;
-            # 0: silent; [1..6]: increasing levels of verbosity
-            # (see verbosity in nta/trunk/py/nupic/research/TP.py and TP10X*.py)
-            'verbosity': 0,
-
-            # Number of cell columns in the cortical region (same number for
-            # SP and TP)
-            # (see also tpNCellsPerCol)
-            'columnCount': 2048,
-
-            # The number of cells (i.e., states), allocated per column.
-            'cellsPerColumn': 8,
-
-            'inputWidth': 2048,
-
-            'seed': 1960,
-
-            # Temporal Pooler implementation selector (see _getTPClass in
-            # CLARegion.py).
-            'temporalImp': 'cpp',
-
-            # New Synapse formation count
-            # NOTE: If None, use spNumActivePerInhArea
-            #
-            # TODO: need better explanation
-            'newSynapseCount': 20,
-
-            # Maximum number of synapses per segment
-            #  > 0 for fixed-size CLA
-            # -1 for non-fixed-size CLA
-            #
-            # TODO: for Ron: once the appropriate value is placed in TP
-            # constructor, see if we should eliminate this parameter from
-            # description.py.
-            'maxSynapsesPerSegment': 32,
-
-            # Maximum number of segments per cell
-            #  > 0 for fixed-size CLA
-            # -1 for non-fixed-size CLA
-            #
-            # TODO: for Ron: once the appropriate value is placed in TP
-            # constructor, see if we should eliminate this parameter from
-            # description.py.
-            'maxSegmentsPerCell': 128,
-
-            # Initial Permanence
-            # TODO: need better explanation
-            'initialPerm': 0.21,
-
-            # Permanence Increment
-            'permanenceInc': 0.1,
-
-            # Permanence Decrement
-            # If set to None, will automatically default to tpPermanenceInc
-            # value.
-            'permanenceDec' : 0.1,
-
-            'globalDecay': 0.0,
-
-            'maxAge': 0,
-
-            # Minimum number of active synapses for a segment to be considered
-            # during search for the best-matching segments.
-            # None=use default
-            # Replaces: tpMinThreshold
-            'minThreshold': 9,
-
-            # Segment activation threshold.
-            # A segment is active if it has >= tpSegmentActivationThreshold
-            # connected synapses that are active due to infActiveState
-            # None=use default
-            # Replaces: tpActivationThreshold
-            'activationThreshold': 15,
-
-            'outputType': 'normal',
-
-            # "Pay Attention Mode" length. This tells the TP how many new
-            # elements to append to the end of a learned sequence at a time.
-            # Smaller values are better for datasets with short sequences,
-            # higher values are better for datasets with long sequences.
-            'pamLength': 12,
-        },
+        'tpEnable' : False,
 
         'clParams': {
             'regionName' : 'CLAClassifierRegion',

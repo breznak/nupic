@@ -29,37 +29,11 @@ import sys
 from nupic.frameworks.opf.modelfactory import ModelFactory
 import model_params
 import re
+import numpy
 
 NUM_REPEATS = 1
 PRINT_EVERY_REPEAT_N = 1
 TERMINATORS = ['.','!','?','|']
-
-def clean(s):
-  return re.sub('\n', '|', s)
-
-def prediction(inferences):
-  return clean("".join(inferences['multiStepBestPredictions'].values()))
-
-def confidences(inferences):
-  c = ""
-  predictions = inferences['multiStepPredictions']
-  bestPredictions = inferences['multiStepBestPredictions']
-
-  for i in bestPredictions:
-    v = bestPredictions[i]
-    prediction = predictions[i]
-
-    if v in prediction:
-      probability = prediction[v]
-    else:
-      probability = 0
-
-    c += format(probability, ".2f")
-
-    if i < len(bestPredictions):
-      c += " | "
-
-  return c
 
 def createModel():
   return ModelFactory.create(model_params.MODEL_PARAMS)
@@ -70,55 +44,23 @@ def runLinguist(datapath):
 
   i = 1
   for r in range(NUM_REPEATS):
-    should_print = r % PRINT_EVERY_REPEAT_N == 0
-
-    if should_print:
-      print "\n====== Repeat #%d =======\n" % (r + 1)
-
-    with open(datapath) as f:
-      while True:
-        c = f.read(1)
-        if not c: break
-
-        if not ( (ord(c) >= 31 and ord(c) <= 127) or c == '\n'): continue
-
-        modelInput = {'letter': [1,2]}
+    for c in xrange(0,100):
+        modelInput = {'letter': numpy.random.randint(0,100,1)[0]}
         result = model.run(modelInput)
-        #if should_print:
-        print "[%i]\t %s ==> %s\t(%s)" % (i, clean(modelInput['letter']), prediction(result.inferences), confidences(result.inferences))
-        if c in TERMINATORS:
-          model.resetSequenceStates()
-          print "reset"
-
+        print result
         i += 1
+
+
+  print "test"
+  model.disableLearning()
+  for i in [32, 32.2, 64, 64.6]:
+   modelInput = {'letter': i}
+   result = model.run(modelInput)
+   c=result.inferences['prediction'][0]
+   print result, "input=",i,"result=",c
 
   return model
 
-def tellStory(model, startSent, lenght):
-
-  model.disableLearning()
-  for s in startSent:
-    print(s),
-    modelInput = {'letter': s}
-    result = model.run(modelInput)
-
-  numSent = 0
-  c = s
-  while numSent <= lenght:
-    print(c),
-    modelInput = {'letter': c}
-    result = model.run(modelInput)
-    c=result.inferences['prediction'][0]
-
-    if c in TERMINATORS:
-      numSent += 1
-
-
 
 if __name__ == "__main__":
-  if len(sys.argv) > 1:
-    datapath = sys.argv[1]
-    model = runLinguist(datapath)
-    tellStory(model, 'The dog ', 5)
-  else:
-    print "Usage: python linguist.py [path/to/data.txt]"
+    model = runLinguist(None)
