@@ -82,10 +82,10 @@ def runLinguist(datapath):
 
         if not ( (ord(c) >= 31 and ord(c) <= 127) or c == '\n'): continue
 
-        modelInput = {'letter': c}
+        modelInput = {'letter': [1,2]}
         result = model.run(modelInput)
         #if should_print:
-          #print "[%i]\t %s ==> %s\t(%s)" % (i, clean(modelInput['letter']), prediction(result.inferences), confidences(result.inferences))
+        print "[%i]\t %s ==> %s\t(%s)" % (i, clean(modelInput['letter']), prediction(result.inferences), confidences(result.inferences))
         if c in TERMINATORS:
           model.resetSequenceStates()
           print "reset"

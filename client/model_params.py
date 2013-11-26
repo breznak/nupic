@@ -66,16 +66,16 @@ MODEL_PARAMS = {
                 '_classifierInput': {
                     'fieldname': 'letter',
                     'classifierOnly': True,
-                    'type': 'SDRCategoryEncoder',
+                    'type': 'SimpleUtilityEncoder',
                     'w': 21,
-                    'n': 121
+                    'length': 2
                 },
                 'letter': {
                        'fieldname': u'letter',
-                       'n': 121,
                        'name': u'letter',
-                       'type': 'SDRCategoryEncoder',
-                       'w': 21
+                       'type': 'SimpleUtilityEncoder',
+                       'w': 21,
+                       'length' : 2
                 }
             },
 
