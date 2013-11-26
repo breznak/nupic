@@ -30,6 +30,8 @@ from nupic.encoders.sdrrandom import SDRRandomEncoder
 from nupic.encoders.nonuniformscalar import NonUniformScalarEncoder
 from nupic.encoders.delta import DeltaEncoder
 from nupic.encoders.scalarspace import ScalarSpaceEncoder
+from nupic.encoders.vector import VectorEncoder,SimpleVectorEncoder
+from nupic.encoders.utility import UtilityEncoder, SimpleUtilityEncoder, UtilityEncoderOPF
 # multiencoder must be imported last because it imports * from this module!
 from nupic.encoders.utils import bitsToString 
 

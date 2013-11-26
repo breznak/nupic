@@ -1,9 +1,7 @@
-
-from nupic.encoders.multi import MultiEncoder
-from nupic.encoders.base import Encoder
 import numpy
 from nupic.encoders.scalar import ScalarEncoder
 from nupic.encoders.vector import VectorEncoder
+from nupic.encoders.multi import MultiEncoder
 
 def _thisIsFunction():
   """just a helper for type comparisons, we need instance of a function"""
