@@ -15,22 +15,30 @@ class ROSPublisher(I):
   def __init__(self, n, topic, msgFormat, name="ROS"):
     """params:
          n -- #bits of input (== also #bits of output);
-         topic -- a "string" for Publisher;
+         topic -- a "string" for Publisher; or a [ "list", "of", "topics"]
          msgFormat -- (obj) type of the ROS msg, see http://wiki.ros.org/std_msgs
     """
     super(ROSPublisher, self).__init__(n, w=None, multiply=1, name=name, forced=True)
-    self.topic = topic
+    if isinstance(topic, str):
+      self.topic = list(topic)
+    elif isinstance(topic, list):
+      self.topic = topic
+    else:
+      raise Exception("topic must be a string or a list of strings")
     self.format = msgFormat
 
-    rospy.init_node(self.topic, anonymous=True)   # init new ROS node called 'talker'
-    self.pub = rospy.Publisher(self.topic, self.format)    # create new publisher which will publish to the topic
+    self.pubs = [] # list of ROS-publishers
+    for idx,top in enumerate(self.topic):
+      rospy.init_node(top, anonymous=True)   # init new ROS node called 'talker'
+      self.pubs[idx] = rospy.Publisher(top, self.format)    # create new publisher which will publish to the topic
 
   # override parent
   def encode(self, input):
     if rospy.is_shutdown():               # check for ROS node to be killed
       raise Exception("ROS is down")
     rospy.loginfo(input)                      # print to ROS console
-    self.pub.publish(self.format(input))                        # publish the message
+    for pub in self.pubs:
+      pub.publish(self.format(input))                        # publish the message
     # actually only pass the data further:
     return input
 
