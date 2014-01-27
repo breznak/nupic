@@ -1,8 +1,7 @@
-/*
- * ---------------------------------------------------------------------
+/* ---------------------------------------------------------------------
  * Numenta Platform for Intelligent Computing (NuPIC)
- * Copyright (C) 2013, Numenta, Inc.  Unless you have purchased from
- * Numenta, Inc. a separate commercial license for this software code, the
+ * Copyright (C) 2013, Numenta, Inc.  Unless you have an agreement
+ * with Numenta, Inc., for a separate license for this software code, the
  * following terms and conditions apply:
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,31 +24,15 @@
  * @file
  */
 
+#define TIMER_TEST_MS 100
 
 #include "TimerTest.hpp"
 #include <nta/utils/Log.hpp>
 #include <nta/os/Timer.hpp>
 #include <math.h> // fabs
-
-
+#include <apr-1/apr_time.h>
 
 using namespace nta;
-
-static void spinABit()
-{
-  // Use up some time. We don't know how much, but it should be 
-  // measurable as > 0; structured so that the compiler 
-  // won't optimize away the loop
-  int j = 0;
-  int k = 1;
-  for (int i = 0; i < 100000; i ++)
-  {
-    j += i;
-    k += 1;
-    j -= k;
-  }
-  NTA_DEBUG << "Timer test: j = " << j;
-}
 
 void TimerTest::RunTests() 
 {
@@ -63,9 +46,8 @@ void TimerTest::RunTests()
   TEST(t1.getElapsed() == 0.0);
   TEST(t1.getStartCount() == 0);
   TESTEQUAL("[Elapsed: 0 Starts: 0]", t1.toString());
-  
-  spinABit();
 
+  apr_sleep(TIMER_TEST_MS);
 
   TEST(t2.isStarted());
   TEST(t2.getStartCount() == 1);
@@ -73,9 +55,9 @@ void TimerTest::RunTests()
   Real64 t2elapsed = t2.getElapsed();
 
   t1.start();
-
-  spinABit();
+  apr_sleep(TIMER_TEST_MS);
   t1.stop();
+
   t2.stop();
   TEST(t1.getStartCount() == 1);
   TEST(t1.getElapsed() > 0);
@@ -85,9 +67,4 @@ void TimerTest::RunTests()
   t1.start();
   t1.stop();
   TEST(t1.getStartCount() == 2);
-
 }
-
-
-
-
