@@ -32,7 +32,7 @@ Currently supported platforms:
  * Linux (32/64bit)
  * Mac OSX
  * Raspberry Pi (ARMv6)
- * Chromebook (Ubuntu ARM, Crouton) (ARMv7)  
+ * Chromebook (Ubuntu ARM, Crouton) (ARMv7)
  * [VM images](https://github.com/numenta/nupic/wiki/Running-Nupic-in-a-Virtual-Machine)
 
 Dependencies:
@@ -60,6 +60,11 @@ Add the following to your .bashrc file. Change the paths as needed.
     # setting $NTA.
     source $NUPIC/env.sh
 
+If you plan on making changes to NuPIC, add the following to your .bashrc file.
+
+    # Developer mode: make build use symbolic links from source for Python files instead of copying files
+    export NTAX_DEVELOPER_BUILD=1
+
 Complete set of python requirements are documented in [requirements.txt](/external/common/requirements.txt),
 compatible with [pip](http://www.pip-installer.org/en/latest/cookbook.html#requirements-files):
 
@@ -69,11 +74,13 @@ _Note_: If using pip 1.5 or later:
 
     pip install --allow-all-external --allow-unverified PIL --allow-unverified psutil -r external/common/requirements.txt
 
+_Note_: If you get a "permission denied" error when using pip, you may add the --user flag to install to a location in your home directory, which should resolve any permissions issues. Doing this, you may need to add this location to your PATH and PYTHONPATH. Alternatively, you can run pip with 'sudo'.
+
 Build and install NuPIC:
 
     $NUPIC/build.sh
 
-NuPIC should now be installed in $NTA!
+NuPIC should now be installed in $NTA! If the build failed, check to make sure that $NUPIC is set, and the value is the proper path to the local NuPIC repo.
 
 ## Try it out!
 
@@ -100,4 +107,4 @@ data sets. One example is the hotgym prediction client:
 
     python $NUPIC/examples/opf/clients/hotgym/hotgym.py
 
-Also check out other uses of the CLA on the [Getting Started](https://github.com/numenta/nupic/wiki/Getting-Started#next-steps) wiki page. 
+Also check out other uses of the CLA on the [Getting Started](https://github.com/numenta/nupic/wiki/Getting-Started#next-steps) wiki page.
