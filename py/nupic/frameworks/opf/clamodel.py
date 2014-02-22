@@ -1,7 +1,7 @@
 # ----------------------------------------------------------------------
 # Numenta Platform for Intelligent Computing (NuPIC)
-# Copyright (C) 2013, Numenta, Inc.  Unless you have purchased from
-# Numenta, Inc. a separate commercial license for this software code, the
+# Copyright (C) 2013, Numenta, Inc.  Unless you have an agreement
+# with Numenta, Inc., for a separate license for this software code, the
 # following terms and conditions apply:
 #
 # This program is free software: you can redistribute it and/or modify
@@ -832,31 +832,6 @@ class CLAModel(Model):
       likelihoodsDict = CLAModel._removeUnlikelyPredictions(
           likelihoodsDict, minLikelihoodThreshold, maxPredictionsPerStep)
 
-      # For the special case of timeStep=1, plug in the legacy fields
-      #   prediction and encodings. This is only for legacy networks;
-      # TODO: remove, we don't need this legacy network support anymore.
-      if steps == 1:
-        # predictionRow and predictionFieldEncodings are expected to be
-        #  lists of items, one item for each encoder. The CLAClassifier only
-        #  computes one field, the predicted field, so create an array with
-        #  place holders for the other fields
-        bestBucketIdx = likelihoodsVec.argmax()
-
-        predictionRow = [None] * self._numFields
-        if self._predictedFieldIdx is not None:
-          predictionRow[self._predictedFieldIdx] = bestActValue
-        inferences[InferenceElement.prediction] = predictionRow
-
-        predictionFieldEncodings = [None] * self._numFields
-        if self._predictedFieldIdx is not None:
-          bucketInfo = self._classifierInputEncoder.getBucketInfo(
-                                                    [bestBucketIdx])[0]
-          predictionFieldEncodings[self._predictedFieldIdx] = \
-                                                    bucketInfo.encoding
-        inferences[InferenceElement.encodings] = predictionFieldEncodings
-
-
-
       # ---------------------------------------------------------------------
       # If we have a delta encoder, we have to shift our predicted output value
       #  by the sum of the deltas
@@ -1129,17 +1104,17 @@ class CLAModel(Model):
       #                 hours[, weeks]]]]]]])
       if not (0 == dd['days'] == dd['hours'] == dd['minutes'] == dd['seconds'] \
               == dd['milliseconds'] == dd['microseconds'] == dd['weeks']):
-        timeDelta = timedelta(days=dd['days'],
-                              hours=dd['hours'],
-                              minutes=dd['minutes'],
-                              seconds=dd['seconds'],
-                              milliseconds=dd['milliseconds'],
-                              microseconds=dd['microseconds'],
-                              weeks=dd['weeks'])
+        interval = timedelta(days=dd['days'],
+                             hours=dd['hours'],
+                             minutes=dd['minutes'],
+                             seconds=dd['seconds'],
+                             milliseconds=dd['milliseconds'],
+                             microseconds=dd['microseconds'],
+                             weeks=dd['weeks'])
 
         self.__logger.debug(
           "Adding AutoResetFilter; sensorAutoResetDict: %r, timeDelta: %r" % (
-            sensorAutoResetDict, timeDelta))
+            sensorAutoResetDict, interval))
 
         # see if sensor already has an autoreset filter
         for filter_ in sensor.preEncodingFilters:
@@ -1149,7 +1124,7 @@ class CLAModel(Model):
           filter_ = AutoResetFilter()
           sensor.preEncodingFilters.append(filter_)
 
-        filter_.setInterval(timedelta)
+        filter_.setInterval(interval)
 
     prevRegion = "sensor"
     prevRegionWidth = encoder.getWidth()
