@@ -1,10 +1,6 @@
-<div align="center">
-    <img title="Numenta Logo" src="http://numenta.org/images/250x250numentaicon.gif"/>
-</div>
+# ![Numenta Logo](http://numenta.org/images/numenta-icon128.png) NuPIC
 
-# Numenta Platform for Intelligent Computing (NuPIC)
-
-[![Build Status](https://travis-ci.org/numenta/nupic.png?branch=master)](https://travis-ci.org/numenta/nupic)
+## Numenta Platform for Intelligent Computing [![Build Status](https://travis-ci.org/numenta/nupic.png?branch=master)](https://travis-ci.org/numenta/nupic)
 
 NuPIC is a library that provides the building blocks for online prediction systems.  The library contains the Cortical Learning Algorithm (CLA), but also the Online Prediction Framework (OPF) that allows clients to build prediction systems out of encoders, models, and metrics.
 
@@ -68,6 +64,7 @@ Important notes:
 
 #### Configure and generate build files:
 
+    mkdir $REPOSITORY/build_system
     cd $REPOSITORY/build_system
     cmake $REPOSITORY
 
@@ -89,7 +86,7 @@ Important notes:
 #### Generate the IDE solution:
 
  * Open CMake executable.
- * Specify the source folder ($REPOSITORY/source).
+ * Specify the source folder ($REPOSITORY).
  * Specify the build system folder ($REPOSITORY/build_system), ie where IDE solution will be created.
  * Click 'Generate'.
  * Choose the IDE that interest you (remember that IDE choice is limited to your OS, ie Visual Studio is available only on CMake for Windows).
