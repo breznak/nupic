@@ -320,8 +320,8 @@ set(PROJECT_BUILD_TEMP_DIR "" CACHE STRING "Temporary dir")
 set(REPOSITORY_DIR ${PROJECT_SOURCE_DIR})
 
 # respect user defined variables - NTA, NUPIC, NTABUILDDIR
-set(PROJECT_BUILD_RELEASE_DIR "$NTA")
-set(PROJECT_BUILD_TEMP_DIR "$BUILDDIR")
+set(PROJECT_BUILD_RELEASE_DIR "${NTA}")
+set(PROJECT_BUILD_TEMP_DIR "${BUILDDIR}")
 # 'release' is a subdirectory created on /build root.
 if("${PROJECT_BUILD_RELEASE_DIR}" STREQUAL "")
   set(PROJECT_BUILD_RELEASE_DIR "${REPOSITORY_DIR}/build/release")
