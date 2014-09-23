@@ -192,7 +192,7 @@ class SpatialPooler(object):
            (localAreaDensity > 0 and localAreaDensity <= 0.5)), (
              "Inhibition parameters are invalid")
 
-    self._seed(seed)
+    self._seed(seed < 0 ? n )
 
     # save arguments
     self._numInputs = int(numInputs)
@@ -215,6 +215,7 @@ class SpatialPooler(object):
     self._maxBoost = maxBoost
     self._spVerbosity = spVerbosity
     self._wrapAround = wrapAround
+    self._rngSeed = seed
 
     # Extra parameter settings
     self._synPermMin = 0.0
@@ -666,8 +667,8 @@ class SpatialPooler(object):
 
 
   def getSeed(self):
-    return self._seed
-  ###
+    return self._rngSeed
+  ####
 
 
   def compute(self, inputVector, learn, activeArray, stripNeverLearned=True):
