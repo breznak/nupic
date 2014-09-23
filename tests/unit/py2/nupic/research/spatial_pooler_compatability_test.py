@@ -60,6 +60,10 @@ class SpatialPoolerCompatabilityTest(unittest.TestCase):
                            cppSp.getNumColumns())
     self.assertAlmostEqual(pySp.getNumInputs(),
                            cppSp.getNumInputs())
+    self.assertListAlmostEqual(pySp.getInputDimensions(),
+                           cppSp.getInputDimensions())
+    self.assertListAlmostEqual(pySp.getColumnDimensions(),
+                           cppSp.getColumnDimensions())
     self.assertAlmostEqual(pySp.getPotentialRadius(),
                            cppSp.getPotentialRadius())
     self.assertAlmostEqual(pySp.getPotentialPct(),
