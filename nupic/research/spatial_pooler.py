@@ -192,7 +192,7 @@ class SpatialPooler(object):
            (localAreaDensity > 0 and localAreaDensity <= 0.5)), (
              "Inhibition parameters are invalid")
 
-    self._seed(seed < 0 ? n )
+    self._seed(seed)
 
     # save arguments
     self._numInputs = int(numInputs)

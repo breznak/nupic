@@ -104,6 +104,16 @@ class SpatialPoolerCompatabilityTest(unittest.TestCase):
                            cppSp.getMinPctOverlapDutyCycles())
     self.assertAlmostEqual(pySp.getMinPctActiveDutyCycles(),
                            cppSp.getMinPctActiveDutyCycles())
+    self.assertAlmostEqual(pySp.getWrapAround(),
+                           cppSp.getWrapAround())
+    self.assertAlmostEqual(pySp.getSynPermMin(),
+                           cppSp.getSynPermMin())
+    self.assertAlmostEqual(pySp.getSynPermMax(),
+                           cppSp.getSynPermMax())
+    self.assertAlmostEqual(pySp.getSynPermTrimThreshold(),
+                           cppSp.getSynPermTrimThreshold())
+    self.assertAlmostEqual(pySp.getSeed(),
+                           cppSp.getSeed())
 
     numColumns = pySp.getNumColumns()
     numInputs = pySp.getNumInputs()
