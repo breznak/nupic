@@ -648,6 +648,27 @@ class SpatialPooler(object):
     'connectedCounts' size must match the number of columns"""
     connectedCounts[:] = self._connectedCounts[:]
 
+  #### these methods are not really useful, just API to compare 2 instances of SP
+  def getWrapAround(self):
+    return self._wrapAround
+
+
+  def getSynPermMin(self):
+    return self._synPermMin
+
+
+  def getSynPermMax(self):
+    return self._synPermMax
+
+
+  def getSynPermTrimThreshold(self):
+    return self._synPermTrimThreshold
+
+
+  def getSeed(self):
+    return self._seed
+  ###
+
 
   def compute(self, inputVector, learn, activeArray, stripNeverLearned=True):
     """
