@@ -231,9 +231,6 @@ class SpatialPooler(object):
     self._iterationNum = 0
     self._iterationLearnNum = 0
 
-    # initialize the random number generators
-    self._seed(seed)
-
     # Store the set of all inputs that are within each column's potential pool.
     # 'potentialPools' is a matrix, whose rows represent cortical columns, and
     # whose columns represent the input bits. if potentialPools[i][j] == 1,
@@ -674,6 +671,44 @@ class SpatialPooler(object):
 
   def getSeed(self):
     return self._rngSeed
+
+
+  def __repr__(self):
+    """object's represenation (ie for equals), must contain each field in self.xxx"""
+    r={}
+    # init's params
+    r['seed']=self._seed
+    r['numInputs']=self._numInputs
+    r['numColumns']=self._numColumns
+    r['columnDimensions']=self._columnDimensions
+    r['inputDimensions']=self._inputDimensions
+    r['potentialRadius']=self._potentialRadius
+    r['potentialPct']=self._potentialPct
+    r['globalInhibition']=self._globalInhibition
+    r['numActiveColumnsPerInhArea']=self._numActiveColumnsPerInhArea
+    r['localAreaDensity']=self._localAreaDensity
+    r['stimulusThreshold']=self._stimulusThreshold
+    r['synPermInactiveDec']=self._synPermInactiveDec
+    r['synPermActiveInc']=self._synPermActiveInc
+    r['synPermBelowStimulusInc']=self._synPermBelowStimulusInc
+    r['synPermConnected']=self._synPermConnected
+    r['minPctOverlapDutyCycles']=self._minPctOverlapDutyCycles
+    r['minPctActiveDutyCycles']=self._minPctActiveDutyCycles
+    r['dutyCyclePeriod']=self._dutyCyclePeriod
+    r['maxBoost']=self._maxBoost
+    r['spVerbosity']=self._spVerbosity
+    r['wrapAround']=self._wrapAround
+    r['rngSeed']=self._rngSeed
+    # other in init
+    r['synPermMin']=self._synPermMin
+    r['synPermMax']=self._synPermMax
+    r['synPermTriThreshold']=self._synPermTrimThreshold
+    r['updatePeriod']=self._updatePeriod
+    r['version']=self._version
+    r['iterationNum']=self._iterationNum
+    r['iterationLearnNum']=self._iterationLearnNum
+    
+    return r
   ####
 
 
