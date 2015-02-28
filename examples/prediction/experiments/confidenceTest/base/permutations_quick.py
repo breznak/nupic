@@ -7,7 +7,7 @@ permutations = dict(
                 iterationCountTest = [150],
                 evalTrainingSetNumIterations = [0],
                 
-                spNumActivePerInhArea = [5],
+                spNumActiveColumnsPerInhArea = [5],
                 
                 temporalImp = ['py'],
                 tpNCellsPerCol = [4], 

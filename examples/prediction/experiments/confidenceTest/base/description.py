@@ -79,7 +79,7 @@ config = dict(
   disableSpatial = 1,
   spPrintPeriodicStats = 0,   # An integer N: print stats every N iterations
   spCoincCount = 200,
-  spNumActivePerInhArea = 3,
+  spNumActiveColumnsPerInhArea = 3,
 
   # TP params
   tpNCellsPerCol = 20,
@@ -215,28 +215,25 @@ def getDescription(datasets):
 
   if config['overlappingPatterns']:
     encoder.addEncoder("name", SDRCategoryEncoder(n=200, 
-      w=config['spNumActivePerInhArea'], categoryList=categories, name="name"))
+      w=config['spNumActiveColumnsPerInhArea'], categoryList=categories, name="name"))
   else:
-    encoder.addEncoder("name", CategoryEncoder(w=config['spNumActivePerInhArea'], 
+    encoder.addEncoder("name", CategoryEncoder(w=config['spNumActiveColumnsPerInhArea'], 
                         categoryList=categories, name="name"))
 
 
   # ------------------------------------------------------------------
   # Node params
   # The inputs are long, horizontal vectors
-  inputShape = (1, encoder.getWidth())
+  inputDimensions = (1, encoder.getWidth())
 
   # Layout the coincidences vertically stacked on top of each other, each
   # looking at the entire input field. 
-  coincidencesShape = (config['spCoincCount'], 1)
-  inputBorder = inputShape[1]/2
-  if inputBorder*2 >= inputShape[1]:
-    inputBorder -= 1
+  columnDimensions = (config['spCoincCount'], 1)
 
   # If we have disableSpatial, then set the number of "coincidences" to be the
   #  same as the encoder width
   if config['disableSpatial']:
-    coincidencesShape = (encoder.getWidth(), 1)
+    columnDimensions = (encoder.getWidth(), 1)
     config['trainSP'] = 0
 
   sensorParams = dict(
@@ -247,15 +244,14 @@ def getDescription(datasets):
   CLAParams = dict(
     # SP params
     disableSpatial = config['disableSpatial'],
-    inputShape = inputShape,
-    inputBorder = inputBorder,
-    coincidencesShape = coincidencesShape,
-    coincInputRadius = inputShape[1]/2,
-    coincInputPoolPct = 1.00,
+    inputDimensions = inputDimensions,
+    columnDimensions = columnDimensions,
+    potentialRadius = inputDimensions[1]/2,
+    potentialPct = 1.00,
     gaussianDist = 0,
     commonDistributions = 0,    # should be False if possibly not training
     localAreaDensity = -1, #0.05, 
-    numActivePerInhArea = config['spNumActivePerInhArea'], 
+    numActiveColumnsPerInhArea = config['spNumActiveColumnsPerInhArea'], 
     dutyCyclePeriod = 1000,
     stimulusThreshold = 1,
     synPermInactiveDec=0.11,
@@ -279,9 +275,9 @@ def getDescription(datasets):
     burnIn = 2,
     verbosity = config['tpVerbosity'],
 
-    newSynapseCount = config['spNumActivePerInhArea'],
-    minThreshold = config['spNumActivePerInhArea'],
-    activationThreshold = config['spNumActivePerInhArea'],
+    newSynapseCount = config['spNumActiveColumnsPerInhArea'],
+    minThreshold = config['spNumActiveColumnsPerInhArea'],
+    activationThreshold = config['spNumActiveColumnsPerInhArea'],
 
     initialPerm = config['tpInitialPerm'],
     connectedPerm = 0.5,

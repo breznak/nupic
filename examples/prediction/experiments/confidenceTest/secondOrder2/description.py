@@ -41,7 +41,7 @@ config = dict(
               iterationCountTest=250,
               trainTPRepeats = 1,
               
-              spNumActivePerInhArea = 5,
+              spNumActiveColumnsPerInhArea = 5,
               
               trainTP=True,
               tpNCellsPerCol = 10, 

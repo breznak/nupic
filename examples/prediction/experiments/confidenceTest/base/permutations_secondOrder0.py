@@ -6,7 +6,7 @@ permutations = dict(
                 iterationCountTrain = [250, 500, 1000, 1500],
                 iterationCountTest = [250, 500],
                 
-                spNumActivePerInhArea = [5],
+                spNumActiveColumnsPerInhArea = [5],
                 
                 tpNCellsPerCol = [5], 
 

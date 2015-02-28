@@ -57,7 +57,7 @@ config = dict(
               dataSetPackage = 'firstOrder',
               iterationCountTest=1000,
               
-              spNumActivePerInhArea = 1,
+              spNumActiveColumnsPerInhArea = 1,
               
               #temporalImp = 'cpp',
               tpNCellsPerCol = 1,

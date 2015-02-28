@@ -179,7 +179,7 @@
       "type": "object", 
       "description": "Custom User definied Error metric that will be computed"
     }, 
-    "spCoincInputPoolPct": {
+    "spPotentialPct": {
       "default": 0.8, 
       "minimum": 0.0, 
       "required": false, 

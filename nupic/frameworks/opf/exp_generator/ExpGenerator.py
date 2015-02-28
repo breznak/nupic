@@ -1348,7 +1348,7 @@ def _generateExperiment(options, outputDirPath, hsVersion,
                                         = str(options['iterationCount'])
 
   tokenReplacements['\$SP_POOL_PCT'] \
-                                        = str(options['spCoincInputPoolPct'])
+                                        = str(options['spPotentialPct'])
 
   tokenReplacements['\$HS_MIN_PARTICLES'] \
                                         = str(options['minParticlesPerSwarm'])

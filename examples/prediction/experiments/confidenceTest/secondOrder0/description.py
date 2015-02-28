@@ -78,7 +78,7 @@ config = dict(
               #evalTrainingSetNumIterations = 0,
               trainTPRepeats = 1,
               
-              spNumActivePerInhArea = 5,
+              spNumActiveColumnsPerInhArea = 5,
               
               tpNCellsPerCol = 5, 
 

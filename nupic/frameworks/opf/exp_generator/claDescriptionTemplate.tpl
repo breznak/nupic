@@ -181,7 +181,7 @@ config = {
             'temporalImp': 'cpp',
 
             # New Synapse formation count
-            # NOTE: If None, use spNumActivePerInhArea
+            # NOTE: If None, use spNumActiveColumnsPerInhArea
             'newSynapseCount': 20,
 
             # Maximum number of synapses per segment

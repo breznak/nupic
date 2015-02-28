@@ -232,9 +232,9 @@ class ExperimentDescriptionAPI(DescriptionIface):
       globalInhibition = 1,
       columnCount = config['claRegionNColumns'],
       inputWidth = 0,
-      numActivePerInhArea = config['spNumActivePerInhArea'],
+      numActiveColumnsPerInhArea = config['spNumActiveColumnsPerInhArea'],
       seed = 1956,
-      coincInputPoolPct = config.get('spCoincInputPoolPct', 1.0),
+      potentialPct = config.get('spPotentialPct', 1.0),
       synPermConnected = config.get('spSynPermConnected', 0.1),
       synPermActiveInc = config.get('synPermActiveInc', 0.1),
       synPermInactiveDec = config.get('synPermInactiveDec', 0.01),
@@ -249,7 +249,7 @@ class ExperimentDescriptionAPI(DescriptionIface):
       temporalImp = config['tpImplementation'],
       newSynapseCount = config['tpNewSynapseCount']
                         if config['tpNewSynapseCount'] is not None
-                        else config['spNumActivePerInhArea'],
+                        else config['spNumActiveColumnsPerInhArea'],
       maxSynapsesPerSegment = config['tpMaxSynapsesPerSegment'],
       maxSegmentsPerCell = config['tpMaxSegmentsPerCell'],
       initialPerm = config['tpInitialPerm'],

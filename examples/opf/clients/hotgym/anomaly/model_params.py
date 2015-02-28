@@ -164,7 +164,7 @@ MODEL_PARAMS = {
             'temporalImp': 'cpp',
 
             # New Synapse formation count
-            # NOTE: If None, use spNumActivePerInhArea
+            # NOTE: If None, use spNumActiveColumnsPerInhArea
             #
             # TODO: need better explanation
             'newSynapseCount': 20,

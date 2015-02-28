@@ -212,7 +212,7 @@ config = {
          n=70, w=5),
     dict(fieldname='Name3', type='SDRCategoryEncoder', name="Name3",
          n=DeferredDictLookup('claRegionNColumns'),
-         w=DeferredDictLookup('spNumActivePerInhArea')),
+         w=DeferredDictLookup('spNumActiveColumnsPerInhArea')),
   ],
 
   
@@ -236,20 +236,19 @@ config = {
   'spVerbosity' : 0,
 
   # Print/logs stats every N iterations; 0 = disable stats
-  # NOTE: stats are printed by FDRCSpatial2.printPeriodicStats() to stdout
   'spPrintStatsPeriodIter' : 0,
 
   # SP inhibition control (absolute value);
   # Maximum number of active columns in the SP region's output (when there are more,
   # the weaker ones are suppressed)
   #
-  'spNumActivePerInhArea' : 40,
+  'spNumActiveColumnsPerInhArea' : 40,
 
-  # coincInputPoolPct
+  # potentialPct
   # What percent of the columns's receptive field is available
   # for potential synapses. At initialization time, we will 
-  # choose coincInputPoolPct * (2*coincInputRadius+1)^2 
-  'spCoincInputPoolPct' : 1.0,
+  # choose potentialPct * (2*potentialRadius+1)^2 
+  'spPotentialPct' : 1.0,
   
 
   ##############################################################################
@@ -331,7 +330,7 @@ config = {
   'tpMaxSynapsesPerSegment' : 32,
   
   # New Synapse formation count
-  # NOTE: If None, use spNumActivePerInhArea
+  # NOTE: If None, use spNumActiveColumnsPerInhArea
   #
   # TODO need better explanation
   #
