@@ -1118,13 +1118,11 @@ inline PyObject* generate2DGaussianSample(nupic::UInt32 nrows, nupic::UInt32 nco
         self.__dict__.update(state)
   %}
 
-  inline void compute(PyObject *py_x, bool learn, PyObject *py_y,
-                      bool stripNeverLearned)
+  inline void compute(PyObject *py_x, bool learn, PyObject *py_y)
   {
     PyArrayObject* x = (PyArrayObject*) py_x;
     PyArrayObject* y = (PyArrayObject*) py_y;
-    self->compute((nupic::UInt*) x->data, (bool)learn, (nupic::UInt*) y->data,
-                  (bool)stripNeverLearned);
+    self->compute((nupic::UInt*) x->data, (bool)learn, (nupic::UInt*) y->datai);
   }
 
   inline void compute(PyObject *py_x, bool learn, PyObject *py_y)
