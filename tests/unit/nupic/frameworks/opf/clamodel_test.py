@@ -130,7 +130,7 @@ class CLAModelTest(unittest.TestCase):
                                       u'synPermActiveInc': 0.0015,
                                       u'synPermConnected': 0.1,
                                       u'synPermInactiveDec': 0.0005,
-                                      u'useHighTier': 0},
+                                      },
                         u'tpEnable': True,
                         u'tpParams': {u'activationThreshold': 13,
                                       u'cellsPerColumn': 32,
