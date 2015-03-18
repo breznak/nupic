@@ -719,7 +719,7 @@ class SpatialPooler(object):
     If 'learn' is set to True, this method also updates the permanences of the
     columns.
 
-    :param inputVector: A numpy array of 0's and 1's that comprises the input
+    @param inputVector: A numpy array of 0's and 1's that comprises the input
         to the spatial pooler. The array will be treated as a one dimensional
         array, therefore the dimensions of the array do not have to match the
         exact dimensions specified in the class constructor. In fact, even a
@@ -727,15 +727,15 @@ class SpatialPooler(object):
         however, match the number of bits specified by the call to the
         constructor. Therefore there must be a '0' or '1' in the array for
         every input bit.
-    :param learn: A boolean value indicating whether learning should be
+    @param learn: A boolean value indicating whether learning should be
         performed. Learning entails updating the  permanence values of the
         synapses, and hence modifying the 'state' of the model. Setting
         learning to 'off' freezes the SP and has many uses. For example, you
         might want to feed in various inputs and examine the resulting SDR's.
-    :param activeArray: An array whose size is equal to the number of columns.
+    @param activeArray: An array whose size is equal to the number of columns.
         Before the function returns this array will be populated with 1's at
         the indices of the active columns, and 0's everywhere else.
-    :param stripNeverLearned: If True and learn=False, then columns that
+    @param stripNeverLearned: If True and learn=False, then columns that
         have never learned will be stripped out of the active columns. This
         should be set to False when using a random SP with learning disabled.
         NOTE: This parameter should be set explicitly as the default will
@@ -789,7 +789,7 @@ class SpatialPooler(object):
     is required. This should not be done when using a random, unlearned SP
     since you would end up with no active columns.
 
-    :param activeColumns: An array containing the indices of the active columns
+    @param activeColumns: An array containing the indices of the active columns
     """
     neverLearned = numpy.where(self._activeDutyCycles == 0)[0]
     return numpy.array(list(set(activeColumns) - set(neverLearned)))
@@ -854,15 +854,17 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    overlaps:       an array containing the overlap score for each column.
+    @param overlaps:       
+                    An array containing the overlap score for each column.
                     The overlap score for a column is defined as the number
                     of synapses in a "connected state" (connected synapses)
                     that are connected to input bits which are turned on.
-    activeColumns:  An array containing the indices of the active columns,
+    @param activeColumns:  
+                    An array containing the indices of the active columns,
                     the sparse set of columns which survived inhibition
     """
-    overlapArray = numpy.zeros(self._numColumns)
-    activeArray = numpy.zeros(self._numColumns)
+    overlapArray = numpy.zeros(self._numColumns, dtype=realDType)
+    activeArray = numpy.zeros(self._numColumns, dtype=realDType)
     overlapArray[overlaps > 0] = 1
     if activeColumns.size > 0:
       activeArray[activeColumns] = 1
@@ -940,7 +942,7 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    index:          The index identifying a column in the permanence, potential
+    @param index:   The index identifying a column in the permanence, potential
                     and connectivity matrices,
     """
     assert(self._inputDimensions.size == 1)
@@ -959,7 +961,7 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    index:          The index identifying a column in the permanence, potential
+    @param index:   The index identifying a column in the permanence, potential
                     and connectivity matrices,
     """
     assert(self._inputDimensions.size == 2)
@@ -980,7 +982,7 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    index:          The index identifying a column in the permanence, potential
+    @param index:   The index identifying a column in the permanence, potential
                     and connectivity matrices.
     """
     dimensions = self._inputDimensions
@@ -1007,10 +1009,12 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    inputVector:    a numpy array of 0's and 1's that comprises the input to
+    @param inputVector:    
+                    A numpy array of 0's and 1's that comprises the input to
                     the spatial pooler. There exists an entry in the array
                     for every input bit.
-    activeColumns:  an array containing the indices of the columns that
+    @param activeColumns:  
+                    An array containing the indices of the columns that
                     survived inhibition.
     """
     inputIndices = numpy.where(inputVector > 0)[0]
@@ -1053,10 +1057,10 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    perm:           An array of permanence values for a column. The array is
+    @param perm:    An array of permanence values for a column. The array is
                     "dense", i.e. it contains an entry for each input bit, even
                     if the permanence value is 0.
-    mask:           the indices of the columns whose permanences need to be
+    @param mask:    the indices of the columns whose permanences need to be
                     raised.
     """
     if len(mask) < self._stimulusThreshold:
@@ -1089,12 +1093,12 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    perm:           An array of permanence values for a column. The array is
+    @param perm:    An array of permanence values for a column. The array is
                     "dense", i.e. it contains an entry for each input bit, even
                     if the permanence value is 0.
-    index:          The index identifying a column in the permanence, potential
+    @param index:   The index identifying a column in the permanence, potential
                     and connectivity matrices
-    raisePerm:      a boolean value indicating whether the permanence values
+    @param raisePerm: A boolean value indicating whether the permanence values
                     should be raised until a minimum number are synapses are in
                     a connected state. Should be set to 'false' when a direct
                     assignment is required.
@@ -1154,12 +1158,12 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    potential:      A numpy array specifying the potential pool of the column.
+    @param potential: A numpy array specifying the potential pool of the column.
                     Permanence values will only be generated for input bits
                     corresponding to indices for which the mask value is 1.
-    connectedPct:   A value between 0 or 1 specifying the percent of the input
-                    bits that will start off in a connected state.
-
+    @param connectedPct: A value between 0 or 1 governing the chance, for each
+                         permanence, that the initial permanence value will
+                         be a value that is considered connected.
     """
     # Determine which inputs bits will start out as connected
     # to the inputs. Initially a subset of the input bits in a
@@ -1200,9 +1204,9 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    index:          The index identifying a column in the permanence, potential
+    @param index:   The index identifying a column in the permanence, potential
                     and connectivity matrices.
-    wrapAround:     A boolean value indicating that boundaries should be
+    @param wrapAround: A boolean value indicating that boundaries should be
                     ignored.
     """
     columnCoords = numpy.unravel_index(index, self._columnDimensions)
@@ -1241,10 +1245,10 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    index:          The index identifying a column in the permanence, potential
+    @param index:   The index identifying a column in the permanence, potential
                     and connectivity matrices.
-    wrapAround:     A boolean value indicating that boundaries should be
-                    ignored.
+    @param wrapAround: A boolean value indicating that boundaries should be
+                    fignored.
     """
     index = self._mapColumn(index)
     indices = self._getNeighborsND(index,
@@ -1285,10 +1289,10 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    dutyCycles:     An array containing one or more duty cycle values that need
+    @param dutyCycles: An array containing one or more duty cycle values that need
                     to be updated
-    newInput:       A new numerical value used to update the duty cycle
-    period:         The period of the duty cycle
+    @param newInput: A new numerical value used to update the duty cycle
+    @param period:  The period of the duty cycle
     """
     assert(period >= 1)
     return (dutyCycles * (period -1.0) + newInput) / period
@@ -1335,7 +1339,7 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    learn:          a boolean value indicating whether learning should be
+    @param learn:   a boolean value indicating whether learning should be
                     performed. Learning entails updating the  permanence
                     values of the synapses, and hence modifying the 'state'
                     of the model. setting learning to 'off' might be useful
@@ -1357,7 +1361,7 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    inputVector:    a numpy array of 0's and 1's that comprises the input to
+    @param inputVector: a numpy array of 0's and 1's that comprises the input to
                     the spatial pooler.
     """
     overlaps = numpy.zeros(self._numColumns).astype(realDType)
@@ -1378,14 +1382,14 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    overlaps:       an array containing the overlap score for each  column.
+    @param overlaps: an array containing the overlap score for each  column.
                     The overlap score for a column is defined as the number
                     of synapses in a "connected state" (connected synapses)
                     that are connected to input bits which are turned on.
     """
     # determine how many columns should be selected in the inhibition phase.
     # This can be specified by either setting the 'numActiveColumnsPerInhArea'
-    # parameter of the 'localAreaDensity' parameter when initializing the class
+    # parameter or the 'localAreaDensity' parameter when initializing the class
     overlaps = overlaps.copy()
     if (self._localAreaDensity > 0):
       density = self._localAreaDensity
@@ -1415,11 +1419,11 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    overlaps:       an array containing the overlap score for each  column.
+    @param overlaps: an array containing the overlap score for each  column.
                     The overlap score for a column is defined as the number
                     of synapses in a "connected state" (connected synapses)
                     that are connected to input bits which are turned on.
-    density:        The fraction of columns to survive inhibition.
+    @param density: The fraction of columns to survive inhibition.
     """
     #calculate num active per inhibition area
 
@@ -1442,11 +1446,11 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    overlaps:       an array containing the overlap score for each  column.
+    @param overlaps: an array containing the overlap score for each  column.
                     The overlap score for a column is defined as the number
                     of synapses in a "connected state" (connected synapses)
                     that are connected to input bits which are turned on.
-    density:        The fraction of columns to survive inhibition. This
+    @param density: The fraction of columns to survive inhibition. This
                     value is only an intended target. Since the surviving
                     columns are picked in a local fashion, the exact fraction
                     of surviving columns is likely to vary.
@@ -1479,15 +1483,15 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    columnIndex:    The index identifying a column in the permanence, potential
+    @param columnIndex: The index identifying a column in the permanence, potential
                     and connectivity matrices.
-    dimensions:     An array containing a dimensions for the column space. A 2x3
+    @param dimensions: An array containing a dimensions for the column space. A 2x3
                     grid will be represented by [2,3].
-    radius:         Indicates how far away from a given column are other
+    @param radius:  Indicates how far away from a given column are other
                     columns to be considered its neighbors. In the previous 2x3
                     example, each column with coordinates:
                     [2+/-radius, 3+/-radius] is considered a neighbor.
-    wrapAround:     A boolean value indicating whether to consider columns at
+    @param wrapAround: A boolean value indicating whether to consider columns at
                     the border of a dimensions to be adjacent to columns at the
                     other end of the dimension. For example, if the columns are
                     laid out in one dimension, columns 1 and 10 will be
@@ -1527,15 +1531,15 @@ class SpatialPooler(object):
 
     Parameters:
     ----------------------------
-    columnIndex:    The index identifying a column in the permanence, potential
+    @param columnIndex: The index identifying a column in the permanence, potential
                     and connectivity matrices.
-    dimensions:     An array containing a dimensions for the column space. A 2x3
+    @param dimensions: An array containing a dimensions for the column space. A 2x3
                     grid will be represented by [2,3].
-    radius:         Indicates how far away from a given column are other
+    @param radius:  Indicates how far away from a given column are other
                     columns to be considered its neighbors. In the previous 2x3
                     example, each column with coordinates:
                     [2+/-radius, 3+/-radius] is considered a neighbor.
-    wrapAround:     A boolean value indicating whether to consider columns at
+    @param wrapAround: A boolean value indicating whether to consider columns at
                     the border of a dimensions to be adjacent to columns at the
                     other end of the dimension. For example, if the columns are
                     laid out in one dimension, columns 1 and 10 will be
@@ -1583,15 +1587,15 @@ class SpatialPooler(object):
     dimension. The method returns a list of the flat indices of these columns.
     Parameters:
     ----------------------------
-    columnIndex:    The index identifying a column in the permanence, potential
+    @param columnIndex: The index identifying a column in the permanence, potential
                     and connectivity matrices.
-    dimensions:     An array containing a dimensions for the column space. A 2x3
+    @param dimensions: An array containing a dimensions for the column space. A 2x3
                     grid will be represented by [2,3].
-    radius:         Indicates how far away from a given column are other
+    @param radius:  Indicates how far away from a given column are other
                     columns to be considered its neighbors. In the previous 2x3
                     example, each column with coordinates:
                     [2+/-radius, 3+/-radius] is considered a neighbor.
-    wrapAround:     A boolean value indicating whether to consider columns at
+    @param wrapAround: A boolean value indicating whether to consider columns at
                     the border of a dimensions to be adjacent to columns at the
                     other end of the dimension. For example, if the columns are
                     laid out in one dimension, columns 1 and 10 will be
@@ -1650,6 +1654,134 @@ class SpatialPooler(object):
     # update version property to current SP version
     state['_version'] = VERSION
     self.__dict__.update(state)
+
+
+  def write(self, proto):
+    self._random.write(proto.random)
+    proto.numInputs = self._numInputs
+    proto.numColumns = self._numColumns
+    cdimsProto = proto.init("columnDimensions", len(self._columnDimensions))
+    for i, dim in enumerate(self._columnDimensions):
+      cdimsProto[i] = int(dim)
+    idimsProto = proto.init("inputDimensions", len(self._inputDimensions))
+    for i, dim in enumerate(self._inputDimensions):
+      idimsProto[i] = int(dim)
+    proto.potentialRadius = self._potentialRadius
+    proto.potentialPct = self._potentialPct
+    proto.inhibitionRadius = self._inhibitionRadius
+    proto.globalInhibition = self._globalInhibition
+    proto.numActiveColumnsPerInhArea = self._numActiveColumnsPerInhArea
+    proto.localAreaDensity = self._localAreaDensity
+    proto.stimulusThreshold = self._stimulusThreshold
+    proto.synPermInactiveDec = self._synPermInactiveDec
+    proto.synPermActiveInc = self._synPermActiveInc
+    proto.synPermBelowStimulusInc = self._synPermBelowStimulusInc
+    proto.synPermConnected = self._synPermConnected
+    proto.minPctOverlapDutyCycles = self._minPctOverlapDutyCycles
+    proto.minPctActiveDutyCycles = self._minPctActiveDutyCycles
+    proto.dutyCyclePeriod = self._dutyCyclePeriod
+    proto.maxBoost = self._maxBoost
+    proto.wrapAround = self._wrapAround
+    proto.spVerbosity = self._spVerbosity
+
+    proto.synPermMin = self._synPermMin
+    proto.synPermMax = self._synPermMax
+    proto.synPermTrimThreshold = self._synPermTrimThreshold
+    proto.updatePeriod = self._updatePeriod
+
+    proto.version = self._version
+    proto.iterationNum = self._iterationNum
+    proto.iterationLearnNum = self._iterationLearnNum
+
+    self._potentialPools.write(proto.potentialPools)
+    self._permanences.write(proto.permanences)
+
+    tieBreakersProto = proto.init("tieBreaker", len(self._tieBreaker))
+    for i, v in enumerate(self._tieBreaker):
+      tieBreakersProto[i] = float(v)
+
+    overlapDutyCyclesProto = proto.init("overlapDutyCycles",
+                                        len(self._overlapDutyCycles))
+    for i, v in enumerate(self._overlapDutyCycles):
+      overlapDutyCyclesProto[i] = float(v)
+
+    activeDutyCyclesProto = proto.init("activeDutyCycles",
+                                       len(self._activeDutyCycles))
+    for i, v in enumerate(self._activeDutyCycles):
+      activeDutyCyclesProto[i] = float(v)
+
+    minOverlapDutyCyclesProto = proto.init("minOverlapDutyCycles",
+                                           len(self._minOverlapDutyCycles))
+    for i, v in enumerate(self._minOverlapDutyCycles):
+      minOverlapDutyCyclesProto[i] = float(v)
+
+    minActiveDutyCyclesProto = proto.init("minActiveDutyCycles",
+                                          len(self._minActiveDutyCycles))
+    for i, v in enumerate(self._minActiveDutyCycles):
+      minActiveDutyCyclesProto[i] = float(v)
+
+    boostFactorsProto = proto.init("boostFactors", len(self._boostFactors))
+    for i, v in enumerate(self._boostFactors):
+      boostFactorsProto[i] = float(v)
+
+
+  def read(self, proto):
+    numInputs = int(proto.numInputs)
+    numColumns = int(proto.numColumns)
+
+    self._random.read(proto.random)
+    self._numInputs = numInputs
+    self._numColumns = numColumns
+    self._columnDimensions = numpy.array(proto.columnDimensions)
+    self._inputDimensions = numpy.array(proto.inputDimensions)
+    self._potentialRadius = int(proto.potentialRadius)
+    self._potentialPct = proto.potentialPct
+    self._inhibitionRadius = int(proto.inhibitionRadius)
+    self._globalInhibition = proto.globalInhibition
+    self._numActiveColumnsPerInhArea = int(proto.numActiveColumnsPerInhArea)
+    self._localAreaDensity = proto.localAreaDensity
+    self._stimulusThreshold = int(proto.stimulusThreshold)
+    self._synPermInactiveDec = proto.synPermInactiveDec
+    self._synPermActiveInc = proto.synPermActiveInc
+    self._synPermBelowStimulusInc = proto.synPermBelowStimulusInc
+    self._synPermConnected = proto.synPermConnected
+    self._minPctOverlapDutyCycles = proto.minPctOverlapDutyCycles
+    self._minPctActiveDutyCycles = proto.minPctActiveDutyCycles
+    self._dutyCyclePeriod = int(proto.dutyCyclePeriod)
+    self._maxBoost = proto.maxBoost
+    self._wrapAround = proto.wrapAround
+    self._spVerbosity = int(proto.spVerbosity)
+
+    self._synPermMin = proto.synPermMin
+    self._synPermMax = proto.synPermMax
+    self._synPermTrimThreshold = proto.synPermTrimThreshold
+    self._updatePeriod = int(proto.updatePeriod)
+
+    self._version = VERSION
+    self._iterationNum = int(proto.iterationNum)
+    self._iterationLearnNum = int(proto.iterationLearnNum)
+
+    self._potentialPools.read(proto.potentialPools)
+
+    self._permanences.read(proto.permanences)
+    # Initialize ephemerals and make sure they get updated
+    self._connectedCounts = numpy.zeros(numColumns, dtype=realDType)
+    self._connectedSynapses = SparseBinaryMatrix(numInputs)
+    self._connectedSynapses.resize(numColumns, numInputs)
+    for i in xrange(proto.numColumns):
+      self._updatePermanencesForColumn(self._permanences.getRow(i), i, False)
+
+    self._tieBreaker = numpy.array(proto.tieBreaker)
+
+    self._overlapDutyCycles = numpy.array(proto.overlapDutyCycles,
+                                          dtype=realDType)
+    self._activeDutyCycles = numpy.array(proto.activeDutyCycles,
+                                         dtype=realDType)
+    self._minOverlapDutyCycles = numpy.array(proto.minOverlapDutyCycles,
+                                             dtype=realDType)
+    self._minActiveDutyCycles = numpy.array(proto.minActiveDutyCycles,
+                                            dtype=realDType)
+    self._boostFactors = numpy.array(proto.boostFactors, dtype=realDType)
 
 
   def printParameters(self):

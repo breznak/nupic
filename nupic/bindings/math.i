@@ -78,8 +78,11 @@ _MATH = _math
 #include <nupic/math/Math.hpp>
 #include <nupic/math/Functions.hpp>
 #include <nupic/math/ArrayAlgo.hpp>
+#include <nupic/proto/RandomProto.capnp.h>
 #include <nupic/utils/Random.hpp>
 #include <numpy/arrayobject.h>
+
+#include <py_support/PyCapnp.hpp>
 %}
 
 %naturalvar;
@@ -111,22 +114,22 @@ import_array();
 //--------------------------------------------------------------------------------
 %inline {
 
-  inline nupic::Real64 lgamma(nupic::Real64 x)
+  nupic::Real64 lgamma(nupic::Real64 x)
   {
     return nupic::lgamma(x);
   }
 
-  inline nupic::Real64 digamma(nupic::Real64 x)
+  nupic::Real64 digamma(nupic::Real64 x)
   {
     return nupic::digamma(x);
   }
 
-  inline nupic::Real64 beta(nupic::Real64 x, nupic::Real64 y)
+  nupic::Real64 beta(nupic::Real64 x, nupic::Real64 y)
   {
     return nupic::beta(x, y);
   }
 
-  inline nupic::Real64 erf(nupic::Real64 x)
+  nupic::Real64 erf(nupic::Real64 x)
   {
     return nupic::erf(x);
   }
@@ -362,20 +365,16 @@ inline PyObject* shuffle(PyObject* obj)
   return obj;
 }
 
-} // End extend nupic::Random.
+inline void write(PyObject* pyBuilder) const
+{
+  RandomProto::Builder proto = nupic::getBuilder<RandomProto>(pyBuilder);
+  self->write(proto);
+}
 
-%pythoncode %{
-import random
-class StdRandom(random.Random):
-  """An adapter for nupic::Random that allows use of inherited samplers
-  from the Python standard library 'random' module."""
-  def __init__(self, *args, **keywords):
-    self.rgen = Random(*args, **keywords)
-  def random(self): return self.rgen.getReal64()
-  def setstate(self, state): self.rgen.setState(state)
-  def getstate(self): return self.rgen.getState()
-  def jumpahead(self, n): self.rgen.jumpAhead(n)
-  def seed(self, seed=None):
-    if seed is None: self.rgen.setSeed(0)
-    else: self.rgen.setSeed(seed)
-%}
+inline void read(PyObject* pyReader)
+{
+  RandomProto::Reader proto = nupic::getReader<RandomProto>(pyReader);
+  self->read(proto);
+}
+
+} // End extend nupic::Random.

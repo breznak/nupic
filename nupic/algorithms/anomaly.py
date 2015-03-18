@@ -75,7 +75,7 @@ class Anomaly(object):
   _supportedModes = (MODE_PURE, MODE_LIKELIHOOD, MODE_WEIGHTED)
 
 
-  def __init__(self, slidingWindowSize = None, mode=MODE_PURE):
+  def __init__(self, slidingWindowSize=None, mode=MODE_PURE, binaryAnomalyThreshold=None):
     """
     @param slidingWindowSize (optional) - how many elements are summed up;
         enables moving average on final anomaly score; int >= 0
@@ -87,6 +87,9 @@ class Anomaly(object):
               models probability of receiving this value and anomalyScore
           - "weighted" - "pure" anomaly weighted by "likelihood"
               (anomaly * likelihood)
+    @param binaryAnomalyThreshold (optional) - if set [0,1] anomaly score
+         will be discretized to 1/0 (1 if >= binaryAnomalyThreshold)
+         The transformation is applied after moving average is computed and updated.
     """
     self._mode = mode
     if slidingWindowSize is not None:
@@ -94,16 +97,23 @@ class Anomaly(object):
     else:
       self._movingAverage = None
 
-    if self._mode == Anomaly.MODE_LIKELIHOOD:
+    if self._mode == Anomaly.MODE_LIKELIHOOD or self._mode == Anomaly.MODE_WEIGHTED:
       self._likelihood = AnomalyLikelihood() # probabilistic anomaly
     if not self._mode in Anomaly._supportedModes:
       raise ValueError("Invalid anomaly mode; only supported modes are: "
                        "Anomaly.MODE_PURE, Anomaly.MODE_LIKELIHOOD, "
                        "Anomaly.MODE_WEIGHTED; you used: %r" % self._mode)
+    self._binaryThreshold = binaryAnomalyThreshold
+    if binaryAnomalyThreshold is not None and ( 
+          not isinstance(binaryAnomalyThreshold, float) or
+          binaryAnomalyThreshold >= 1.0  or 
+          binaryAnomalyThreshold <= 0.0 ):
+      raise ValueError("Anomaly: binaryAnomalyThreshold must be from (0,1) "
+                       "or None if disabled.")
 
 
   def compute(self, activeColumns, predictedColumns, 
-				inputValue=None, timestamp=None):
+			inputValue=None, timestamp=None):
     """Compute the anomaly score as the percent of active columns not predicted.
 
     @param activeColumns: array of active column indices
@@ -140,4 +150,30 @@ class Anomaly(object):
     if self._movingAverage is not None:
       score = self._movingAverage.next(score)
 
+    # apply binary discretization if required
+    if self._binaryThreshold is not None:
+      if score >= self._binaryThreshold:
+        score = 1.0
+      else:
+        score = 0.0
+
     return score
+
+
+  def __str__(self):
+    windowSize = 0
+    if self._movingAverage is not None:
+      windowSize = self._movingAverage.windowSize
+    return "Anomaly:\tmode=%s\twindowSize=%r" % (self._mode, windowSize)
+
+
+  def __setstate__(self, state):
+    """deserialization"""
+    self.__dict__.update(state)
+
+    if not hasattr(self, '_mode'):
+      self._mode = Anomaly.MODE_PURE
+    if not hasattr(self, '_movingAverage'):
+      self._movingAverage = None
+    if not hasattr(self, '_binaryThreshold'):
+      self._binaryThreshold = None
