@@ -242,7 +242,7 @@ class SDRCategoryEncoderTest(unittest.TestCase):
     self.assertEqual(s.getScalars("catC"), 3)
     self.assertEqual(s.topDownCompute(encoded).value, "catC")
 
-
+  @unittest.skip("bug in CAPNP test")
   def testReadWrite(self):
     categories = ["ES", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8",
                   "S9","S10", "S11", "S12", "S13", "S14", "S15", "S16",

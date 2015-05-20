@@ -203,7 +203,6 @@ class CategoryEncoderTest(unittest.TestCase):
             or topDown.scalar == e.getScalars("cat9")[0])
 
 
-
   def testReadWrite(self):
     categories = ["ES", "GB", "US"]
 

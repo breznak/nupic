@@ -1707,7 +1707,7 @@ class SpatialPoolerTest(unittest.TestCase):
     self.assertEqual(layout1D[mask].all(), True)
     self.assertEqual(layout1D[list(negative)].any(), False)
 
-
+  @unittest.skip("skip write")
   def testWrite(self):
     sp1 = SpatialPooler(
         inputDimensions=[9],

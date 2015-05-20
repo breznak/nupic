@@ -584,7 +584,7 @@ class TemporalMemoryTest(unittest.TestCase):
     self.assertEqual(columnsForCells[1], set([5]))
     self.assertEqual(columnsForCells[99], set([399]))
 
-
+  @unittest.skip("skip serialization")
   def testWrite(self):
     tm1 = TemporalMemory(
       columnDimensions=[100],

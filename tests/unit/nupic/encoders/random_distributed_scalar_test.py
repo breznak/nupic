@@ -435,7 +435,7 @@ class RandomDistributedScalarEncoderTest(unittest.TestCase):
       encoder.encode("String")
 
 
-
+  @unittest.skip("RDSE.CAPNP test skipped")
   def testCapNProtoSerialization(self):
     original = RandomDistributedScalarEncoder(name="enc", resolution=1.0, w=23,
                                               n=500, offset=0.0)
