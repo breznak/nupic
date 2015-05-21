@@ -48,7 +48,20 @@ def computeRawAnomalyScore(activeColumns, prevPredictedColumns):
 
   This method is a placeholder for the default computeAnomalyScore() implementation.
   """
-  return compute_In1D_Satisfied(activeColumns, prevPredictedColumns)
+  nActiveColumns = len(activeColumns)
+  if nActiveColumns > 0:
+    # Test whether each element of a 1-D array is also present in a second
+    # array. Sum to get the total # of columns that are active and were
+    # predicted.
+    score = numpy.in1d(activeColumns, prevPredictedColumns).sum()
+    # Get the percent of active columns that were NOT predicted, that is
+    # our anomaly score.
+    score = (nActiveColumns - score) / float(nActiveColumns)
+  else:
+    # There are no active columns.
+    score = 0.0
+
+  return score
 
 
 
