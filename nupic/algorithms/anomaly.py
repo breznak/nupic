@@ -85,10 +85,12 @@ class Anomaly(object):
   # functions for computing anomaly score that are supported
   _computeImplementations = ()
 
-  def __init__(self, slidingWindowSize=None, 
-                     mode=MODE_PURE, 
-                     binaryAnomalyThreshold=None,
-                     computeFn=computeRawAnomalyScore):
+
+  def __init__(self, 
+               slidingWindowSize=None, 
+               mode=MODE_PURE, 
+               binaryAnomalyThreshold=None,
+               computeFn=computeRawAnomalyScore):
     """
     @param slidingWindowSize (optional) - how many elements are summed up;
         enables moving average on final anomaly score; int >= 0
@@ -102,7 +104,7 @@ class Anomaly(object):
               (anomaly * likelihood)
     @param binaryAnomalyThreshold (optional) - if set [0,1] anomaly score
          will be discretized to 1/0 (1 if >= binaryAnomalyThreshold)
-         The transformation is applied after moving average is computed and updated.
+         The transformation is applied after moving average is computed.
     @param computeFn (opt) - method how the "raw" anomaly score is computed from temporal pooler, 
                      All available implementations are listed in '_computeImplementations', 
                      default value is same as 'computeRawAnomalyScore()'.
@@ -113,12 +115,17 @@ class Anomaly(object):
     else:
       self._movingAverage = None
 
-    if self._mode == Anomaly.MODE_LIKELIHOOD or self._mode == Anomaly.MODE_WEIGHTED:
+    if (self._mode == Anomaly.MODE_LIKELIHOOD or 
+        self._mode == Anomaly.MODE_WEIGHTED):
       self._likelihood = AnomalyLikelihood() # probabilistic anomaly
-    if not self._mode in Anomaly._supportedModes:
+    else:
+      self._likelihood = None
+
+    if not self._mode in self._supportedModes:
       raise ValueError("Invalid anomaly mode; only supported modes are: "
                        "Anomaly.MODE_PURE, Anomaly.MODE_LIKELIHOOD, "
                        "Anomaly.MODE_WEIGHTED; you used: %r" % self._mode)
+
     self._binaryThreshold = binaryAnomalyThreshold
     if binaryAnomalyThreshold is not None and ( 
           not isinstance(binaryAnomalyThreshold, float) or
@@ -191,6 +198,14 @@ class Anomaly(object):
     if self._movingAverage is not None:
       windowSize = self._movingAverage.windowSize
     return "Anomaly:\tmode=%s\twindowSize=%r" % (self._mode, windowSize)
+
+
+  def __eq__(self, other):
+    return (isinstance(other, Anomaly) and
+            other._mode == self._mode and
+            other._binaryThreshold == self._binaryThreshold and
+            other._movingAverage == self._movingAverage and
+            other._likelihood == self._likelihood)
 
 
   def __setstate__(self, state):

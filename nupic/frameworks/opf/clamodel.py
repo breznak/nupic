@@ -73,7 +73,7 @@ def requireAnomalyModel(func):
   return _decorator
 
 
-###############################################################
+
 class NetworkInfo(object):
   """ Data type used as return value type by
   CLAModel.__createCLANetwork()
@@ -93,7 +93,8 @@ class NetworkInfo(object):
     return "NetworkInfo(net=%r, statsCollectors=%r)" % (
               self.net, self.statsCollectors)
 
-###############################################################
+
+
 class CLAModel(Model):
 
   __supportedInferenceKindSet = set((InferenceType.TemporalNextStep,
@@ -106,7 +107,7 @@ class CLAModel(Model):
 
   __myClassName = "CLAModel"
 
-  #############################################################################
+
   def __init__(self,
       sensorParams,
       inferenceType=InferenceType.TemporalNextStep,
@@ -238,7 +239,6 @@ class CLAModel(Model):
         (paramName))
 
 
-  #############################################################################
   def resetSequenceStates(self):
     """ [virtual method override] Resets the model's sequence states. Normally
     called to force the delineation of a sequence, such as between OPF tasks.
@@ -254,7 +254,6 @@ class CLAModel(Model):
       return
 
 
-  #############################################################################
   def finishLearning(self):
     """ [virtual method override] Places the model in a permanent "finished
     learning" mode where it will not be able to learn from subsequent input
@@ -880,7 +879,6 @@ class CLAModel(Model):
     return inferences
 
 
-  #############################################################################
   @classmethod
   def _removeUnlikelyPredictions(cls, likelihoodsDict, minLikelihoodThreshold,
                                  maxPredictionsPerStep):
@@ -1028,7 +1026,6 @@ class CLAModel(Model):
     return self._getSensorRegion().getSelf().dataSource
 
 
-  #############################################################################
   def __createCLANetwork(self, sensorParams, spEnable, spParams, tpEnable,
                          tpParams, clEnable, clParams, anomalyParams):
     """ Create a CLA network and return it.
@@ -1145,14 +1142,6 @@ class CLAModel(Model):
     n.initialize()
 
     return NetworkInfo(net=n, statsCollectors=[])
-
-
-
-  #############################################################################
-  #
-  # CLAModel Methods to support serialization
-  #
-  #############################################################################
 
 
   def __getstate__(self):
@@ -1472,7 +1461,6 @@ class CLAModel(Model):
 
 
 
-###############################################################################
 class DataBuffer(object):
   """
       A simple FIFO stack. Add data when it's available, and
