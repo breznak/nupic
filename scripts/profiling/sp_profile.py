@@ -20,13 +20,19 @@
 # http://numenta.org/licenses/
 # ----------------------------------------------------------------------
 
-## run python -m cProfile --sort cumtime $NUPIC/scripts/profiling/sp_profile.py [nColumns nEpochs]
+## run python -m cProfile --sort cumtime $NUPIC/scripts/profiling/sp_profile.py [nColumns nEpochs CppSP/PySP/CySP]
 
 import sys
 import numpy
 # chose desired SP implementation to compare:
+## Py
 from nupic.research.spatial_pooler import SpatialPooler as PySP
+## C++
 from nupic.bindings.algorithms import SpatialPooler as CppSP
+## Cython
+import pyximport
+pyximport.install(pyimport=True)
+from nupic.research.spatial_pooler import SpatialPooler as CySP
 
 
 def profileSP(spClass, spDim, nRuns):
@@ -85,9 +91,19 @@ def profileSP(spClass, spDim, nRuns):
 if __name__ == "__main__":
   columns=2048
   epochs=10000
+  impl = CppSP
   # read params from command line
-  if len(sys.argv) == 3: # 2 args + name
-    columns=int(sys.argv[1])
-    epochs=int(sys.argv[2])
+  if len(sys.argv) == 4: # 3 args + name
+    columns = int(sys.argv[1])
+    epochs = int(sys.argv[2])
+    sImpl = str(sys.argv[3])
+    if sImpl == "PySP":
+      impl = PySP
+    elif sImpl == "CppSP":
+      impl = CppSP
+    elif sImpl == "CySP":
+      impl = CySP
+    else:
+      raise ValueError("Only supported implementations are PySP/CppSP/CySP")
 
-  profileSP(CppSP, columns, epochs)
+  profileSP(impl, columns, epochs)
