@@ -9,6 +9,7 @@ pillow==2.3.0
 psutil==1.0.1
 pytest==2.5.1
 pytest-cov==1.6
+pytest-timeout==0.5
 pytest-xdist==1.8
 python-dateutil==2.1
 PyYAML==3.10
