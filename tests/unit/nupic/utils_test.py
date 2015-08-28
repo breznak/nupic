@@ -24,7 +24,9 @@
 
 import pickle
 import tempfile
+import time
 import unittest
+import pytest
 
 from nupic.utils import MovingAverage
 
@@ -178,6 +180,13 @@ class UtilsTest(unittest.TestCase):
     self.assertNotEqual(ma, maP)
     ma.next(6)
     self.assertEqual(ma, maP)
+
+
+  @pytest.mark.timeout(5)
+  def testUnittestTimeout(self):
+    """test pytest-timeout"""
+    time.sleep(100)
+    raise Exception()
     
 
 
