@@ -25,12 +25,12 @@ csvwrite('./datasets/rnd.csv', rnd)
 
 %% load and plot results (from format_output.sh)
 SKIP=4; % these lines contain comments (string)
-res = csvread('./results/random_10000.csv', SKIP)
+res = csvread('./results/sine_10000.csv', SKIP)
 TOTAL = size(res, 1);
 figure()
 plot(res)
 xlabel('step')
 ylabel('Anomaly score')
-legend(['Anomaly'])
-title('Anomaly on random noise')
+legend(['Anomaly likelihood'])
+title('Anomaly on sine wave')
 
