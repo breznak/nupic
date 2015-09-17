@@ -303,7 +303,7 @@ config = {
         },
 
         'anomalyParams': {
-           'mode': 'likelihood', # pure(=default) / weighted / likelihood
+           'mode': 'weighted', # pure(=default) / weighted / likelihood
            'slidingWindowSize': None, # >=0 / None
         },
 

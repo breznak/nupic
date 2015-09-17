@@ -25,12 +25,23 @@ csvwrite('./datasets/rnd.csv', rnd)
 
 %% load and plot results (from format_output.sh)
 SKIP=4; % these lines contain comments (string)
-res = csvread('./results/sine_10000.csv', SKIP)
-TOTAL = size(res, 1);
+aPure = csvread('./results/sine_10000_anomaly_pure.csv', SKIP);
+aLike = csvread('./results/sine_likelihood_10000.csv', SKIP);
+aWeighted = csvread('./results/sine_10000_anomaly_weighted.csv', SKIP);
+tmp = csvread('./results/sine_10000_pred.csv', SKIP); 
+actual = tmp(:,1); % actual value, raw
+pred = tmp(:,2); % predicted
+
+TOTAL = size(aPure, 1);
 figure()
-plot(res)
+plot(aPure)
+hold all
+plot(aLike)
+plot(aWeighted)
+%plot(actual)
+%plot(pred)
 xlabel('step')
 ylabel('Anomaly score')
-legend(['Anomaly likelihood'])
+legend('Anomaly pure', 'Anomaly likelihood','Anomaly weighted','actual','predicted')
 title('Anomaly on sine wave')
 
