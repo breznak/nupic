@@ -2,6 +2,7 @@
 # formats output from CLA's inference
 # ./formatOutput.sh inferenceResultsFile.csv
 # 2 = actual/raw value
+# 6 = predicted (T+1)
 # 7 = anomaly score
 
 #1 get rid of the {12 232 232} field that breaks "normal" CSV 
