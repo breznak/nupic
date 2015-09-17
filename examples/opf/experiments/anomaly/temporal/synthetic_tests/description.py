@@ -313,7 +313,7 @@ config = {
 
   'predictionSteps': [1],
   'predictedField': 'value',
-  'numRecords': 4000,
+#  'numRecords': 4000,
 }
 # end of config dictionary
 
@@ -346,7 +346,7 @@ control = {
         u'info': u'test_hotgym',
         u'streams': [   {   u'columns': [u'*'],
                             u'info': u'hotGym.csv',
-                            u'last_record': config['numRecords'],
+#                            u'last_record': config['numRecords'],
                             u'source': u'file://synthetic_tests/data.csv'}],
          'aggregation': config['aggregationInfo'],
         u'version': 1},
