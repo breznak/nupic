@@ -126,7 +126,7 @@ config = {
             # (value generated from DS_ENCODER_SCHEMA)
             'encoders': {   'value': {   'clipInput': True,
                                    'fieldname': u'value',
-                                   'n': 100,
+                                   'n': 200,
                                    'name': u'value',
                                    'type': 'AdaptiveScalarEncoder',
                                    'w': 21},
