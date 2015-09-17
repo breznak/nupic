@@ -11,3 +11,7 @@ You can run the script `datasets/generate_data.m` to genereta and write new data
 eg using linux tools: `cat a.csv >> data.csv` appends a.csv to the end of the data.csv file. `head -n 100 a.csv >> data.csv` appends the first 
 100 rows from A to the end of Data. 
 
+For example: 
+$ cat header.txt > data.csv 
+$ head -n 10000 datasets/rnd.csv >> data.csv
+$ head -n 2000 datasets/sine.csv >> data.csv
