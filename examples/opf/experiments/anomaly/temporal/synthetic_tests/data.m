@@ -18,8 +18,14 @@ sine05x = round(sine05x*10000)/10000;
 rnd = round(rnd*10000)/10000;
 
 % write
-csvwrite('sine.csv', sine)
-csvwrite('sine2x.csv', sine2x)
-csvwrite('sine05x.csv', sine05x)
-csvwrite('rnd.csv', rnd)
+csvwrite('./datasets/sine.csv', sine)
+csvwrite('./datasets/sine2x.csv', sine2x)
+csvwrite('./datasets/sine05x.csv', sine05x)
+csvwrite('./datasets/rnd.csv', rnd)
+
+%% load and plot results (from format_output.sh)
+SKIP=4; % these lines contain comments (string)
+res = csvread('./results/data_noise_10000_sine_2000_anomaly.csv', SKIP)
+figure()
+plot(range, res)
 
