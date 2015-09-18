@@ -45,3 +45,26 @@ ylabel('Anomaly score')
 legend('Anomaly pure', 'Anomaly likelihood','Anomaly weighted','actual','predicted')
 title('Anomaly on sine wave')
 
+
+
+% random noise 
+SKIP=4; % these lines contain comments (string)
+aPure = csvread('./results/rand_10000_anomaly_pure.csv', SKIP);
+aLike = csvread('./results/rand_10000_anomaly_likelihood.csv', SKIP);
+aWeighted = csvread('./results/rand_10000_anomaly_weighted.csv', SKIP);
+tmp = csvread('./results/rand_10000_pred.csv', SKIP); 
+actual = tmp(:,1); % actual value, raw
+pred = tmp(:,2); % predicted
+
+TOTAL = size(aPure, 1);
+figure()
+plot(aPure)
+hold all
+plot(aLike)
+plot(aWeighted)
+%plot(actual)
+%plot(pred)
+xlabel('step')
+ylabel('Anomaly score')
+legend('Anomaly pure', 'Anomaly likelihood','Anomaly weighted','actual','predicted')
+title('Anomaly on Random noise')
