@@ -6,15 +6,15 @@
 # following terms and conditions apply:
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 3 as
+# it under the terms of the GNU Affero Public License version 3 as
 # published by the Free Software Foundation.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
+# See the GNU Affero Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU Affero Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
 # http://numenta.org/licenses/
@@ -34,7 +34,9 @@ from nupic.frameworks.opf.experiment_runner import (
 
 # Globals
 EXCLUDED_EXPERIMENTS = [] # none for now
-PREDICTION_DIR = resource_filename("nupic", os.path.join("..", "examples", "opf"))
+NUPIC_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                         "..", "..", "..", "..")
+PREDICTION_DIR = os.path.join(NUPIC_DIR, "examples", "opf")
 RUN_ALL_ITERATIONS = False
 
 

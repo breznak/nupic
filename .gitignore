@@ -34,6 +34,7 @@ savedmodels/
 /*.please_wait
 /auto_specials*.csv
 /weighted_mean*.csv
+/agg_gap_hours_24*.csv
 /test*.txt
 /test*.pkl
 
@@ -61,12 +62,6 @@ conf/default/nupic-site.xml
 # nupic.core repo is located under $NUPIC/extensions/core/
 extensions/core/
 experimental/
-
-# nupic bindings swig libraries
-nupic/bindings/*.cxx
-nupic/bindings/*.py
-nupic/bindings/*.so
-nupic/bindings/proto/*.capnp
 
 # Pip stuff
 dist/

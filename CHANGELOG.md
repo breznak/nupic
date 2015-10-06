@@ -1,5 +1,112 @@
 # Changelog
 
+## 0.3.4
+
+* Added src/nupic/frameworks/opf/common_models/cluster_params.py and supporting files from numenta-apps htmengine. A separate numenta-apps PR will remove this code from htmengine.
+* fixes #2592
+* fix for #2265
+* fix for bug #2265
+* Fixup Dockerfile to install nupic.bindings, and other cleanup
+* Adding C++ compiler requirement to README.
+* Fix for test failure
+* Fixed stream definition reference error.
+* Reduce default reestimation period.
+* Remove greedy reestimation of distribution
+* Pointing README to proper bindings version.
+* Continuing work on 0.3.4.dev0.
+* removing a test that depends on nupic.vision
+* PCA_Node test: some fixes, WIP
+* formatting
+* test for PCANode region
+* remove Pillow from requirements.txt as it was used for vision only
+* fix merge mistake in csv file
+* move test from PCANode to nupic.vision unittest
+
+## 0.3.3
+
+* Include additional file types in MANIFEST.in, consistent with setup.py
+* Pattern and Sequence machines using nupic::Random
+* Wrap sparse matrix implementations with cortical column-centric semantics as a way to abstract away the underlying implementation
+* Re-enable testHotgymRegression
+
+## 0.3.2
+
+* Update to nupic.bindings version with fix for platform differences
+* Rename nupic directory to src/nupic
+* Updated S3 URL to nupic.bindings for Linux install
+* Fix paths for data files in an integration test
+* Fix issue with storing temporary file in wrong location in integration test
+
+## 0.3.1
+
+* Specify nupic.bindings version to match commit sha (0.2).
+* Use logging.debug for emitting the message about not being able to import matplotlib; we log it at debug level to avoid polluting the logs of apps and services that don't care about plotting.
+* Add Dockerfile ready to perform swarming.
+* Removes PCANode
+* Updated Linux binary install instructions.
+
+## 0.3.0
+
+* Updated comment about greedy stats refresh when likelihood > 0.99
+
+## 0.2.12
+
+* Implemented unit tests for the new features in AnomalyLikelihood class.
+* Convert AnomalyLikelihood._historicalScores to a user-configurable sliding window, instead of accumulating all of the incoming data points. This improved performance a ton! Added AnomalyLikelihood.forceModelRefresh() method.
+* Update nupic.core to include backwards compatibility fix for RandomImpl.
+* Uninstall pycapnp to avoid running tests that utilize the functionality and currently fail with Duplicate ID error.
+* Makes pycapnp and corresponding serialization optional. If pycapnp is not installed then the corresponding serialization tests will be skipped.
+* Add Multiple Prediction Test for NegLL Metric
+* Add test for NegLL Error Metric
+* Fix Orphan Decay Bug in temporal memory test
+* Change decreasing overlaps test for coordinate encoder to not require a strict decrease (staying the same is ok).
+* Allow specifying MonitoredTemporalMemory as TM implementation through OPF
+* include bucket likelihood and classifier input in clamodel
+* update metrics managers to pass model results to metrics
+* introducting a computeFlag to prevent double-computation. * The flag is used to prevent double computation in the event that customCompute() is called at the same time as compute()
+* Added `numRecords` param for consitency with the newly added `infer` method in FastCLACLassifier
+* checking if classifier has a `maxCategoryCount` attribute. If not, set it to solve backward compatibilities issues
+* renaming numCategories to maxCategoryCount to be constistent between KNN and CLA classifier
+* made new experimentutils file containing InferenceElement, InferenceType, and ModelResult duplicates which we will want to change in the future
+
+## 0.2.11
+
+* Updating nupic.core sha.
+* Updated location of NuPIC Linux wheel on S3.
+
+## 0.2.10
+
+* Updating bindings version.
+
+## 0.2.9
+
+* Added pip install command for linux bindings.
+* Change term predictedColumns to predictedActiveColumns in the TemporalMemory
+
+## 0.2.8
+
+* Updated to correct pypi license string.
+
+## 0.2.7
+
+* Changed all copyright headers on all files to AGPL.
+* split up pip wheel to multiple commands
+* Fixed fast_temporal_memory cellsForColumn calculation. Column is an int (specifically a numpy.int64 and getCellIndex would fail in this), not a cell
+* Broke out model record encoding functionality from RecordStreamIface into ModelRecordEncoder class.
+* Convert nupic to namespace
+* updated include statements in swig files
+* added dict utils to hypersearch specific utils file and modified dependencies accordingly
+* Updated to AGPL.
+* Remove tweepy.
+* KNNClassifier input multiple categories, and integration test
+* enable multiple categories in Network API
+* Makes nupic a namespace package that other projects can extend.
+* Added NRMSE metric
+* Allow Connections to be serialized.
+* Added ability to unregister python regions and updated core sha
+* Remove unused synapses in Temporal Memory
+* Fix: TemporalMemory.getCellIndex doesn't work correctly when running through OPF
+
 ## 0.2.6
 
 * Sets zip-safe to false to make sure relative capnp schema imports will work and importing .capnp files will work.

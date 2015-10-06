@@ -6,15 +6,15 @@
 # following terms and conditions apply:
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 3 as
+# it under the terms of the GNU Affero Public License version 3 as
 # published by the Free Software Foundation.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
+# See the GNU Affero Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU Affero Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
 # http://numenta.org/licenses/
@@ -58,7 +58,10 @@ class OPFExperimentResultsTest(unittest.TestCase):
 
     """
 
-    opfDir = resource_filename("nupic", os.path.join("..", "examples", "opf"))
+    nupic_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                             "..", "..", "..", "..")
+
+    opfDir = os.path.join(nupic_dir, "examples", "opf")
 
     testDir = opfDir
 
@@ -96,8 +99,7 @@ class OPFExperimentResultsTest(unittest.TestCase):
     # Run from the test directory so that we can find our experiments
     os.chdir(testDir)
 
-    runExperiment = resource_filename("nupic", os.path.join("..", 
-                                "scripts", "run_opf_experiment.py"))
+    runExperiment = os.path.join(nupic_dir, "scripts", "run_opf_experiment.py")
 
     # A list of experiments to run.  Valid attributes:
     #   experimentDir - Required, path to the experiment directory containing

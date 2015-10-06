@@ -1,3 +1,5 @@
+sudo: false
+
 branches:
   except:
     - gh-pages
@@ -11,6 +13,22 @@ os:
 compiler:
   - clang
   - gcc
+
+addons:
+  apt:
+    sources:
+      - deadsnakes
+      - ubuntu-toolchain-r-test
+    packages:
+      - python2.7
+      - python2.7-dev
+      - python-virtualenv
+      - python-numpy-1.9.2
+      # install gcc-4.8 for C++11 compatibility, #TODO remove when Travis has gcc>=4.8, (it's used for clang too, in coveralls)
+      - g++-4.8
+      - cmake
+      - cmake-data
+      - tree
 
 env:
   global:
@@ -73,8 +91,7 @@ before_install:
   - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then . ./ci/travis/before_install-osx.sh; fi"
 
 install:
-  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'linux' ]; then . ./ci/travis/install-linux.sh; fi"
-  - "if [ ${TRAVIS_OS_NAME:-'linux'} = 'osx' ]; then . ./ci/travis/install-osx.sh; fi"
+  - ". ./ci/travis/install.sh"
 
 script:
   - . ./ci/travis/script-run-tests.sh

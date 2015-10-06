@@ -6,15 +6,15 @@
 # following terms and conditions apply:
 #
 # This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 3 as
+# it under the terms of the GNU Affero Public License version 3 as
 # published by the Free Software Foundation.
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the GNU General Public License for more details.
+# See the GNU Affero Public License for more details.
 #
-# You should have received a copy of the GNU General Public License
+# You should have received a copy of the GNU Affero Public License
 # along with this program.  If not, see http://www.gnu.org/licenses.
 #
 # http://numenta.org/licenses/
@@ -49,7 +49,9 @@ class MyTestEnvironment(object):
 
   def __init__(self):
 
-    examplesDir = resource_filename("nupic", os.path.join("..", "examples"))
+    nupic_dir = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                             "..", "..", "..", "..", "..")
+    examplesDir = os.path.join(nupic_dir, "examples")
 
     _debugOut("examplesDir=<%s>" % (examplesDir,))
 
@@ -58,7 +60,7 @@ class MyTestEnvironment(object):
 
     # This is where we find OPF binaries (e.g., run_opf_experiment.py, etc.)
     # In the autobuild, it is a read-only directory
-    self.__opfBinDir = resource_filename("nupic", os.path.join("..", "scripts"))
+    self.__opfBinDir = os.path.join(nupic_dir, "scripts")
     assert os.path.exists(self.__opfBinDir), \
            "%s is not present in filesystem" % self.__opfBinDir
     _debugOut("self.__opfBinDir=<%s>" % self.__opfBinDir)
