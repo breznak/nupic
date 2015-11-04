@@ -325,6 +325,19 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     }
   };
 
+  // this function highlights a range in the graph
+  var highlightPoint = function(canvas, area, graph) {
+              var bottom_left = graph.toDomCoords(1000, -20);
+              var top_right = graph.toDomCoords(1200, +20);
+
+              var left = bottom_left[0];
+              var right = top_right[0];
+
+              canvas.fillStyle = "rgba(255, 255, 102, 1.0)";
+      //        canvas.fillRect(left, area.y, right - left, area.h);
+              canvas.fillRect(10, 0, 100, 100);
+  };
+
   // the main "graphics" is rendered here
   $scope.renderData = function() {
     var fields = [];
@@ -374,13 +387,15 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
           }
           $scope.$apply();
         },
+        // drawing the graph itself
         drawCallback: function(graph, is_initial) {
           if (is_initial) {
             setColors(graph.getColors());
           }
-        }
-      }
-    );
+        },
+        // highlighting
+        underlayCallback: highlightPoint(canvas, area, graph),
+    });
     document.getElementById("renderButton").blur();
   };
 
