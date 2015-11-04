@@ -332,15 +332,16 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   };
 
   // this function highlights a range in the graph
-  var highlightPoint = function(canvas, area, graph) {
-              var bottom_left = graph.toDomCoords(1000, -20);
-              var top_right = graph.toDomCoords(1200, +20);
+  var highlightPoint = function(canvas, area, g) {
+              var bottom_left = g.toDomCoords(200, -20);
+              var top_right = g.toDomCoords(150, +20);
 
               var left = bottom_left[0];
               var right = top_right[0];
 
               canvas.fillStyle = "rgba(255, 255, 102, 1.0)";
-      //        canvas.fillRect(left, area.y, right - left, area.h);
+              canvas.fillRect(left, area.y, right - left, area.h);
+              canvas.fillStyle = "rgba(255, 25, 102, 1.0)";
               canvas.fillRect(10, 0, 100, 100);
   };
 
@@ -399,7 +400,7 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
           }
         },
         // highlighting
-        underlayCallback: highlightPoint(canvas, area, graph),
+        underlayCallback: highlightPoint,
     });
     document.getElementById("renderButton").blur();
   };
