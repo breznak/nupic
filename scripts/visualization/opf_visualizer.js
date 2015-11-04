@@ -333,12 +333,12 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
 
   // this function highlights a range in the graph
   var highlightPoint = function(canvas, area, g) {
-              var bottom_left = g.toDomCoords(200, -20);
-              var top_right = g.toDomCoords(150, +20);
+              var bottom_left = g.toDomCoords(20, -20);
+              var top_right = g.toDomCoords(40, +20);
 
               var left = bottom_left[0];
               var right = top_right[0];
-
+              handleError(top_right, "warning", true); // debug coords
               canvas.fillStyle = "rgba(255, 255, 102, 1.0)";
               canvas.fillRect(left, area.y, right - left, area.h);
               canvas.fillStyle = "rgba(255, 25, 102, 1.0)";
