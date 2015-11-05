@@ -321,6 +321,7 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     }
   };
 
+
   // the main "graphics" is rendered here
   $scope.renderData = function() {
     var fields = [];
@@ -395,6 +396,16 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   });
 
 }]);
+
+//TODO: you'll be able to integrate this better in the UI
+var useTime;
+function toggleUseTime() {
+  useTime = document.getElementById("chkUseTime").checked;
+  if (useTime) { // use time for x-axis
+    alert(useTime);
+    TIMESTAMP = TIMESTAMP_OPF;
+  }
+}
 
 angular.module('app').directive('fileUploadChange', function() {
   return {
