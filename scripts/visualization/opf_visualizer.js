@@ -123,8 +123,9 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   var convertPapaToDyGraph = function(data) {
     // strip out the rows (meta data) from header
     data.splice(0, HEADER_SKIPPED_ROWS);
-    // use the last row in the dataset to determine the data types
-    var map = generateFieldMap(data[data.length - 1], EXCLUDE_FIELDS);
+    // determine the data types
+    var lastDataRow = data[data.length - 1];
+    var map = generateFieldMap(lastDataRow, EXCLUDE_FIELDS);
     if (map === null) {
       handleError("Failed to parse the uploaded CSV file!", "danger");
       return null;
@@ -132,8 +133,9 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     for (var rowId = 0; rowId < data.length; rowId++) {
       var arr = [];
       for (var colId = 0; colId < loadedFields.length; colId++) {
-        var fieldValue = data[rowId][loadedFields[colId]]; // numeric
-        if (colId === 0) { // this should always be the timestamp. See generateFieldMap
+        var columnName = loadedFields[colId];
+        var fieldValue = data[rowId][columnName]; // numeric
+        if (columnName === TIMESTAMP) { // special handling for timestamp
           if (typeof(fieldValue) === "number") {
             date = fieldValue;
           } else if (typeof(fieldValue) === "string") {
