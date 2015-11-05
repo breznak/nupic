@@ -6,16 +6,6 @@
 // TODO: allow numeric or missing timestamp column ?
 var TIMESTAMP = "timestamp";
 
-// POSSIBLE_OPF_DATA_FIELDS:
-// Is used only in OPF files during CSV parsing, where fields may, or may not be present,
-// depending on the user's Model settings in NuPIC.
-// If these fields are present, we'll include them as data fields.
-// FIXME: is this code (and guessDataFields()) needed? 'multiStepBestPredictions.5' are
-// plotted even though not in the list.
-var POSSIBLE_OPF_DATA_FIELDS = ["multiStepPredictions.actual",
-  "multiStepBestPredictions.actual"
-];
-
 // EXCLUDE_FIELDS:
 // used to ignore some fields completely, not showing them as possibilities in graph plots.
 var EXCLUDE_FIELDS = [];
@@ -137,25 +127,22 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
         var fieldValue = data[rowId][columnName]; // numeric
         if (columnName === "Iteration") { // iteration used for x-axis column
           fieldValue = rowId; 
-        } else if (columnName === TIMESTAMP) { // special handling for timestamp
-          if (typeof(fieldValue) === "number") {
-            date = fieldValue;
-          } else if (typeof(fieldValue) === "string") {
-            date = parseDate(fieldValue);
-          }
-          if (date !== null) { // parsing succeeded, use it
-            fieldValue = date;
-          } else if (date === null && typeof(fieldValue) === "number") {
-            handleError("Parsing timestamp failed, fallback to x-data", "warning", true);
-            // keep fieldValue as is
-          } else {
-            handleError("Parsing timestamp failed & it is non-numeric, fallback to using iteration number", "warning", true);
-            fieldValue = rowId;
-          }
-        } else { // process other data (non-date) columns
-          // FIXME: this is an OPF "bug", should be discussed upstream
-          if (fieldValue === "None") {
-            fieldValue = NONE_VALUE_REPLACEMENT;
+        } else { // process other data columns (can be numeric/date/string(=category))
+          if (typeof(fieldValue) === "string") { // handle string data
+            var date = parseDate(fieldValue); // ..as Date
+            if (date !== null) { // parsing succeeded, use it
+              fieldValue = date;
+              continue;
+            }
+
+            // FIXME: this is an OPF "bug", should be discussed upstream ("None" in otherwise numeric columns)
+            if (fieldValue === "None") {
+              fieldValue = NONE_VALUE_REPLACEMENT;
+              continue;
+            }
+            //TODO: uncheck by default the parseString'ed columns (the values can be quite highi), or better, normalize them.
+            //FIXME: in OPF the number of columns in data and fields (=labels) is off
+            fieldValue = parseString(fieldValue); // ..as a String = used for Categories data
           }
         }
         arr.push(fieldValue);
@@ -180,7 +167,6 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     var dashDate = dateTime[0].split("-");
     if ((slashDate.length === 1 && dashDate.length === 1) || (slashDate.length > 1 && dashDate.length > 1)) {
       // if there were no instances of delimiters, or we have both delimiters when we should only have one
-      handleError("Could not parse the timestamp", "warning", true);
       return null;
     }
     // if it is a dash date, it is probably in this format: yyyy:mm:dd
@@ -195,7 +181,6 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
       args.push(slashDate[0]);
       args.push(slashDate[1]);
     } else {
-      handleError("There was something wrong with the date in the timestamp field.", "warning", true);
       return null;
     }
     // is there a time element?
@@ -208,11 +193,24 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     }
     numDate = new(Function.prototype.bind.apply(Date, [null].concat(args)));
     if (numDate.toString() === "Invalid Date") {
-      handleError("The timestamp appears to be invalid.", "warning", true);
       return null;
     }
     return numDate;
   };
+
+  // parseString()
+  // hash any string to an integer number
+  // return: numeric representation (hash) of the string
+  var parseString = function(str){
+        var hash = 0;
+        if (str.length == 0) return hash;
+        for (i = 0; i < str.length; i++) {
+            char = str.charCodeAt(i);
+            hash = ((hash<<5)-hash)+char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        return hash;
+  }
 
   // normalize select field with regards to the Data choice.
   $scope.normalizeField = function(normalizedFieldId) {
@@ -289,27 +287,13 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     }
   };
 
-  var guessDataField = function(possibleDataFields) {
-    for (var i = 0; i < $scope.view.fieldState.length; i++) {
-      if (possibleDataFields.indexOf($scope.view.fieldState[i].name) > -1) {
-        $scope.view.dataField = $scope.view.fieldState[i].id;
-        break;
-      }
-    }
-  };
-
-  // say which fields will be plotted (all numeric + guessedDataFields - excluded)
+  // say which fields will be plotted (all numeric + strings - excluded)
   // based on parsing the last (to omit Nones at the start) row of the data.
-  // return: matrix with numeric columns
+  // return: matrix with numeric/string/date columns
   var generateFieldMap = function(row, excludes) {
-    // add all numeric fields not in excludes
-    var hasTimestamp = false;
     angular.forEach(row, function(value, key) {
-      if (typeof(value) === "number" && excludes.indexOf(key) === -1 && key !== TIMESTAMP) {
+      if (excludes.indexOf(key) === -1) {
         loadedFields.push(key);
-      } else if (key === TIMESTAMP) { // timestamp added (even if non-numeric) if it exists in data
-        loadedFields.push(TIMESTAMP);
-        hasTimestamp = true;
       }
     });
     loadedFields.unshift("Iteration"); // add column Iteration for x-data
@@ -360,7 +344,6 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
       });
       counter++;
     }
-    guessDataField(POSSIBLE_OPF_DATA_FIELDS);
     $scope.view.graph = new Dygraph(
       div,
       renderedCSV, {
