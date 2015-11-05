@@ -1,0 +1,7 @@
+temperature,class,anomalyScore
+,test sample for string data,
+,skipping these 2 lines,
+18.1,"normal",0.1
+18.9,"normal",0.2
+25,"high",0.5
+99,"danger",0.99

@@ -201,6 +201,7 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   // parseString()
   // hash any string to an integer number
   // return: numeric representation (hash) of the string
+  // TODO: add parseCategory that uses parseString but maps to {1,2,3,...}
   var parseString = function(str){
         var hash = 0;
         if (str.length == 0) return hash;
