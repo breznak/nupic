@@ -135,7 +135,9 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
       for (var colId = 0; colId < loadedFields.length; colId++) {
         var columnName = loadedFields[colId];
         var fieldValue = data[rowId][columnName]; // numeric
-        if (columnName === TIMESTAMP) { // special handling for timestamp
+        if (columnName === "Iteration") { // iteration used for x-axis column
+          fieldValue = rowId; 
+        } else if (columnName === TIMESTAMP) { // special handling for timestamp
           if (typeof(fieldValue) === "number") {
             date = fieldValue;
           } else if (typeof(fieldValue) === "string") {
@@ -299,20 +301,18 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   // say which fields will be plotted (all numeric + guessedDataFields - excluded)
   // based on parsing the last (to omit Nones at the start) row of the data.
   // return: matrix with numeric columns
-  // TIMESTAMP is always the 1st column.
   var generateFieldMap = function(row, excludes) {
-    if (!row.hasOwnProperty(TIMESTAMP)) {
-      handleError("No timestamp field was found", "warning");
-      return null;
-    }
     // add all numeric fields not in excludes
+    var hasTimestamp = false;
     angular.forEach(row, function(value, key) {
       if (typeof(value) === "number" && excludes.indexOf(key) === -1 && key !== TIMESTAMP) {
         loadedFields.push(key);
+      } else if (key === TIMESTAMP) { // timestamp added (even if non-numeric) if it exists in data
+        loadedFields.push(TIMESTAMP);
+        hasTimestamp = true;
       }
     });
-    // timestamp assumed to be at the beginning of the array
-    loadedFields.unshift(TIMESTAMP);
+    loadedFields.unshift("Iteration"); // add column Iteration for x-data
     return loadedFields;
   };
 
@@ -346,17 +346,19 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     $scope.view.dataField = null;
     var counter = 0;
     for (var i = 0; i < renderedFields.length; i++) {
-      if (renderedFields[i] !== TIMESTAMP) {
-        $scope.view.fieldState.push({
-          name: renderedFields[i],
+      var field = renderedFields[i]; 
+      if (field === "Iteration") { // skip
+        continue;
+      } 
+      $scope.view.fieldState.push({
+          name: field,
           id: counter,
           visible: true,
           normalized: false,
           value: null,
           color: "rgb(0,0,0)"
-        });
-        counter++;
-      }
+      });
+      counter++;
     }
     guessDataField(POSSIBLE_OPF_DATA_FIELDS);
     $scope.view.graph = new Dygraph(
