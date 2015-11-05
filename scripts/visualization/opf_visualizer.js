@@ -1,10 +1,14 @@
 // some Settings:
 
 // TIMESTAMP:
-// represents the name of the column with timestamp/x-data;
+// represents the name of the column with timestamp/x-axis;
 // currently such column must be present in the data, and be of ISO Date format.
-// TODO: allow numeric or missing timestamp column ?
-var TIMESTAMP = "timestamp";
+// reserved value DEFAULT_XAXIS means use (automatically added) iteration step for x-axis
+// any other value means use this column as x-axis
+// TODO: add radio-choice "x-axis" among the (Data, Normalize) to change this? Or just checkbox 'Use time as X axis'?
+var DEFAULT_XAXIS = "__ITER__"; 
+var TIMESTAMP_OPF = "timestamp";
+var TIMESTAMP = DEFAULT_XAXIS;
 
 // EXCLUDE_FIELDS:
 // used to ignore some fields completely, not showing them as possibilities in graph plots.
@@ -125,10 +129,10 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
       for (var colId = 0; colId < loadedFields.length; colId++) {
         var columnName = loadedFields[colId];
         var fieldValue = data[rowId][columnName]; // numeric
-        if (columnName === "Iteration") { // iteration used for x-axis column
-          fieldValue = rowId; 
-        } else { // process other data columns (can be numeric/date/string(=category))
-          if (typeof(fieldValue) === "string") { // handle string data
+        if (columnName === DEFAULT_XAXIS) { // iteration used for x-axis column
+          fieldValue = rowId;
+        // process other data columns (can be numeric/date/string(=category))
+        } else if (typeof(fieldValue) === "string") { // handle string data
             var date = parseDate(fieldValue); // ..as Date
             if (date !== null) { // parsing succeeded, use it
               fieldValue = date;
@@ -143,7 +147,6 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
             //TODO: uncheck by default the parseString'ed columns (the values can be quite highi), or better, normalize them.
             //FIXME: in OPF the number of columns in data and fields (=labels) is off
             fieldValue = parseString(fieldValue); // ..as a String = used for Categories data
-          }
         }
         arr.push(fieldValue);
       }
@@ -293,11 +296,11 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   // return: matrix with numeric/string/date columns
   var generateFieldMap = function(row, excludes) {
     angular.forEach(row, function(value, key) {
-      if (excludes.indexOf(key) === -1) {
+      if (excludes.indexOf(key) === -1 && key !== TIMESTAMP) { // TIMESTAMP is added later below
         loadedFields.push(key);
       }
     });
-    loadedFields.unshift("Iteration"); // add column Iteration for x-data
+    loadedFields.unshift(TIMESTAMP); // column for x-data
     return loadedFields;
   };
 
@@ -332,7 +335,7 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
     var counter = 0;
     for (var i = 0; i < renderedFields.length; i++) {
       var field = renderedFields[i]; 
-      if (field === "Iteration") { // skip
+      if (field === TIMESTAMP) { // skip
         continue;
       } 
       $scope.view.fieldState.push({
