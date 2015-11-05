@@ -144,9 +144,9 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
               fieldValue = NONE_VALUE_REPLACEMENT;
               continue;
             }
-            //TODO: uncheck by default the parseString'ed columns (the values can be quite highi), or better, normalize them.
             //FIXME: in OPF the number of columns in data and fields (=labels) is off
-            fieldValue = parseString(fieldValue); // ..as a String = used for Categories data
+            fieldValue = parseString(fieldValue);
+            fieldValue = parseCategory(columnName, fieldValue); // ..as a String = used for Categories data
         }
         arr.push(fieldValue);
       }
@@ -204,7 +204,6 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
   // parseString()
   // hash any string to an integer number
   // return: numeric representation (hash) of the string
-  // TODO: add parseCategory that uses parseString but maps to {1,2,3,...}
   var parseString = function(str){
         var hash = 0;
         if (str.length == 0) return hash;
@@ -215,6 +214,36 @@ angular.module('app').controller('AppCtrl', ['$scope', '$timeout', function($sco
         }
         return hash;
   }
+
+  // parseCategory()
+  // for given group (grpId) make a mapping from 
+  // "wild spread" integers to "small values".
+  // Eg. {1, 2345, 9999} -> {1, 2, 3}
+  // return: reduced "small" integer for given group
+  var grps = {};
+  var parseCategory = function (grpId, num) {
+      var id = String(grpId);
+      num = String(num);
+      if (!(id in grps)) {
+          grps[id] = []; // add new grp
+      }
+      var arr = grps[id];
+      if (arr.indexOf(num) === -1) {
+          arr.push(num);
+          //alert('push '+num);
+      }
+      return arr.indexOf(num);
+  };
+  /*
+  //test
+  alert(parseCategory('name', 2)); //0
+  alert(parseCategory('name', 2)); //0
+  alert(parseCategory('name', 2)); //0
+  alert(parseCategory('name', 3)); //1
+  alert(parseCategory('name', 500)); //2
+  alert(parseCategory('n', 2)); //0
+  alert(parseCategory('n', 22)); //1
+  */
 
   // normalize select field with regards to the Data choice.
   $scope.normalizeField = function(normalizedFieldId) {
