@@ -31,7 +31,7 @@ from nupic.research.connections import Connections
 
 
 
-EPSILON = 0.0000001
+EPSILON = 0.000001
 
 
 
@@ -594,7 +594,7 @@ class TemporalMemory(object):
       # Keep permanence within min/max bounds
       permanence = max(0.0, min(1.0, permanence))
 
-      if (abs(permanence) < EPSILON):
+      if (permanence < EPSILON):
         connections.destroySynapse(synapse)
       else:
         connections.updateSynapsePermanence(synapse, permanence)
@@ -716,6 +716,15 @@ class TemporalMemory(object):
     @return (list) Indices of matching cells.
     """
     return self.getCellIndices(self.matchingCells)
+
+
+  def getCellsPerColumn(self):
+    """
+    Returns the number of cells per column.
+
+    @return (int) The number of cells per column.
+    """
+    return self.cellsPerColumn
 
 
   def mapCellsToColumns(self, cells):
